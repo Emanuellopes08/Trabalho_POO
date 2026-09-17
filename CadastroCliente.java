@@ -1,2 +1,2 @@
-public class Cadastro {
+public class CadastroCliente {
 }
