@@ -1,4 +1,4 @@
-package PACKAGE_NAME;
+public class ContaPoupança extends Conta{
+    //Vinicius adicionar rendimento
 
-public class ContaPoupança {
 }

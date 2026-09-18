@@ -1,4 +1,4 @@
-import Java.util.Scanner;
+import java.util.Scanner;
 
 import java.util.Scanner;
 
@@ -8,9 +8,8 @@ public class Main {
         Scanner entrada = new Scanner(System.in);
 
         // Declaração das Classes na main
-        Operacao operacao = new Operacao();
-        CadastroCliente cadastro = new CadastroCliente();
-        Conta conta = new Conta ();
+        Cliente cadastro = new Cliente();
+        Conta conta = new Conta();
         Funcionario funcionario = new Funcionario();
         Administrador adm = new Administrador();
 
