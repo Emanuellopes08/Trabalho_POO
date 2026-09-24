@@ -2,10 +2,10 @@
 
 Partes de cada um no trabalho de POO
 
-Emanuel - Administrador, Parte Gráfica 1, Aperfeiçoamento da Interface
+Emanuel - Administrador, Parte Gráfica 1
 Iasmin - Cliente, Slide
 Liane - Main
-Adryan - ContaPJ
+Adryan - ContaPJ, Parte Gráfica 2
 Vinícius - ContaPoupança
 Murilo - Funcionário
 
