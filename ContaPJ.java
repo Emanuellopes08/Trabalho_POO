@@ -2,19 +2,22 @@ public class ContaPJ extends Conta {
 
     CadastroCliente cliente;
 
-    private boolean cnpjAtivo = true; // verifica se o CNPJ está ativo ou não
-    private int CNPJ;
+    private String CNPJ;
     private String nomeEmpresa;
-    private double faturaEmpresa;
+    private double faturamentoEmpresa;
 
 
-    ContaPJ(int CNPJ, String nomeEmpresa, double faturaEmpresa, CadastroCliente cliente, boolean cnpjAtivo){
+    public ContaPJ(String CNPJ, String nomeEmpresa, double faturaEmpresa, CadastroCliente cliente, boolean cnpjAtivo){
 
         this.CNPJ = CNPJ;
         this.nomeEmpresa = nomeEmpresa;
-        this.faturaEmpresa = faturaEmpresa;
+        this.faturamentoEmpresa = faturaEmpresa;
         this.cliente = cliente;
-        this.cnpjAtivo = cnpjAtivo;
+
+    }
+
+    public double calcularTaxa(){
+        return 25.00;
     }
 
     // Gets e Sets
@@ -26,15 +29,15 @@ public class ContaPJ extends Conta {
         this.nomeEmpresa = nomeEmpresa;
     }
 
-    public double getFatura(){
-        return faturaEmpresa;
+    public double getFaturamento(){
+        return faturamentoEmpresa;
     }
 
-    private void setCNPJ(int CNPJ){
+    private void setCNPJ(String CNPJ){
         this.CNPJ = CNPJ;
     }
 
-    public int getCNPJ(){
+    public String getCNPJ(){
         return CNPJ;
     }
 }
