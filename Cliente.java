@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class CadastroCliente extends Conta {
+public class Cliente{
 
     private String nome;
     private String cpf;
@@ -15,7 +15,7 @@ public class CadastroCliente extends Conta {
     private String email;
 
     // Construtor completo
-    public CadastroCliente(String nome, String cpf, LocalDate dataNascimento, double renda, String telefone, String endereco, String nomePai, String nomeMae, String email) {
+    public Cliente(String nome, String cpf, LocalDate dataNascimento, double renda, String telefone, String endereco, String nomePai, String nomeMae, String email) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
@@ -27,7 +27,7 @@ public class CadastroCliente extends Conta {
         this.email = email;
     }
 
-    // Método que pede os dados ao usuário
+    // Metodo que pede os dados ao usuário
     public void solicitarDados() {
         Scanner sc = new Scanner(System.in);
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -40,7 +40,7 @@ public class CadastroCliente extends Conta {
 
         // DateTimeFormatter é a classe que define o "formato" (padrão) em que uma data
         // vai ser lida ou escrita como texto.
-        // O método estático "ofPattern(...)" recebe uma String descrevendo o padrão desejado:
+        // O metodo estático "ofPattern(...)" recebe uma String descrevendo o padrão desejado:
         //   dd -> dia com 2 dígitos (ex: 05)
         //   MM -> mês com 2 dígitos (ex: 03)
         //   yyyy -> ano com 4 dígitos (ex: 1998)
@@ -142,9 +142,9 @@ public class CadastroCliente extends Conta {
         this.email = email;
     }
 
-    \\pra acusar erro
+    //para acusar erro
     @Override
     public String toString() {
-        return "CadastroCliente{"nome= " + nome + ", cpf= " + cpf + ", dataNascimento= " + dataNascimento + ", renda= " + renda + ", telefone= " + telefone  + ", endereco= " + endereco  + ", nomePai= " + nomePai  + ", nomeMae= " + nomeMae  + ", email= " + email};
-    }
+        return nome + cpf + dataNascimento +  renda + telefone  + endereco  + nomePai  + nomeMae + email;
+}
 }
