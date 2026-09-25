@@ -7,7 +7,7 @@ public class ContaPJ extends Conta {
     private double faturamentoEmpresa;
 
 
-    public ContaPJ(String CNPJ, String nomeEmpresa, double faturaEmpresa, CadastroCliente cliente, boolean cnpjAtivo){
+    public ContaPJ(String CNPJ, String nomeEmpresa, double faturaEmpresa, CadastroCliente cliente,){
 
         this.CNPJ = CNPJ;
         this.nomeEmpresa = nomeEmpresa;
@@ -16,8 +16,12 @@ public class ContaPJ extends Conta {
 
     }
 
-    public double calcularTaxa(){
-        return 25.00;
+    @Override
+    public void efetuarSaque(double saque) {
+        double taxa = saque * 0.02;
+        double valorTotal = saque + taxa;
+
+        super.efetuarSaque(valorTotal);
     }
 
     // Gets e Sets
