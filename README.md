@@ -14,7 +14,7 @@ Obs.: Conta e Conta Corrente, foi criada em conjunto durante a aula do dia 18/09
 ### 3.3 Checklist para Nós
 
 | Elemento | O que deve ser demonstrado | Como a UrbanXP poderia cumprir o item |  Onde cada conceito foi utilizado |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | Classes e objetos Java | Classes coerentes e instanciação de objetos do domínio | Instanciar Show, Cliente e Ingresso |
 | Atributos de classe Java | Estado relevante armazenado nos objetos | titulo, dataHora, capacidadeMaxima e precoBase em Experiencia |
 | Métodos de classe Java | Comportamentos associados às classes corretas | possuiVagas(), reservarVaga() e gerarResumo() |
@@ -32,4 +32,4 @@ Obs.: Conta e Conta Corrente, foi criada em conjunto durante a aula do dia 18/09
 |Enum em Java | Conjunto fechado de valores válidos | StatusIngresso { RESERVADO, PAGO, CANCELADO } |
 |Tratamento de exceções em Java | Lançamento e tratamento adequado de erros, incluindo exceções próprias do domínio | Criar e lançar ExperienciaLotadaException e tratá-la na interface gráfica |
 |Interface gráfica com Swing | Interface mínima funcional para entrada, execução de operações e apresentação de resultados | Usar JFrame, componentes de formulário, botões e JOptionPane para cadastro e reserva |
-|Data e hora em Java | Uso da API java.time |Usar LocalDateTime na agenda das experiências |  |
+|Data e hora em Java | Uso da API java.time |Usar LocalDateTime na agenda das experiências |
