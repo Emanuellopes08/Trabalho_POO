@@ -11,7 +11,32 @@ Murilo - Funcionário
 
 Obs.: Conta e Conta Corrente, foi criada em conjunto durante a aula do dia 18/09.
 
-### 3.3 Checklist para Nós
+### 1.Nome do Sistema: Banco ES
+#### Integrantes: Iasmin Dembinski da Silva, Liane Paim De Castro Genz, Emanuel Lopes Vieira, Adryan Oliveira de Oliveira, Vinícius Schaefer Sanchotene e Pedro Murillo Cruz Carvalho.
+#### Grupo 1
+
+### 2.Descrição do Sistema
+O sistema desenvolvido consiste em uma aplicação bancária destinada ao gerenciamento de clientes, funcionários, gerentes, contas e operações bancárias. Este projeto foi estruturado utilizando os conceitos de Programação Orientada a Objetos em Java como classes, objetos, atributos, métodos, construtores, encapsulamento, herança e polimorfismo...
+Por fim, buscando representar diferentes tipos de usuários e modalidades de contas existentes em uma instituição financeira.
+
+### 3.Instruções para Executar o Projeto
+
+### 4.Classes Principais:
+- **Gerente:** representa o gerente da instituição bancária, responsável por atividades relacionadas ao gerenciamento de clientes e contas.
+- **Funcionário:** representa os funcionários que atuam no banco e realizam atividades relacionadas ao funcionamento da instituição.
+- **Cliente:** representa os clientes do banco, que podem possuir e utilizar contas bancárias.
+- **Conta:** representa a estrutura geral de uma conta bancária, contendo as características e comportamentos comuns às diferentes modalidades de contas.
+- **Conta Corrente:** representa uma modalidade de conta destinada às operações bancárias cotidianas dos clientes.
+- **Conta Poupança:** representa uma conta destinada à manutenção de valores e ao rendimento das economias do cliente.
+- **Conta PJ:** representa uma conta destinada a pessoas jurídicas, atendendo às necessidades financeiras de empresas.
+- **Conta Conjunta:** representa uma conta que pode possuir mais de um cliente como titular, permitindo o compartilhamento da conta entre os titulares.
+- **Main:** é a classe responsável pela execução do programa, realizando a inicialização do sistema e permitindo a utilização e os testes das funcionalidades desenvolvidas.
+  
+### 5.Regras de Negócio
+#### RN1 -
+#### RN2 -
+
+### 6.Checklist
 
 | Elemento | O que deve ser demonstrado | Como a UrbanXP poderia cumprir o item |  Onde cada conceito foi utilizado |
 | --- | --- | --- | --- |
