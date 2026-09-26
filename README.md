@@ -26,6 +26,10 @@ Obs.: Conta e Conta Corrente, foi criada em conjunto durante a aula do dia 18/09
 | Pacotes Java / API | Organização do código por responsabilidade | Separar modelo, servico e interfacegrafica |
 | Herança em Java | Especialização coerente de um conceito geral | Show, PasseioTuristico e Workshop estendem Experiencia |
 | Polimorfismo em Java | Uso do tipo geral para manipular objetos diferentes | Percorrer List<Experiencia> e chamar gerarResumo() 
-| Serviço de WhatsApp/notificações | Realiza o envio de mensagens, como confirmações e lembretes de consultas |
 | Palavra-chave super | Reaproveitamento da inicialização ou comportamento da superclasse | Construtores das subclasses chamam super(...) |
-|
+| Abstração em Java | Representação de um conceito geral que não deve ser instanciado diretamente | Declarar Experiencia como abstrata |
+|Interfaces em Java | Contrato com implementações substituíveis | PoliticaDesconto implementada por diferentes políticas |
+|Enum em Java | Conjunto fechado de valores válidos | StatusIngresso { RESERVADO, PAGO, CANCELADO } |
+|Tratamento de exceções em Java | Lançamento e tratamento adequado de erros, incluindo exceções próprias do domínio | Criar e lançar ExperienciaLotadaException e tratá-la na interface gráfica |
+|Interface gráfica com Swing | Interface mínima funcional para entrada, execução de operações e apresentação de resultados | Usar JFrame, componentes de formulário, botões e JOptionPane para cadastro e reserva |
+|Data e hora em Java | Uso da API java.time |Usar LocalDateTime na agenda das experiências
