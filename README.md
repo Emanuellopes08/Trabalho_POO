@@ -34,16 +34,24 @@ Por fim, buscando representar diferentes tipos de usuários e modalidades de con
   
 ### 5.Regras de Negócio
 **RN1 - Saldo inicial da conta:** Uma conta bancária é iniciada com saldo igual a zero.
-**RN2 - Depósito:** O valor depositado deve ser acrescentado ao saldo atual da conta.
-**RN3 - Saque:** O valor sacado deve ser subtraído do saldo atual da conta.
-**RN4 - Rendimento da conta poupança:** A conta poupança possui uma taxa de rendimento de 0,5% e o rendimento é calculado sobre o saldo da conta.
-**RN5 - Conta conjunta:** Uma conta conjunta possui um titular e um cotitular, representando o compartilhamento da conta entre duas pessoas.
-**RN6 - Mensalidade da conta corrente:** A conta corrente possui uma mensalidade associada à conta, cujo valor pode ser consultado.
-**RN7 - Conta para pessoa jurídica:** A conta PJ está associada a informações da empresa, como CNPJ, nome da empresa e fatura.
-**RN8 - Identificação do funcionário:** O funcionário possui usuário, senha, código e cargo para representar suas informações no sistema.
-**RN9 - Identificação do gerente:** O gerente possui nome, senha, código e cargo próprios para sua identificação no sistema.
-**RN10 - Relatório do gerente:** O gerente possui a responsabilidade de emitir um relatório por meio da operação disponibilizada pela classe **Gerente**.
 
+**RN2 - Depósito:** O valor depositado deve ser acrescentado ao saldo atual da conta.
+
+**RN3 - Saque:** O valor sacado deve ser subtraído do saldo atual da conta.
+
+**RN4 - Rendimento da conta poupança:** A conta poupança possui uma taxa de rendimento de 0,5% e o rendimento é calculado sobre o saldo da conta.
+
+**RN5 - Conta conjunta:** Uma conta conjunta possui um titular e um cotitular, representando o compartilhamento da conta entre duas pessoas.
+
+**RN6 - Mensalidade da conta corrente:** A conta corrente possui uma mensalidade associada à conta, cujo valor pode ser consultado.
+
+**RN7 - Conta para pessoa jurídica:** A conta PJ está associada a informações da empresa, como CNPJ, nome da empresa e fatura.
+
+**RN8 - Identificação do funcionário:** O funcionário possui usuário, senha, código e cargo para representar suas informações no sistema.
+
+**RN9 - Identificação do gerente:** O gerente possui nome, senha, código e cargo próprios para sua identificação no sistema.
+
+**RN10 - Relatório do gerente:** O gerente possui a responsabilidade de emitir um relatório por meio da operação disponibilizada pela classe **Gerente**.
 
 
 ### 6.Checklist
