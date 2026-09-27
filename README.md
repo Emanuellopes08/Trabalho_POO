@@ -58,13 +58,13 @@ Por fim, buscando representar diferentes tipos de usuários e modalidades de con
 
 | Elemento | O que deve ser demonstrado | Como a UrbanXP poderia cumprir o item |  Onde cada conceito foi utilizado |
 | --- | --- | --- | --- |
-| Classes e objetos Java | Classes coerentes e instanciação de objetos do domínio | Instanciar Show, Cliente e Ingresso |
-| Atributos de classe Java | Estado relevante armazenado nos objetos | titulo, dataHora, capacidadeMaxima e precoBase em Experiencia |
-| Métodos de classe Java | Comportamentos associados às classes corretas | possuiVagas(), reservarVaga() e gerarResumo() |
-| Desafio da aula de Java| Aplicação prática dos fundamentos vistos em aula | Resolver o desafio indicado e reaproveitar o raciocínio na modelagem do projeto |
-| Construtores em Java | Inicialização obrigatória e criação de objetos válidos | Exigir título, data, capacidade e preço no construtor de Experiencia |
-| Palavra-chave this | Referência inequívoca ao objeto atual | Usar this.titulo = titulo no construtor |
-| Modificadores Java | Visibilidade adequada de classes, atributos e métodos | Manter atributos private e expor somente operações públicas necessárias |
+| Classes e objetos Java | Classes coerentes e instanciação de objetos do domínio | Instanciar Funcionario, Cliente e Conta  |Classes: Declaradas em Cliente.java, Conta.java, ContaConjunta.java, ContaCorrente.java, Objetos: Tentativa de instanciação com new em Main.java |
+| Atributos de classe Java | Estado relevante armazenado nos objetos | Declarar saldo em Conta, renda em Cliente e mensalidade em ContaCorrente | Cliente.java: nome, cpf, dataNascimento, renda, telefone, endereco, nomePai, nomeMae, email Conta.java: tipoConta, saldo, cliente ContaCorrente.java: mensalidade |
+| Métodos de classe Java | Comportamentos associados às classes corretas | Criar métodos para operar o saldo e comportamentos específicos das contas/usuários |Conta.java: getSaldo(), efetuarDeposito(),efetuarSaque() Cliente.java: solicitarDados() ContaCorrente.java: consultarMensalidade() ContaPoupança.java: aplicarRendimento(), consultarRendimento() |
+| Desafio da aula de Java| Aplicação prática dos fundamentos vistos em aula | Resolver o desafio indicado e reaproveitar o raciocínio na modelagem do projeto |p|
+| Construtores em Java | Inicialização obrigatória e criação de objetos válidos | Exigir atributos essenciais na criação de Cliente, Contas e Funcionários | ContaConjunta.java: ContaConjunta(...) recebendo titular e cocliente ContaCorrente.java: public ContaCorrente(...) recebendo mensalidade e cliente ContaPoupança.java: public ContaPoupanca(...) recebendo cliente Funcionario.java: public Funcionario(...) recebendo usuario, senha, codigo e Cargo |
+| Palavra-chave this | Referência inequívoca ao objeto atual | Usar this.nome = nome no construtor de Cliente, Funcionario e nas instâncias das Contas | ContaCorrente.java: public ContaCorrente(...) recebendo mensalidade e cliente ContaPoupança.java: public ContaPoupanca(...) recebendo cliente ContaConjunta.java: No construtor (L7–L8) (this.titular = titular). Funcionario.java: No construtor (L5–L8) (this.usuario = usuario). 
+| Modificadores Java | Visibilidade adequada de classes, atributos e métodos | Manter atributos private e expor somente operações públicas necessárias | Visibilidade Protegida (protected): Utilizada no atributo cliente em Conta.java  para permitir o acesso direto pelas subclasses herdadas. Visibilidade Privada (private): Aplicada aos atributos das classes de domínio em Cliente.java Gerente.java ContaCorrente.java Visibilidade Pública (public): Presente na declaração das estruturas, construtores e métodos operacionais ao longo de todo o projeto de Conta.java. 
 | Encapsulamento em Java | Proteção do estado e alterações por métodos controlados | Impedir alteração direta das vagas e usar reservarVaga() |
 | Pacotes Java / API | Organização do código por responsabilidade | Separar modelo, servico e interfacegrafica |
 | Herança em Java | Especialização coerente de um conceito geral | Show, PasseioTuristico e Workshop estendem Experiencia |
