@@ -1,16 +1,18 @@
-public class ContaConjunta extends Conta{
-    private String titular;
-    private String cocliente;
+public class ContaConjunta extends Conta {
 
+    private Cliente cotitular;
 
-     ContaConjunta(String titular, String cocliente){
-        this.titular=titular;
-        this.cocliente=cocliente;
+    public ContaConjunta(Cliente titular, Cliente cotitular) {
+        super(TipoConta.CONJUNTA, titular);
+        this.cotitular = cotitular;
+    }
 
+    public Cliente getCotitular() {
+        return cotitular;
     }
 
     @Override
     public String toString() {
-        return "Titular: " + titular + "e Cotitular: " + cocliente;
+        return "Titular: " + titular.getNome() + " e Cotitular: " + cotitular.getNome();
     }
 }
