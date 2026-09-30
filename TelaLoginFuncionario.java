@@ -38,6 +38,7 @@ public class TelaLoginFuncionario extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
         getContentPane().setBackground(AZUL_ESCURO);
     }
 
@@ -200,7 +201,7 @@ public class TelaLoginFuncionario extends JFrame {
         add(painel, BorderLayout.CENTER);
 
 /////////////////////////////////////////////////////////////////////
-// EFEITO DOS BOTÕES
+// EFEITO DO BOTÃO ENTRAR
 /////////////////////////////////////////////////////////////////////
 
         adicionarEfeitoMouse(btnEntrar, VERDE, VERDE_ESCURO);
@@ -210,7 +211,6 @@ public class TelaLoginFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnVoltar.addActionListener(e -> dispose());
-
         btnEntrar.addActionListener(e -> tentarLogin());
     }
 
@@ -229,6 +229,7 @@ public class TelaLoginFuncionario extends JFrame {
         erroCodigo.setText(" ");
 
         boolean temErro = false;
+        int codigo = 0;
 
 /////////////////////////////////////////////////////////////////////
 // VALIDA USUÁRIO
@@ -258,7 +259,7 @@ public class TelaLoginFuncionario extends JFrame {
 
         } else {
             try {
-                int codigo = Integer.parseInt(codigoTexto);
+                codigo = Integer.parseInt(codigoTexto);
 
                 if (codigo < 0) {
                     erroCodigo.setText("Código inválido.");
@@ -272,7 +273,50 @@ public class TelaLoginFuncionario extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-// BLOQUEIA O LOGIN SE HOUVER ERRO
+// PARA SE HOUVER ERRO DE PREENCHIMENTO
+/////////////////////////////////////////////////////////////////////
+
+        if (temErro) {
+            return;
+        }
+
+    /////////////////////////////////////////////////////////////////////
+    // PROCURA O FUNCIONÁRIO NO SISTEMA
+    /////////////////////////////////////////////////////////////////////
+
+    System.out.println("Usuário digitado: " + usuario);
+    System.out.println("Senha digitada: " + senha);
+    System.out.println("Código digitado: " + codigo);
+
+    Funcionario funcionario = SistemaBanco.buscarFuncionarioPorCodigo(codigo);
+
+    System.out.println("Funcionário encontrado: " + funcionario);
+
+    if (funcionario == null) {
+        erroCodigo.setText("Funcionário não encontrado.");
+        return;
+    }
+
+/////////////////////////////////////////////////////////////////////
+// CONFERE O USUÁRIO
+/////////////////////////////////////////////////////////////////////
+
+        if (!usuario.equals(funcionario.getUsuario())) {
+            erroUsuario.setText("Usuário incorreto.");
+            temErro = true;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// CONFERE A SENHA
+/////////////////////////////////////////////////////////////////////
+
+        if (!senha.equals(funcionario.getSenha())) {
+            erroSenha.setText("Senha incorreta.");
+            temErro = true;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// BLOQUEIA SE O LOGIN ESTIVER ERRADO
 /////////////////////////////////////////////////////////////////////
 
         if (temErro) {
@@ -280,7 +324,7 @@ public class TelaLoginFuncionario extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-// ABRE A TELA PRINCIPAL DO FUNCIONÁRIO
+// LOGIN CORRETO - ABRE A TELA DO FUNCIONÁRIO
 /////////////////////////////////////////////////////////////////////
 
         TelaFuncionario telaFuncionario = new TelaFuncionario();

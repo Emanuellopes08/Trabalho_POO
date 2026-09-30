@@ -5,7 +5,6 @@ public class TelaPrincipal extends JFrame {
 
     // Paleta de cores do projeto
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
-    private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
     private final Color VERDE = new Color(72, 255, 129);
     private final Color VERDE_ESCURO = new Color(45, 190, 95);
     private final Color VERMELHO = new Color(180, 70, 70);
@@ -74,13 +73,14 @@ public class TelaPrincipal extends JFrame {
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
         menu.setBackground(AZUL_ESCURO);
 
+
         BotaoArredondado btnGerente = new BotaoArredondado("Gerente");
         BotaoArredondado btnFuncionario = new BotaoArredondado("Funcionário");
         BotaoArredondado btnCliente = new BotaoArredondado("Cliente");
         BotaoArredondado btnSair = new BotaoArredondado("Sair");
 
 /////////////////////////////////////////////////////////////////////
-// CONFIGURAÇÃO DAS CORES DOS BOTÕES
+// CONFIGURAÇÃO DAS CORES
 /////////////////////////////////////////////////////////////////////
 
         btnGerente.setBackground(VERDE);
@@ -158,6 +158,15 @@ public class TelaPrincipal extends JFrame {
         menu.add(Box.createVerticalGlue());
 
         add(menu, BorderLayout.CENTER);
+
+/////////////////////////////////////////////////////////////////////
+// AÇÃO DO BOTÃO GERENTE
+/////////////////////////////////////////////////////////////////////
+
+        btnGerente.addActionListener(e -> {
+            TelaLoginGerente telaGerente = new TelaLoginGerente();
+            telaGerente.setVisible(true);
+        });
 
 /////////////////////////////////////////////////////////////////////
 // AÇÃO DO BOTÃO FUNCIONÁRIO
