@@ -1,9 +1,23 @@
 public abstract class Conta {
-        private String tipoConta;
+        private TipoConta tipoConta;
+        private Cliente titular;
         private double saldo = 0;
-        protected Cliente cliente; //protected serve para proteger, mas pode ser acessado
 
+        public Conta(){
 
+        }
+        public Conta (TipoConta tipoConta, Cliente titular){
+            this.tipoConta = tipoConta;
+            this.titular = titular;
+        }
+
+        public TipoConta getTipoConta() {
+            return tipoConta;
+        }
+
+        public Cliente getTitular() {
+            return titular;
+        }
         public double getSaldo() {
             return saldo;
         }
@@ -18,6 +32,3 @@ public abstract class Conta {
             this.saldo -= saque;
         }
 }
-
-
-
