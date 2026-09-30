@@ -1,8 +1,8 @@
-public class ContaPoupança extends Conta {
+public class ContaPoupanca extends Conta {
 
     private double taxaRendimento = 0.5;
 
-    public ContaPoupança(Cliente cliente) {
+    public ContaPoupanca(Cliente cliente) {
         super(TipoConta.POUPANCA, cliente);
     }
 
