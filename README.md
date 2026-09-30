@@ -786,7 +786,7 @@ Dessa forma, tanto o titular quanto o cotitular podem acessar o mesmo objeto `Co
 | Enum em Java | Conjunto fechado de valores válidos | O projeto possui `TipoConta`; este item deve permanecer apenas se `TipoConta.java` estiver declarado como `enum` | `TipoConta.java` |
 | Tratamento de exceções em Java | Tratamento adequado de entradas inválidas | A interface utiliza `try/catch` para números e datas inválidas | `NumberFormatException`, `DateTimeParseException`, telas de cadastro e operações |
 | Interface gráfica com Swing | Interface funcional para entrada, execução de operações e apresentação de resultados | O sistema possui telas gráficas para Gerente, Funcionário e Cliente | `TelaPrincipal`, telas de login, cadastro, consulta, alteração, exclusão e `TelaCliente` |
-| Data e hora em Java | Uso da API `java.time` | A data de nascimento do cliente utiliza `LocalDate` e `DateTimeFormatter` | `Cliente` e `TelaCadastroCliente` |
+| Data e hora em Java | Uso da API `java.time` | A data de nascimento do cliente utiliza `LocalDate` e `DateTimeFormatter` | `Cliente` e `TelaCadastroCliente`, Entretanto, escolhemos não usar hora nessa versão.|
 | Coleções | Armazenamento de vários objetos | Clientes, contas e funcionários são armazenados em listas | `List`, `ArrayList` e `SistemaBanco` |
 | Lambda | Tratamento simplificado de eventos | Ações de botões utilizam expressões lambda | `addActionListener(e -> {...})` |
 | `instanceof` | Identificação do tipo real de um objeto | Utilizado para identificar contas específicas | `ContaConjunta`, `ContaPJ` e `SistemaBanco` |
