@@ -574,13 +574,11 @@ public class TelaLoginGerente extends JFrame {
 //                  LOGIN VÁLIDO
 /////////////////////////////////////////////////////////////////////
 
-        JOptionPane.showMessageDialog(
-                this,
-                "Dados preenchidos corretamente!",
-                "Banco ES",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        // Fecha a tela de login
+        dispose();
 
+// Abre a tela principal do gerente
+        new TelaGerente();
 
         /*
          * Aqui posteriormente podemos verificar:

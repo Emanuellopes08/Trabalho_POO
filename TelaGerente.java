@@ -754,14 +754,6 @@ public class TelaGerente extends JFrame {
             this.cargo = cargo;
         }
     }
-
-    // =========================================================
-    // MAIN
-    // =========================================================
-
-    public static void main(String[] args) {
-
-        new TelaGerente();
-    }
 }
+
 
