@@ -1,14 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Código de exemplo apenas para teste inicial
 public class TelaPrincipal extends JFrame {
 
     public TelaPrincipal() {
-        setSize(700, 1500);
+
+        setSize(900, 600);
         setTitle("Banco ES");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new FlowLayout());
+        JLabel titulo = new JLabel("Bem-vindo ao Banco ES");
+        add(titulo);
     }
-    
 }
