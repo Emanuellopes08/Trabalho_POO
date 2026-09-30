@@ -13,17 +13,16 @@ public class TelaAlterarCliente extends JFrame {
     private final Color BRANCO = Color.WHITE;
 
     // Componentes
-    private JComboBox<String> tipoConta;
-
-    private JLabel labelDocumento;
-    private JTextField campoDocumento;
-    private JLabel erroDocumento;
+    private JTextField campoCpf;
+    private JLabel mensagemErro;
 
     private JTextField campoNome;
     private JTextField campoRenda;
     private JTextField campoTelefone;
     private JTextField campoEndereco;
     private JTextField campoEmail;
+
+    private Cliente clienteEncontrado;
 
 
     public TelaAlterarCliente() {
@@ -37,7 +36,7 @@ public class TelaAlterarCliente extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
     private void configurarJanela() {
-        setSize(700, 700);
+        setSize(700, 680);
         setTitle("Banco ES - Alterar Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -59,7 +58,7 @@ public class TelaAlterarCliente extends JFrame {
         topo.add(Box.createVerticalStrut(25));
 
         JLabel titulo = new JLabel("ALTERAR CLIENTE");
-        JLabel subtitulo = new JLabel("Busque o cliente e altere seus dados");
+        JLabel subtitulo = new JLabel("Busque o cliente pelo CPF");
 
         titulo.setFont(new Font("Arial", Font.BOLD, 34));
         titulo.setForeground(BRANCO);
@@ -95,52 +94,13 @@ public class TelaAlterarCliente extends JFrame {
         Font fonteLabel = new Font("Arial", Font.BOLD, 16);
 
 /////////////////////////////////////////////////////////////////////
-// TIPO DE CONTA
+// CPF
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelTipoConta = new JLabel("Tipo de conta:");
-        labelTipoConta.setFont(fonteLabel);
-        labelTipoConta.setForeground(BRANCO);
+        JLabel labelCpf = criarLabel("CPF:", fonteLabel);
+        campoCpf = new JTextField(22);
 
-        tipoConta = new JComboBox<>(new String[]{
-                "Conta Poupança",
-                "Conta Corrente",
-                "Conta Conjunta",
-                "Conta PJ"
-        });
-
-        tipoConta.setFont(new Font("Arial", Font.PLAIN, 15));
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        painel.add(labelTipoConta, gbc);
-
-        gbc.gridx = 1;
-        painel.add(tipoConta, gbc);
-
-/////////////////////////////////////////////////////////////////////
-// CPF OU CNPJ
-/////////////////////////////////////////////////////////////////////
-
-        labelDocumento = new JLabel("CPF:");
-        labelDocumento.setFont(fonteLabel);
-        labelDocumento.setForeground(BRANCO);
-
-        campoDocumento = new JTextField(22);
-
-        erroDocumento = new JLabel(" ");
-        erroDocumento.setForeground(VERMELHO_ERRO);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        painel.add(labelDocumento, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoDocumento, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        painel.add(erroDocumento, gbc);
+        adicionarCampo(painel, gbc, labelCpf, campoCpf, 0);
 
 /////////////////////////////////////////////////////////////////////
 // BOTÃO BUSCAR
@@ -148,110 +108,98 @@ public class TelaAlterarCliente extends JFrame {
 
         BotaoArredondado btnBuscar = new BotaoArredondado("Buscar Cliente");
 
-        Dimension tamanhoBuscar = new Dimension(180, 45);
-
-        btnBuscar.setPreferredSize(tamanhoBuscar);
+        btnBuscar.setPreferredSize(new Dimension(180, 45));
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 15));
         btnBuscar.setBackground(VERDE);
         btnBuscar.setForeground(AZUL_ESCURO);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 1;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(10, 10, 20, 10);
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         painel.add(btnBuscar, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// MENSAGEM DE ERRO
+/////////////////////////////////////////////////////////////////////
+
+        mensagemErro = new JLabel(" ");
+
+        mensagemErro.setFont(new Font("Arial", Font.PLAIN, 14));
+        mensagemErro.setForeground(VERMELHO_ERRO);
+        mensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+
+        painel.add(mensagemErro, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// TÍTULO DOS DADOS
+/////////////////////////////////////////////////////////////////////
+
+        JLabel tituloDados = new JLabel("DADOS DO CLIENTE");
+
+        tituloDados.setFont(new Font("Arial", Font.BOLD, 18));
+        tituloDados.setForeground(VERDE);
+        tituloDados.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(15, 10, 10, 10);
+
+        painel.add(tituloDados, gbc);
 
 /////////////////////////////////////////////////////////////////////
 // NOME
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelNome = new JLabel("Nome:");
-        labelNome.setFont(fonteLabel);
-        labelNome.setForeground(BRANCO);
-
+        JLabel labelNome = criarLabel("Nome:", fonteLabel);
         campoNome = new JTextField(22);
 
-        gbc.gridwidth = 1;
-        gbc.insets = new Insets(6, 10, 6, 10);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        painel.add(labelNome, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoNome, gbc);
+        adicionarCampo(painel, gbc, labelNome, campoNome, 4);
 
 /////////////////////////////////////////////////////////////////////
 // RENDA
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelRenda = new JLabel("Renda:");
-        labelRenda.setFont(fonteLabel);
-        labelRenda.setForeground(BRANCO);
-
+        JLabel labelRenda = criarLabel("Renda:", fonteLabel);
         campoRenda = new JTextField(22);
 
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        painel.add(labelRenda, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoRenda, gbc);
+        adicionarCampo(painel, gbc, labelRenda, campoRenda, 5);
 
 /////////////////////////////////////////////////////////////////////
 // TELEFONE
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelTelefone = new JLabel("Telefone:");
-        labelTelefone.setFont(fonteLabel);
-        labelTelefone.setForeground(BRANCO);
-
+        JLabel labelTelefone = criarLabel("Telefone:", fonteLabel);
         campoTelefone = new JTextField(22);
 
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        painel.add(labelTelefone, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoTelefone, gbc);
+        adicionarCampo(painel, gbc, labelTelefone, campoTelefone, 6);
 
 /////////////////////////////////////////////////////////////////////
 // ENDEREÇO
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelEndereco = new JLabel("Endereço:");
-        labelEndereco.setFont(fonteLabel);
-        labelEndereco.setForeground(BRANCO);
-
+        JLabel labelEndereco = criarLabel("Endereço:", fonteLabel);
         campoEndereco = new JTextField(22);
 
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        painel.add(labelEndereco, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoEndereco, gbc);
+        adicionarCampo(painel, gbc, labelEndereco, campoEndereco, 7);
 
 /////////////////////////////////////////////////////////////////////
 // EMAIL
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelEmail = new JLabel("Email:");
-        labelEmail.setFont(fonteLabel);
-        labelEmail.setForeground(BRANCO);
-
+        JLabel labelEmail = criarLabel("Email:", fonteLabel);
         campoEmail = new JTextField(22);
 
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        painel.add(labelEmail, gbc);
-
-        gbc.gridx = 1;
-        painel.add(campoEmail, gbc);
+        adicionarCampo(painel, gbc, labelEmail, campoEmail, 8);
 
 /////////////////////////////////////////////////////////////////////
-// BOTÕES SALVAR E VOLTAR
+// BOTÕES
 /////////////////////////////////////////////////////////////////////
 
         BotaoArredondado btnSalvar = new BotaoArredondado("Salvar Alterações");
@@ -288,40 +236,31 @@ public class TelaAlterarCliente extends JFrame {
         add(painel, BorderLayout.CENTER);
 
 /////////////////////////////////////////////////////////////////////
-// ALTERA CPF OU CNPJ
+// CAMPOS COMEÇAM DESATIVADOS
 /////////////////////////////////////////////////////////////////////
 
-        tipoConta.addActionListener(e -> alterarTipoDocumento());
+        habilitarCampos(false);
+        btnSalvar.setEnabled(false);
 
 /////////////////////////////////////////////////////////////////////
 // AÇÃO BUSCAR
 /////////////////////////////////////////////////////////////////////
 
         btnBuscar.addActionListener(e -> {
+            buscarCliente();
 
-            /*
-             * Integração será feita depois.
-             *
-             * Conta Poupança -> CPF
-             * Conta Corrente -> CPF
-             * Conta Conjunta -> CPF
-             * Conta PJ -> CNPJ
-             */
-
+            if (clienteEncontrado != null) {
+                btnSalvar.setEnabled(true);
+            } else {
+                btnSalvar.setEnabled(false);
+            }
         });
 
 /////////////////////////////////////////////////////////////////////
-// AÇÃO SALVAR ALTERAÇÕES
+// AÇÃO SALVAR
 /////////////////////////////////////////////////////////////////////
 
-        btnSalvar.addActionListener(e -> {
-
-            /*
-             * Depois vamos integrar com o SistemaBanco
-             * e salvar as alterações do cliente.
-             */
-
-        });
+        btnSalvar.addActionListener(e -> salvarAlteracoes());
 
 /////////////////////////////////////////////////////////////////////
 // AÇÃO VOLTAR
@@ -339,20 +278,209 @@ public class TelaAlterarCliente extends JFrame {
     }
 
 /////////////////////////////////////////////////////////////////////
-// ALTERA ENTRE CPF E CNPJ
+// CRIA LABEL PADRÃO
 /////////////////////////////////////////////////////////////////////
 
-    private void alterarTipoDocumento() {
-        String contaSelecionada = (String) tipoConta.getSelectedItem();
+    private JLabel criarLabel(String texto, Font fonte) {
+        JLabel label = new JLabel(texto);
 
-        campoDocumento.setText("");
-        erroDocumento.setText(" ");
+        label.setFont(fonte);
+        label.setForeground(BRANCO);
 
-        if ("Conta PJ".equals(contaSelecionada)) {
-            labelDocumento.setText("CNPJ:");
-        } else {
-            labelDocumento.setText("CPF:");
+        return label;
+    }
+
+/////////////////////////////////////////////////////////////////////
+// ADICIONA CAMPO NO FORMULÁRIO
+/////////////////////////////////////////////////////////////////////
+
+    private void adicionarCampo(JPanel painel, GridBagConstraints gbc, JLabel label, JComponent campo, int linha) {
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(6, 10, 6, 10);
+
+        gbc.gridx = 0;
+        gbc.gridy = linha;
+
+        painel.add(label, gbc);
+
+        gbc.gridx = 1;
+
+        painel.add(campo, gbc);
+    }
+
+/////////////////////////////////////////////////////////////////////
+// BUSCA CLIENTE PELO CPF
+/////////////////////////////////////////////////////////////////////
+
+    private void buscarCliente() {
+        String cpf = campoCpf.getText().trim();
+
+        mensagemErro.setText(" ");
+        clienteEncontrado = null;
+
+        limparCampos();
+        habilitarCampos(false);
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA CPF
+/////////////////////////////////////////////////////////////////////
+
+        if (cpf.isEmpty()) {
+            mensagemErro.setText("Digite o CPF do cliente.");
+            return;
         }
+
+/////////////////////////////////////////////////////////////////////
+// BUSCA NO SISTEMA
+/////////////////////////////////////////////////////////////////////
+
+        clienteEncontrado = SistemaBanco.buscarClientePorCpf(cpf);
+
+        if (clienteEncontrado == null) {
+            mensagemErro.setText("Cliente não encontrado.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// PREENCHE OS DADOS ATUAIS
+/////////////////////////////////////////////////////////////////////
+
+        campoNome.setText(clienteEncontrado.getNome());
+        campoRenda.setText(String.valueOf(clienteEncontrado.getRenda()));
+        campoTelefone.setText(clienteEncontrado.getTelefone());
+        campoEndereco.setText(clienteEncontrado.getEndereco());
+        campoEmail.setText(clienteEncontrado.getEmail());
+
+        habilitarCampos(true);
+    }
+
+/////////////////////////////////////////////////////////////////////
+// SALVA AS ALTERAÇÕES
+/////////////////////////////////////////////////////////////////////
+
+    private void salvarAlteracoes() {
+
+        if (clienteEncontrado == null) {
+            mensagemErro.setText("Busque um cliente primeiro.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// PEGA OS DADOS
+/////////////////////////////////////////////////////////////////////
+
+        String nome = campoNome.getText().trim();
+        String rendaTexto = campoRenda.getText().trim();
+        String telefone = campoTelefone.getText().trim();
+        String endereco = campoEndereco.getText().trim();
+        String email = campoEmail.getText().trim();
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA NOME
+/////////////////////////////////////////////////////////////////////
+
+        if (nome.isEmpty()) {
+            mensagemErro.setText("Digite o nome.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA RENDA
+/////////////////////////////////////////////////////////////////////
+
+        if (rendaTexto.isEmpty()) {
+            mensagemErro.setText("Digite a renda.");
+            return;
+        }
+
+        double renda;
+
+        try {
+            renda = Double.parseDouble(rendaTexto.replace(",", "."));
+
+            if (renda < 0) {
+                mensagemErro.setText("A renda não pode ser negativa.");
+                return;
+            }
+
+        } catch (NumberFormatException erro) {
+            mensagemErro.setText("Digite uma renda válida.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA TELEFONE
+/////////////////////////////////////////////////////////////////////
+
+        if (telefone.isEmpty()) {
+            mensagemErro.setText("Digite o telefone.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA ENDEREÇO
+/////////////////////////////////////////////////////////////////////
+
+        if (endereco.isEmpty()) {
+            mensagemErro.setText("Digite o endereço.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA EMAIL
+/////////////////////////////////////////////////////////////////////
+
+        if (email.isEmpty()) {
+            mensagemErro.setText("Digite o email.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// ALTERA OS DADOS
+/////////////////////////////////////////////////////////////////////
+
+        clienteEncontrado.setNome(nome);
+        clienteEncontrado.setRenda(renda);
+        clienteEncontrado.setTelefone(telefone);
+        clienteEncontrado.setEndereco(endereco);
+        clienteEncontrado.setEmail(email);
+
+/////////////////////////////////////////////////////////////////////
+// SUCESSO
+/////////////////////////////////////////////////////////////////////
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Cliente alterado com sucesso!",
+                "Banco ES",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        mensagemErro.setText(" ");
+    }
+
+/////////////////////////////////////////////////////////////////////
+// HABILITA OU DESABILITA CAMPOS
+/////////////////////////////////////////////////////////////////////
+
+    private void habilitarCampos(boolean habilitar) {
+        campoNome.setEnabled(habilitar);
+        campoRenda.setEnabled(habilitar);
+        campoTelefone.setEnabled(habilitar);
+        campoEndereco.setEnabled(habilitar);
+        campoEmail.setEnabled(habilitar);
+    }
+
+/////////////////////////////////////////////////////////////////////
+// LIMPA OS CAMPOS
+/////////////////////////////////////////////////////////////////////
+
+    private void limparCampos() {
+        campoNome.setText("");
+        campoRenda.setText("");
+        campoTelefone.setText("");
+        campoEndereco.setText("");
+        campoEmail.setText("");
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -365,6 +493,11 @@ public class TelaAlterarCliente extends JFrame {
 
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
+
+                if (!botao.isEnabled()) {
+                    return;
+                }
+
                 botao.setBackground(corEscura);
 
                 if (corNormal.equals(VERDE)) {
@@ -374,6 +507,11 @@ public class TelaAlterarCliente extends JFrame {
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
+
+                if (!botao.isEnabled()) {
+                    return;
+                }
+
                 botao.setBackground(corNormal);
 
                 if (corNormal.equals(VERDE)) {

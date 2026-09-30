@@ -164,13 +164,8 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnExcluir.addActionListener(e -> {
-
-            /*
-             * Depois vamos criar:
-             *
-             * TelaExcluirCliente
-             */
-
+            TelaExcluirCliente telaExcluir = new TelaExcluirCliente();
+            telaExcluir.setVisible(true);
         });
 
 /////////////////////////////////////////////////////////////////////
