@@ -33,28 +33,46 @@ Por fim, buscando representar diferentes tipos de usuários e modalidades de con
 - **Main:** é a classe responsável pela execução do programa, realizando a inicialização do sistema e permitindo a utilização e os testes das funcionalidades desenvolvidas.
   
 ### 5.Regras de Negócio
-#### RN1 -
-#### RN2 -
+**RN1 - Saldo inicial da conta:** Uma conta bancária é iniciada com saldo igual a zero.
+
+**RN2 - Depósito:** O valor depositado deve ser acrescentado ao saldo atual da conta.
+
+**RN3 - Saque:** O valor sacado deve ser subtraído do saldo atual da conta.
+
+**RN4 - Rendimento da conta poupança:** A conta poupança possui uma taxa de rendimento de 0,5% e o rendimento é calculado sobre o saldo da conta.
+
+**RN5 - Conta conjunta:** Uma conta conjunta possui um titular e um cotitular, representando o compartilhamento da conta entre duas pessoas.
+
+**RN6 - Mensalidade da conta corrente:** A conta corrente possui uma mensalidade associada à conta, cujo valor pode ser consultado.
+
+**RN7 - Conta para pessoa jurídica:** A conta PJ está associada a informações da empresa, como CNPJ, nome da empresa e fatura.
+
+**RN8 - Identificação do funcionário:** O funcionário possui usuário, senha, código e cargo para representar suas informações no sistema.
+
+**RN9 - Identificação do gerente:** O gerente possui nome, senha, código e cargo próprios para sua identificação no sistema.
+
+**RN10 - Relatório do gerente:** O gerente possui a responsabilidade de emitir um relatório por meio da operação disponibilizada pela classe **Gerente**.
+
 
 ### 6.Checklist
 
 | Elemento | O que deve ser demonstrado | Como a UrbanXP poderia cumprir o item |  Onde cada conceito foi utilizado |
 | --- | --- | --- | --- |
-| Classes e objetos Java | Classes coerentes e instanciação de objetos do domínio | Instanciar Show, Cliente e Ingresso |
-| Atributos de classe Java | Estado relevante armazenado nos objetos | titulo, dataHora, capacidadeMaxima e precoBase em Experiencia |
-| Métodos de classe Java | Comportamentos associados às classes corretas | possuiVagas(), reservarVaga() e gerarResumo() |
-| Desafio da aula de Java| Aplicação prática dos fundamentos vistos em aula | Resolver o desafio indicado e reaproveitar o raciocínio na modelagem do projeto |
-| Construtores em Java | Inicialização obrigatória e criação de objetos válidos | Exigir título, data, capacidade e preço no construtor de Experiencia |
-| Palavra-chave this | Referência inequívoca ao objeto atual | Usar this.titulo = titulo no construtor |
-| Modificadores Java | Visibilidade adequada de classes, atributos e métodos | Manter atributos private e expor somente operações públicas necessárias |
-| Encapsulamento em Java | Proteção do estado e alterações por métodos controlados | Impedir alteração direta das vagas e usar reservarVaga() |
-| Pacotes Java / API | Organização do código por responsabilidade | Separar modelo, servico e interfacegrafica |
-| Herança em Java | Especialização coerente de um conceito geral | Show, PasseioTuristico e Workshop estendem Experiencia |
-| Polimorfismo em Java | Uso do tipo geral para manipular objetos diferentes | Percorrer List<Experiencia> e chamar gerarResumo() |
-| Palavra-chave super | Reaproveitamento da inicialização ou comportamento da superclasse | Construtores das subclasses chamam super(...) |
-| Abstração em Java | Representação de um conceito geral que não deve ser instanciado diretamente | Declarar Experiencia como abstrata |
-|Interfaces em Java | Contrato com implementações substituíveis | PoliticaDesconto implementada por diferentes políticas |
-|Enum em Java | Conjunto fechado de valores válidos | StatusIngresso { RESERVADO, PAGO, CANCELADO } |
-|Tratamento de exceções em Java | Lançamento e tratamento adequado de erros, incluindo exceções próprias do domínio | Criar e lançar ExperienciaLotadaException e tratá-la na interface gráfica |
-|Interface gráfica com Swing | Interface mínima funcional para entrada, execução de operações e apresentação de resultados | Usar JFrame, componentes de formulário, botões e JOptionPane para cadastro e reserva |
-|Data e hora em Java | Uso da API java.time |Usar LocalDateTime na agenda das experiências |
+| Classes e objetos Java | Classes coerentes e instanciação de objetos do domínio | Instanciar Funcionario, Cliente e Conta  |Classes: Declaradas em Cliente.java, Conta.java, ContaConjunta.java, ContaCorrente.java, Objetos: Tentativa de instanciação com new em Main.java |
+| Atributos de classe Java | Estado relevante armazenado nos objetos | Declarar saldo em Conta, renda em Cliente e mensalidade em ContaCorrente | Cliente.java: nome, cpf, dataNascimento, renda, telefone, endereco, nomePai, nomeMae, email Conta.java: tipoConta, saldo, cliente ContaCorrente.java: mensalidade |
+| Métodos de classe Java | Comportamentos associados às classes corretas | Criar métodos para operar o saldo e comportamentos específicos das contas/usuários |Conta.java: getSaldo(), efetuarDeposito(),efetuarSaque() Cliente.java: solicitarDados() ContaCorrente.java: consultarMensalidade() ContaPoupança.java: aplicarRendimento(), consultarRendimento() |
+| Desafio da aula de Java| Aplicação prática dos fundamentos vistos em aula | Resolver o desafio indicado e reaproveitar o raciocínio na modelagem do projeto |p|
+| Construtores em Java | Inicialização obrigatória e criação de objetos válidos | Exigir atributos essenciais na criação de Cliente, Contas e Funcionários | ContaConjunta.java: ContaConjunta(...) recebendo titular e cocliente ContaCorrente.java: public ContaCorrente(...) recebendo mensalidade e cliente ContaPoupança.java: public ContaPoupanca(...) recebendo cliente Funcionario.java: public Funcionario(...) recebendo usuario, senha, codigo e Cargo |
+| Palavra-chave this | Referência inequívoca ao objeto atual | Usar this.nome = nome no construtor de Cliente, Funcionario e nas instâncias das Contas | ContaCorrente.java: public ContaCorrente(...) recebendo mensalidade e cliente ContaPoupança.java: public ContaPoupanca(...) recebendo cliente ContaConjunta.java: No construtor (this.titular = titular). Funcionario.java: No construtor (this.usuario = usuario). 
+| Modificadores Java | Visibilidade adequada de classes, atributos e métodos | Manter atributos private e expor somente operações públicas necessárias | Visibilidade Protegida (protected): Utilizada no atributo cliente em Conta.java  para permitir o acesso direto pelas subclasses herdadas. Visibilidade Privada (private): Aplicada aos atributos das classes de domínio em Cliente.java Gerente.java ContaCorrente.java Visibilidade Pública (public): Presente na declaração das estruturas, construtores e métodos operacionais ao longo de todo o projeto de Conta.java. 
+| Encapsulamento em Java | Proteção do estado e alterações por métodos controlados | Proteger o saldo da conta e expor apenas operações válidas de depósito, saque e leitura | Proteção do Estado: Atributo saldo mantido private em Conta.java impedindo alteração direta por outras partes do sistema. Acesso e Alteração Controlada: Leitura do saldo via getSaldo()  e modificação restrita por métodos de negócio efetuarDeposito()  e efetuarSaque() em Conta.java. |
+| Pacotes Java / API | Organização do código por responsabilidade | Importar bibliotecas padrão do Java para manipulação de entradas e datas, e organizar o projeto em pacotes | Uso da API Padrão do Java (java.util e java.time) Cliente.java (L3); uso do LocalDate e DateTimeFormatter para manipulação e formatação de datas em Cliente.java  |
+| Herança em Java | Especialização coerente de um conceito geral | Fazer com que modalidades de conta estendam (Conta) |  As classes ContaCorrente.java ContaPoupança.java ContaPJ.java e ContaConjunta.java utilizam a palavra-chave extends para herdar o estado e as operações de Conta.java. |
+| Polimorfismo em Java | Uso do tipo geral para manipular objetos diferentes | Tratar instâncias de ContaCorrente, ContaPoupanca e ContaPJ de forma unificada através do tipo Conta | Sobrescrita de Métodos (@Override): Em ContaPJ.java, o método efetuarSaque() é sobrescrito para aplicar a taxa de 2% antes de chamar o comportamento genérico. |
+| Palavra-chave super | Reaproveitamento da inicialização ou comportamento da superclasse | Construtores das subclasses chamam super(...) | - ContaPJ.java: Utiliza super.efetuarSaque(valorComTaxa) no método de saque para reutilizar a lógica de movimentação de saldo definida na classe Conta |
+| Abstração em Java | Representação de um conceito geral que não deve ser instanciado diretamente | Declarar Experiencia como abstrata | Classe Abstrata Declarada na assinatura de Conta.java impedindo a criação direta de objetos genéricos da classe. |
+|Interfaces em Java | Contrato com implementações substituíveis | PoliticaDesconto implementada por diferentes políticas | 
+|Enum em Java | Conjunto fechado de valores válidos | StatusIngresso { RESERVADO, PAGO, CANCELADO } | p |
+|Tratamento de exceções em Java | Lançamento e tratamento adequado de erros, incluindo exceções próprias do domínio | Criar e lançar ExperienciaLotadaException e tratá-la na interface gráfica | p |
+|Interface gráfica com Swing | Interface mínima funcional para entrada, execução de operações e apresentação de resultados | Usar JFrame, componentes de formulário, botões e JOptionPane para cadastro e reserva | p |
+|Data e hora em Java | Uso da API java.time |Registrar a data de nascimento do cliente e as datas/horários das transações financeiras "| Cliente.java: Utiliza LocalDate para o atributo dataNascimento (L10) e DateTimeFormatter para converter o texto digitado pelo usuário no padrão dd/MM/yyyy 
