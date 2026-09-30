@@ -1,18 +1,31 @@
-public class Funcionario extends Administrador{
+public class Funcionario {
 
-    //contrutor da classe funcionario
-    public Funcionario(String usuario, String senha, int codigo, String Cargo){
+    private String usuario;
+    private String senha;
+    private int codigo;
+    private String cargo;
+
+    // Construtor da classe Funcionario
+    public Funcionario(String usuario, String senha, int codigo, String cargo) {
         this.usuario = usuario;
         this.senha = senha;
         this.codigo = codigo;
-        this.Cargo = Cargo;
+        this.cargo = cargo;
     }
 
-    private String Cargo;
-
-    //get para retormar o cargo do funcionario
-    public String getCargo(){
-        return Cargo;
+    public String getUsuario() {
+        return usuario;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
 }
