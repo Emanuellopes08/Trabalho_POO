@@ -1,9 +1,8 @@
 public class ContaCorrente extends Conta{
-    private double mensalidade;
+    private double mensalidade = 20.00;
 
-    public ContaCorrente(double mensalidade, Cliente cliente){
-        this.mensalidade = mensalidade;
-        this.cliente = cliente;
+    public ContaCorrente(Cliente cliente){
+        super(TipoConta.CORRENTE, cliente);
     }
 
     public double consultarMensalidade(){
