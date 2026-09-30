@@ -13,6 +13,6 @@ public class ContaConjunta extends Conta {
 
     @Override
     public String toString() {
-        return "Titular: " + titular.getNome() + " e Cotitular: " + cotitular.getNome();
+        return "Titular: " + getTitular().getNome() + " e Cotitular: " + cotitular.getNome();
     }
 }
