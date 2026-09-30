@@ -8,17 +8,17 @@ public class TelaConsultaCliente extends JFrame {
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
     private final Color VERDE = new Color(72, 255, 129);
     private final Color VERDE_ESCURO = new Color(45, 190, 95);
+    private final Color VERMELHO = new Color(180, 70, 70);
+    private final Color VERMELHO_ESCURO = new Color(140, 45, 45);
     private final Color VERMELHO_ERRO = new Color(255, 90, 90);
     private final Color BRANCO = Color.WHITE;
 
     // Componentes
-    private JComboBox<String> tipoConta;
-    private JLabel labelDocumento;
-    private JTextField campoDocumento;
-    private JLabel erroDocumento;
+    private JTextField campoCpf;
+    private JLabel mensagemErro;
 
     private JLabel resultadoNome;
-    private JLabel resultadoDocumento;
+    private JLabel resultadoCpf;
 
 
     public TelaConsultaCliente() {
@@ -32,7 +32,7 @@ public class TelaConsultaCliente extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
     private void configurarJanela() {
-        setSize(600, 520);
+        setSize(600, 500);
         setTitle("Banco ES - Consultar Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -54,7 +54,7 @@ public class TelaConsultaCliente extends JFrame {
         topo.add(Box.createVerticalStrut(30));
 
         JLabel titulo = new JLabel("CONSULTAR CLIENTE");
-        JLabel subtitulo = new JLabel("Escolha o tipo de conta");
+        JLabel subtitulo = new JLabel("Informe o CPF do cliente");
 
         titulo.setFont(new Font("Arial", Font.BOLD, 32));
         titulo.setForeground(BRANCO);
@@ -84,91 +84,64 @@ public class TelaConsultaCliente extends JFrame {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.insets = new Insets(6, 10, 6, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        Font fonteLabel = new Font("Arial", Font.BOLD, 16);
+
 /////////////////////////////////////////////////////////////////////
-// TIPO DE CONTA
+// CPF - STRING
 /////////////////////////////////////////////////////////////////////
 
-        JLabel labelTipoConta = new JLabel("Tipo de conta:");
-        labelTipoConta.setFont(new Font("Arial", Font.BOLD, 16));
-        labelTipoConta.setForeground(BRANCO);
+        JLabel labelCpf = new JLabel("CPF:");
 
-        tipoConta = new JComboBox<>(new String[]{
-                "Conta Poupança",
-                "Conta Corrente",
-                "Conta Conjunta",
-                "Conta PJ"
-        });
+        labelCpf.setFont(fonteLabel);
+        labelCpf.setForeground(BRANCO);
 
-        tipoConta.setFont(new Font("Arial", Font.PLAIN, 15));
+        campoCpf = new JTextField(22);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        painel.add(labelTipoConta, gbc);
+
+        painel.add(labelCpf, gbc);
 
         gbc.gridx = 1;
-        painel.add(tipoConta, gbc);
+
+        painel.add(campoCpf, gbc);
 
 /////////////////////////////////////////////////////////////////////
-// CPF OU CNPJ
+// MENSAGEM DE ERRO
 /////////////////////////////////////////////////////////////////////
 
-        labelDocumento = new JLabel("CPF:");
-        labelDocumento.setFont(new Font("Arial", Font.BOLD, 16));
-        labelDocumento.setForeground(BRANCO);
+        mensagemErro = new JLabel(" ");
 
-        campoDocumento = new JTextField(20);
-
-        erroDocumento = new JLabel(" ");
-        erroDocumento.setForeground(VERMELHO_ERRO);
+        mensagemErro.setFont(new Font("Arial", Font.PLAIN, 14));
+        mensagemErro.setForeground(VERMELHO_ERRO);
+        mensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        painel.add(labelDocumento, gbc);
+        gbc.gridwidth = 2;
 
-        gbc.gridx = 1;
-        painel.add(campoDocumento, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        painel.add(erroDocumento, gbc);
+        painel.add(mensagemErro, gbc);
 
 /////////////////////////////////////////////////////////////////////
-// BOTÕES
+// BOTÃO CONSULTAR
 /////////////////////////////////////////////////////////////////////
 
         BotaoArredondado btnConsultar = new BotaoArredondado("Consultar");
-        BotaoArredondado btnVoltar = new BotaoArredondado("Voltar");
 
-        Dimension tamanhoBotao = new Dimension(150, 50);
-        Font fonteBotao = new Font("Arial", Font.BOLD, 16);
-
-        btnConsultar.setPreferredSize(tamanhoBotao);
-        btnVoltar.setPreferredSize(tamanhoBotao);
-
-        btnConsultar.setFont(fonteBotao);
-        btnVoltar.setFont(fonteBotao);
-
+        btnConsultar.setPreferredSize(new Dimension(170, 50));
+        btnConsultar.setFont(new Font("Arial", Font.BOLD, 16));
         btnConsultar.setBackground(VERDE);
         btnConsultar.setForeground(AZUL_ESCURO);
 
-        btnVoltar.setBackground(AZUL_SECUNDARIO);
-        btnVoltar.setForeground(BRANCO);
-
-        JPanel painelBotoes = new JPanel();
-
-        painelBotoes.setBackground(AZUL_ESCURO);
-        painelBotoes.add(btnVoltar);
-        painelBotoes.add(btnConsultar);
-
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 20, 10);
 
-        painel.add(painelBotoes, gbc);
+        painel.add(btnConsultar, gbc);
 
 /////////////////////////////////////////////////////////////////////
 // RESULTADO DA CONSULTA
@@ -178,70 +151,69 @@ public class TelaConsultaCliente extends JFrame {
 
         painelResultado.setLayout(new BoxLayout(painelResultado, BoxLayout.Y_AXIS));
         painelResultado.setBackground(AZUL_SECUNDARIO);
-        painelResultado.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+        painelResultado.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         resultadoNome = new JLabel(" ");
-        resultadoDocumento = new JLabel(" ");
+        resultadoCpf = new JLabel(" ");
 
-        resultadoNome.setFont(new Font("Arial", Font.BOLD, 17));
-        resultadoDocumento.setFont(new Font("Arial", Font.PLAIN, 16));
+        resultadoNome.setFont(new Font("Arial", Font.BOLD, 18));
+        resultadoCpf.setFont(new Font("Arial", Font.PLAIN, 16));
 
         resultadoNome.setForeground(BRANCO);
-        resultadoDocumento.setForeground(BRANCO);
+        resultadoCpf.setForeground(BRANCO);
 
         resultadoNome.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resultadoDocumento.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resultadoCpf.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         painelResultado.add(resultadoNome);
         painelResultado.add(Box.createVerticalStrut(8));
-        painelResultado.add(resultadoDocumento);
+        painelResultado.add(resultadoCpf);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 10, 20, 10);
+
+        painel.add(painelResultado, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// BOTÃO VOLTAR
+/////////////////////////////////////////////////////////////////////
+
+        BotaoArredondado btnVoltar = new BotaoArredondado("Voltar");
+
+        btnVoltar.setPreferredSize(new Dimension(170, 50));
+        btnVoltar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnVoltar.setBackground(VERMELHO);
+        btnVoltar.setForeground(BRANCO);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(15, 10, 10, 10);
+        gbc.insets = new Insets(5, 10, 10, 10);
 
-        painel.add(painelResultado, gbc);
+        painel.add(btnVoltar, gbc);
 
         add(painel, BorderLayout.CENTER);
 
 /////////////////////////////////////////////////////////////////////
-// ALTERA CPF OU CNPJ CONFORME O TIPO DA CONTA
-/////////////////////////////////////////////////////////////////////
-
-        tipoConta.addActionListener(e -> alterarTipoDocumento());
-
-/////////////////////////////////////////////////////////////////////
-// AÇÕES DOS BOTÕES
+// AÇÃO CONSULTAR
 /////////////////////////////////////////////////////////////////////
 
         btnConsultar.addActionListener(e -> consultarCliente());
+
+/////////////////////////////////////////////////////////////////////
+// AÇÃO VOLTAR
+/////////////////////////////////////////////////////////////////////
+
         btnVoltar.addActionListener(e -> dispose());
 
 /////////////////////////////////////////////////////////////////////
-// EFEITO DO BOTÃO
+// EFEITOS DOS BOTÕES
 /////////////////////////////////////////////////////////////////////
 
         adicionarEfeitoMouse(btnConsultar, VERDE, VERDE_ESCURO);
-    }
-
-/////////////////////////////////////////////////////////////////////
-// ALTERA O CAMPO ENTRE CPF E CNPJ
-/////////////////////////////////////////////////////////////////////
-
-    private void alterarTipoDocumento() {
-        String contaSelecionada = (String) tipoConta.getSelectedItem();
-
-        campoDocumento.setText("");
-        erroDocumento.setText(" ");
-        resultadoNome.setText(" ");
-        resultadoDocumento.setText(" ");
-
-        if ("Conta PJ".equals(contaSelecionada)) {
-            labelDocumento.setText("CNPJ:");
-        } else {
-            labelDocumento.setText("CPF:");
-        }
+        adicionarEfeitoMouse(btnVoltar, VERMELHO, VERMELHO_ESCURO);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -249,61 +221,38 @@ public class TelaConsultaCliente extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
     private void consultarCliente() {
-        String contaSelecionada = (String) tipoConta.getSelectedItem();
-        String documento = campoDocumento.getText().trim();
+        String cpf = campoCpf.getText().trim();
 
-        erroDocumento.setText(" ");
+        mensagemErro.setText(" ");
         resultadoNome.setText(" ");
-        resultadoDocumento.setText(" ");
+        resultadoCpf.setText(" ");
 
 /////////////////////////////////////////////////////////////////////
-// VALIDA SE O CAMPO ESTÁ VAZIO
+// VALIDA CPF
 /////////////////////////////////////////////////////////////////////
 
-        if (documento.isEmpty()) {
-
-            if ("Conta PJ".equals(contaSelecionada)) {
-                erroDocumento.setText("Digite o CNPJ.");
-            } else {
-                erroDocumento.setText("Digite o CPF.");
-            }
-
+        if (cpf.isEmpty()) {
+            mensagemErro.setText("Digite o CPF do cliente.");
             return;
         }
 
 /////////////////////////////////////////////////////////////////////
-// CONSULTA CONTA PJ PELO CNPJ
+// PROCURA O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        if ("Conta PJ".equals(contaSelecionada)) {
+        Cliente cliente = SistemaBanco.buscarClientePorCpf(cpf);
 
-            ContaPJ contaPJ = SistemaBanco.buscarContaPjPorCnpj(documento);
-
-            if (contaPJ == null) {
-                erroDocumento.setText("Conta PJ não encontrada.");
-                return;
-            }
-
-            resultadoNome.setText("Titular: " + contaPJ.getTitular().getNome());
-            resultadoDocumento.setText("CNPJ: " + documento);
+        if (cliente == null) {
+            mensagemErro.setText("Cliente não encontrado.");
+            return;
         }
 
 /////////////////////////////////////////////////////////////////////
-// CONSULTA OUTRAS CONTAS PELO CPF
+// MOSTRA OS DADOS DO CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        else {
-
-            Cliente cliente = SistemaBanco.buscarClientePorCpf(documento);
-
-            if (cliente == null) {
-                erroDocumento.setText("Cliente não encontrado.");
-                return;
-            }
-
-            resultadoNome.setText("Nome: " + cliente.getNome());
-            resultadoDocumento.setText("CPF: " + cliente.getCpf());
-        }
+        resultadoNome.setText("Nome: " + cliente.getNome());
+        resultadoCpf.setText("CPF: " + cliente.getCpf());
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -317,13 +266,19 @@ public class TelaConsultaCliente extends JFrame {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corEscura);
-                botao.setForeground(BRANCO);
+
+                if (corNormal.equals(VERDE)) {
+                    botao.setForeground(BRANCO);
+                }
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corNormal);
-                botao.setForeground(AZUL_ESCURO);
+
+                if (corNormal.equals(VERDE)) {
+                    botao.setForeground(AZUL_ESCURO);
+                }
             }
         });
     }

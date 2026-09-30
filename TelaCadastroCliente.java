@@ -1,1062 +1,846 @@
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class TelaCadastroCliente extends JFrame {
 
-    // ============================================================
-    // PALETA DE CORES DO PROJETO
-    // ============================================================
-
+    // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
-    private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
-
     private final Color VERDE = new Color(72, 255, 129);
     private final Color VERDE_ESCURO = new Color(45, 190, 95);
-
+    private final Color VERMELHO = new Color(180, 70, 70);
+    private final Color VERMELHO_ESCURO = new Color(140, 45, 45);
+    private final Color VERMELHO_ERRO = new Color(255, 90, 90);
     private final Color BRANCO = Color.WHITE;
 
-
-    // ============================================================
-    // COMPONENTES
-    // ============================================================
-
+    // Tipo de conta
     private JComboBox<String> tipoConta;
 
-    private JPanel painelCorrente;
-    private JPanel painelPJ;
-    private JPanel painelPoupanca;
-    private JPanel painelConjunta;
+    // Dados do cliente
+    private JTextField campoNome;
+    private JTextField campoCpf;
+    private JTextField campoDataNascimento;
+    private JTextField campoRenda;
+    private JTextField campoTelefone;
+    private JTextField campoEndereco;
+    private JTextField campoNomePai;
+    private JTextField campoNomeMae;
+    private JTextField campoEmail;
 
+    // Conta Conjunta
+    private JLabel labelCpfCotitular;
+    private JTextField campoCpfCotitular;
 
-    // ============================================================
-    // CONSTRUTOR
-    // ============================================================
+    // Conta PJ
+    private JLabel tituloDadosEmpresa;
+
+    private JLabel labelCnpj;
+    private JTextField campoCnpj;
+
+    private JLabel labelNomeEmpresa;
+    private JTextField campoNomeEmpresa;
+
+    private JLabel labelFaturamento;
+    private JTextField campoFaturamento;
+
+    // Mensagem de erro
+    private JLabel mensagemErro;
+
 
     public TelaCadastroCliente() {
+        configurarJanela();
+        criarTitulo();
+        criarFormulario();
+    }
 
+/////////////////////////////////////////////////////////////////////
+// CONFIGURA A JANELA
+/////////////////////////////////////////////////////////////////////
+
+    private void configurarJanela() {
+        setSize(800, 850);
         setTitle("Banco ES - Cadastro de Cliente");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-        setSize(600, 500);
+        getContentPane().setBackground(AZUL_ESCURO);
+    }
 
-        setDefaultCloseOperation(
-                JFrame.DISPOSE_ON_CLOSE
-        );
+/////////////////////////////////////////////////////////////////////
+// CRIA O TÍTULO
+/////////////////////////////////////////////////////////////////////
 
-        setLayout(null);
+    private void criarTitulo() {
+        JPanel topo = new JPanel();
 
-        getContentPane().setBackground(
-                AZUL_ESCURO
-        );
+        topo.setBackground(AZUL_ESCURO);
+        topo.setLayout(new BoxLayout(topo, BoxLayout.Y_AXIS));
 
+        topo.add(Box.createVerticalStrut(20));
 
-        // ========================================================
-        // TÍTULO
-        // ========================================================
+        JLabel titulo = new JLabel("CADASTRO DE CLIENTE");
+        JLabel subtitulo = new JLabel("Informe os dados do titular e escolha o tipo de conta");
 
-        JLabel titulo =
-                new JLabel("CADASTRO DE CLIENTE");
-
-        titulo.setBounds(
-                150,
-                15,
-                350,
-                40
-        );
-
-        titulo.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        28
-                )
-        );
-
+        titulo.setFont(new Font("Arial", Font.BOLD, 32));
         titulo.setForeground(BRANCO);
 
-        add(titulo);
-
-
-        // ========================================================
-        // SUBTÍTULO
-        // ========================================================
-
-        JLabel subtitulo =
-                new JLabel("Informe os dados da conta");
-
-        subtitulo.setBounds(
-                190,
-                55,
-                300,
-                30
-        );
-
-        subtitulo.setFont(
-                new Font(
-                        "Arial",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
+        subtitulo.setFont(new Font("Arial", Font.PLAIN, 16));
         subtitulo.setForeground(VERDE);
 
-        add(subtitulo);
-
-
-        // ========================================================
-        // TIPO DE CONTA
-        // ========================================================
-
-        JLabel labelConta =
-                new JLabel("Tipo de conta:");
-
-        labelConta.setBounds(
-                50,
-                100,
-                120,
-                30
-        );
-
-        configurarLabel(labelConta);
-
-        add(labelConta);
-
-
-        tipoConta =
-                new JComboBox<>(
-                        new String[]{
-                                "Conta Corrente",
-                                "Conta PJ",
-                                "Conta Poupança",
-                                "Conta Conjunta"
-                        }
-                );
-
-        tipoConta.setBounds(
-                170,
-                100,
-                250,
-                35
-        );
-
-        tipoConta.setFont(
-                new Font(
-                        "Arial",
-                        Font.PLAIN,
-                        16
-                )
-        );
-
-        add(tipoConta);
-
-
-        // ========================================================
-        // PAINEL CONTA CORRENTE
-        // ========================================================
-
-        painelCorrente =
-                new JPanel();
-
-        painelCorrente.setLayout(null);
-
-        painelCorrente.setBackground(
-                AZUL_SECUNDARIO
-        );
-
-        painelCorrente.setBounds(
-                0,
-                150,
-                600,
-                250
-        );
-
-
-        // --------------------------------------------------------
-        // NOME
-        // --------------------------------------------------------
-
-        JLabel labelNomeCorrente =
-                new JLabel("Nome:");
-
-        labelNomeCorrente.setBounds(
-                50,
-                25,
-                100,
-                30
-        );
-
-        configurarLabel(labelNomeCorrente);
-
-
-        JTextField campoNomeCorrente =
-                criarCampoTexto();
-
-        campoNomeCorrente.setBounds(
-                170,
-                25,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // CPF
-        // --------------------------------------------------------
-
-        JLabel labelCpfCorrente =
-                new JLabel("CPF:");
-
-        labelCpfCorrente.setBounds(
-                50,
-                75,
-                100,
-                30
-        );
-
-        configurarLabel(labelCpfCorrente);
-
-
-        JTextField campoCpfCorrente =
-                criarCampoTexto();
-
-        campoCpfCorrente.setBounds(
-                170,
-                75,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // BOTÃO
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoCadastrar =
-                new BotaoArredondado(
-                        "Cadastrar"
-                );
-
-        configurarBotao(botaoCadastrar);
-
-        botaoCadastrar.setBounds(
-                170,
-                130,
-                180,
-                50
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoCadastrar
-        );
-
-
-        botaoCadastrar.addActionListener(e -> {
-
-            if (campoNomeCorrente.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o nome do cliente."
-                );
-
-                return;
-            }
-
-            if (campoCpfCorrente.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o CPF do cliente."
-                );
-
-                return;
-            }
-
-            mostrarSucesso();
-
-        });
-
-
-        painelCorrente.add(labelNomeCorrente);
-        painelCorrente.add(campoNomeCorrente);
-
-        painelCorrente.add(labelCpfCorrente);
-        painelCorrente.add(campoCpfCorrente);
-
-        painelCorrente.add(botaoCadastrar);
-
-
-        // ========================================================
-        // PAINEL CONTA PJ
-        // ========================================================
-
-        painelPJ =
-                new JPanel();
-
-        painelPJ.setLayout(null);
-
-        painelPJ.setBackground(
-                AZUL_SECUNDARIO
-        );
-
-        painelPJ.setBounds(
-                0,
-                150,
-                600,
-                250
-        );
-
-
-        // --------------------------------------------------------
-        // CNPJ
-        // --------------------------------------------------------
-
-        JLabel labelCnpj =
-                new JLabel("CNPJ:");
-
-        labelCnpj.setBounds(
-                50,
-                20,
-                100,
-                30
-        );
-
-        configurarLabel(labelCnpj);
-
-
-        JTextField campoCnpj =
-                criarCampoTexto();
-
-        campoCnpj.setBounds(
-                170,
-                20,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // EMPRESA
-        // --------------------------------------------------------
-
-        JLabel labelEmpresa =
-                new JLabel("Empresa:");
-
-        labelEmpresa.setBounds(
-                50,
-                65,
-                100,
-                30
-        );
-
-        configurarLabel(labelEmpresa);
-
-
-        JTextField campoEmpresa =
-                criarCampoTexto();
-
-        campoEmpresa.setBounds(
-                170,
-                65,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // PROPRIETÁRIO
-        // --------------------------------------------------------
-
-        JLabel labelProprietario =
-                new JLabel("Proprietário:");
-
-        labelProprietario.setBounds(
-                50,
-                110,
-                110,
-                30
-        );
-
-        configurarLabel(labelProprietario);
-
-
-        JTextField campoProprietario =
-                criarCampoTexto();
-
-        campoProprietario.setBounds(
-                170,
-                110,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // BOTÃO
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoCadastrarPJ =
-                new BotaoArredondado(
-                        "Cadastrar"
-                );
-
-        configurarBotao(botaoCadastrarPJ);
-
-        botaoCadastrarPJ.setBounds(
-                170,
-                160,
-                180,
-                50
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoCadastrarPJ
-        );
-
-
-        botaoCadastrarPJ.addActionListener(e -> {
-
-            if (campoCnpj.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o CNPJ da empresa."
-                );
-
-                return;
-            }
-
-            if (campoEmpresa.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o nome da empresa."
-                );
-
-                return;
-            }
-
-            if (campoProprietario.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o proprietário da conta."
-                );
-
-                return;
-            }
-
-            mostrarSucesso();
-
-        });
-
-
-        painelPJ.add(labelCnpj);
-        painelPJ.add(campoCnpj);
-
-        painelPJ.add(labelEmpresa);
-        painelPJ.add(campoEmpresa);
-
-        painelPJ.add(labelProprietario);
-        painelPJ.add(campoProprietario);
-
-        painelPJ.add(botaoCadastrarPJ);
-
-
-        // ========================================================
-        // PAINEL CONTA POUPANÇA
-        // ========================================================
-
-        painelPoupanca =
-                new JPanel();
-
-        painelPoupanca.setLayout(null);
-
-        painelPoupanca.setBackground(
-                AZUL_SECUNDARIO
-        );
-
-        painelPoupanca.setBounds(
-                0,
-                150,
-                600,
-                250
-        );
-
-
-        // --------------------------------------------------------
-        // NOME
-        // --------------------------------------------------------
-
-        JLabel labelNomePoupanca =
-                new JLabel("Nome:");
-
-        labelNomePoupanca.setBounds(
-                50,
-                20,
-                100,
-                30
-        );
-
-        configurarLabel(labelNomePoupanca);
-
-
-        JTextField campoNomePoupanca =
-                criarCampoTexto();
-
-        campoNomePoupanca.setBounds(
-                170,
-                20,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // CPF
-        // --------------------------------------------------------
-
-        JLabel labelCpfPoupanca =
-                new JLabel("CPF:");
-
-        labelCpfPoupanca.setBounds(
-                50,
-                65,
-                100,
-                30
-        );
-
-        configurarLabel(labelCpfPoupanca);
-
-
-        JTextField campoCpfPoupanca =
-                criarCampoTexto();
-
-        campoCpfPoupanca.setBounds(
-                170,
-                65,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // CONSULTAR RENDIMENTO
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoConsultarRendimento =
-                new BotaoArredondado(
-                        "Consultar rendimento"
-                );
-
-        configurarBotao(botaoConsultarRendimento);
-
-        botaoConsultarRendimento.setBounds(
-                70,
-                120,
-                200,
-                45
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoConsultarRendimento
-        );
-
-
-        botaoConsultarRendimento.addActionListener(e -> {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Funcionalidade de consulta de rendimento.",
-                    "Banco ES",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-        });
-
-
-        // --------------------------------------------------------
-        // APLICAR RENDIMENTO
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoAplicarRendimento =
-                new BotaoArredondado(
-                        "Aplicar rendimento"
-                );
-
-        configurarBotao(botaoAplicarRendimento);
-
-        botaoAplicarRendimento.setBounds(
-                290,
-                120,
-                200,
-                45
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoAplicarRendimento
-        );
-
-
-        botaoAplicarRendimento.addActionListener(e -> {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Funcionalidade de aplicação de rendimento.",
-                    "Banco ES",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-        });
-
-
-        // --------------------------------------------------------
-        // CADASTRAR
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoCadastrarPoupanca =
-                new BotaoArredondado(
-                        "Cadastrar"
-                );
-
-        configurarBotao(botaoCadastrarPoupanca);
-
-        botaoCadastrarPoupanca.setBounds(
-                200,
-                175,
-                180,
-                45
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoCadastrarPoupanca
-        );
-
-
-        botaoCadastrarPoupanca.addActionListener(e -> {
-
-            if (campoNomePoupanca.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o nome do cliente."
-                );
-
-                return;
-            }
-
-            if (campoCpfPoupanca.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o CPF do cliente."
-                );
-
-                return;
-            }
-
-            mostrarSucesso();
-
-        });
-
-
-        painelPoupanca.add(labelNomePoupanca);
-        painelPoupanca.add(campoNomePoupanca);
-
-        painelPoupanca.add(labelCpfPoupanca);
-        painelPoupanca.add(campoCpfPoupanca);
-
-        painelPoupanca.add(botaoConsultarRendimento);
-        painelPoupanca.add(botaoAplicarRendimento);
-        painelPoupanca.add(botaoCadastrarPoupanca);
-
-
-        // ========================================================
-        // PAINEL CONTA CONJUNTA
-        // ========================================================
-
-        painelConjunta =
-                new JPanel();
-
-        painelConjunta.setLayout(null);
-
-        painelConjunta.setBackground(
-                AZUL_SECUNDARIO
-        );
-
-        painelConjunta.setBounds(
-                0,
-                150,
-                600,
-                250
-        );
-
-
-        // --------------------------------------------------------
-        // NOME
-        // --------------------------------------------------------
-
-        JLabel labelNomeConjunta =
-                new JLabel("Nome:");
-
-        labelNomeConjunta.setBounds(
-                50,
-                20,
-                100,
-                30
-        );
-
-        configurarLabel(labelNomeConjunta);
-
-
-        JTextField campoNomeConjunta =
-                criarCampoTexto();
-
-        campoNomeConjunta.setBounds(
-                170,
-                20,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // CPF
-        // --------------------------------------------------------
-
-        JLabel labelCpfConjunta =
-                new JLabel("CPF:");
-
-        labelCpfConjunta.setBounds(
-                50,
-                65,
-                100,
-                30
-        );
-
-        configurarLabel(labelCpfConjunta);
-
-
-        JTextField campoCpfConjunta =
-                criarCampoTexto();
-
-        campoCpfConjunta.setBounds(
-                170,
-                65,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // CPF DO COTITULAR
-        // --------------------------------------------------------
-
-        JLabel labelCpfCotitular =
-                new JLabel("CPF cotitular:");
-
-        labelCpfCotitular.setBounds(
-                50,
-                110,
-                120,
-                30
-        );
-
-        configurarLabel(labelCpfCotitular);
-
-
-        JTextField campoCpfCotitular =
-                criarCampoTexto();
-
-        campoCpfCotitular.setBounds(
-                170,
-                110,
-                300,
-                35
-        );
-
-
-        // --------------------------------------------------------
-        // BOTÃO
-        // --------------------------------------------------------
-
-        BotaoArredondado botaoCadastrarConjunta =
-                new BotaoArredondado(
-                        "Cadastrar"
-                );
-
-        configurarBotao(botaoCadastrarConjunta);
-
-        botaoCadastrarConjunta.setBounds(
-                170,
-                160,
-                180,
-                50
-        );
-
-        adicionarEfeitoMouseVerde(
-                botaoCadastrarConjunta
-        );
-
-
-        botaoCadastrarConjunta.addActionListener(e -> {
-
-            if (campoNomeConjunta.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o nome do primeiro titular."
-                );
-
-                return;
-            }
-
-            if (campoCpfConjunta.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o CPF do primeiro titular."
-                );
-
-                return;
-            }
-
-            if (campoCpfCotitular.getText().trim().isEmpty()) {
-
-                mostrarErro(
-                        "Digite o CPF do cotitular."
-                );
-
-                return;
-            }
-
-            mostrarSucesso();
-
-        });
-
-
-        painelConjunta.add(labelNomeConjunta);
-        painelConjunta.add(campoNomeConjunta);
-
-        painelConjunta.add(labelCpfConjunta);
-        painelConjunta.add(campoCpfConjunta);
-
-        painelConjunta.add(labelCpfCotitular);
-        painelConjunta.add(campoCpfCotitular);
-
-        painelConjunta.add(botaoCadastrarConjunta);
-
-
-        // ========================================================
-        // ADICIONA OS PAINÉIS
-        // ========================================================
-
-        add(painelCorrente);
-        add(painelPJ);
-        add(painelPoupanca);
-        add(painelConjunta);
-
-
-        // ========================================================
-        // ESTADO INICIAL
-        // ========================================================
-
-        painelCorrente.setVisible(true);
-        painelPJ.setVisible(false);
-        painelPoupanca.setVisible(false);
-        painelConjunta.setVisible(false);
-
-
-        // ========================================================
-        // EVENTO DO COMBOBOX
-        // ========================================================
-
-        tipoConta.addActionListener(e -> {
-
-            String tipo =
-                    (String) tipoConta.getSelectedItem();
-
-
-            painelCorrente.setVisible(false);
-            painelPJ.setVisible(false);
-            painelPoupanca.setVisible(false);
-            painelConjunta.setVisible(false);
-
-
-            if (tipo.equals("Conta Corrente")) {
-
-                painelCorrente.setVisible(true);
-
-            }
-
-            else if (tipo.equals("Conta PJ")) {
-
-                painelPJ.setVisible(true);
-
-            }
-
-            else if (tipo.equals("Conta Poupança")) {
-
-                painelPoupanca.setVisible(true);
-
-            }
-
-            else if (tipo.equals("Conta Conjunta")) {
-
-                painelConjunta.setVisible(true);
-
-            }
-
-
-            revalidate();
-
-            repaint();
-        });
-
-
-        // ========================================================
-        // FINALIZA
-        // ========================================================
-
-        setLocationRelativeTo(null);
-
-        setVisible(true);
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        topo.add(titulo);
+        topo.add(Box.createVerticalStrut(5));
+        topo.add(subtitulo);
+        topo.add(Box.createVerticalStrut(10));
+
+        add(topo, BorderLayout.NORTH);
     }
 
+/////////////////////////////////////////////////////////////////////
+// CRIA O FORMULÁRIO
+/////////////////////////////////////////////////////////////////////
 
-    // ============================================================
-    // CONFIGURA LABEL
-    // ============================================================
+    private void criarFormulario() {
+        JPanel formulario = new JPanel();
 
-    private void configurarLabel(
-            JLabel label
-    ) {
+        formulario.setBackground(AZUL_ESCURO);
+        formulario.setLayout(new GridBagLayout());
 
-        label.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        16
-                )
-        );
+        GridBagConstraints gbc = new GridBagConstraints();
 
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        Font fonteLabel = new Font("Arial", Font.BOLD, 15);
+
+/////////////////////////////////////////////////////////////////////
+// TÍTULO - DADOS DO TITULAR
+/////////////////////////////////////////////////////////////////////
+
+        JLabel tituloDadosTitular = new JLabel("DADOS DO TITULAR");
+
+        tituloDadosTitular.setFont(new Font("Arial", Font.BOLD, 18));
+        tituloDadosTitular.setForeground(VERDE);
+        tituloDadosTitular.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        formulario.add(tituloDadosTitular, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// NOME
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelNome = criarLabel("Nome:", fonteLabel);
+        campoNome = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelNome, campoNome, 1);
+
+/////////////////////////////////////////////////////////////////////
+// CPF DO TITULAR
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelCpf = criarLabel("CPF do titular:", fonteLabel);
+        campoCpf = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelCpf, campoCpf, 2);
+
+/////////////////////////////////////////////////////////////////////
+// DATA DE NASCIMENTO
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelDataNascimento = criarLabel("Data de nascimento:", fonteLabel);
+        campoDataNascimento = new JTextField(24);
+
+        campoDataNascimento.setToolTipText("Formato: dd/MM/yyyy");
+
+        adicionarCampo(formulario, gbc, labelDataNascimento, campoDataNascimento, 3);
+
+/////////////////////////////////////////////////////////////////////
+// RENDA
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelRenda = criarLabel("Renda:", fonteLabel);
+        campoRenda = new JTextField(24);
+
+        campoRenda.setToolTipText("Exemplo: 2500.00");
+
+        adicionarCampo(formulario, gbc, labelRenda, campoRenda, 4);
+
+/////////////////////////////////////////////////////////////////////
+// TELEFONE
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelTelefone = criarLabel("Telefone:", fonteLabel);
+        campoTelefone = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelTelefone, campoTelefone, 5);
+
+/////////////////////////////////////////////////////////////////////
+// ENDEREÇO
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelEndereco = criarLabel("Endereço:", fonteLabel);
+        campoEndereco = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelEndereco, campoEndereco, 6);
+
+/////////////////////////////////////////////////////////////////////
+// NOME DO PAI
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelNomePai = criarLabel("Nome do pai:", fonteLabel);
+        campoNomePai = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelNomePai, campoNomePai, 7);
+
+/////////////////////////////////////////////////////////////////////
+// NOME DA MÃE
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelNomeMae = criarLabel("Nome da mãe:", fonteLabel);
+        campoNomeMae = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelNomeMae, campoNomeMae, 8);
+
+/////////////////////////////////////////////////////////////////////
+// EMAIL
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelEmail = criarLabel("Email:", fonteLabel);
+        campoEmail = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelEmail, campoEmail, 9);
+
+/////////////////////////////////////////////////////////////////////
+// TIPO DE CONTA
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelTipoConta = criarLabel("Tipo de conta:", fonteLabel);
+
+        tipoConta = new JComboBox<>(new String[]{
+                "Conta Poupança",
+                "Conta Corrente",
+                "Conta Conjunta",
+                "Conta PJ"
+        });
+
+        tipoConta.setFont(new Font("Arial", Font.PLAIN, 15));
+
+        adicionarCampo(formulario, gbc, labelTipoConta, tipoConta, 10);
+
+/////////////////////////////////////////////////////////////////////
+// CPF DO COTITULAR
+/////////////////////////////////////////////////////////////////////
+
+        labelCpfCotitular = criarLabel("CPF do cotitular:", fonteLabel);
+        campoCpfCotitular = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelCpfCotitular, campoCpfCotitular, 11);
+
+/////////////////////////////////////////////////////////////////////
+// TÍTULO - DADOS DA EMPRESA
+/////////////////////////////////////////////////////////////////////
+
+        tituloDadosEmpresa = new JLabel("DADOS DA EMPRESA");
+
+        tituloDadosEmpresa.setFont(new Font("Arial", Font.BOLD, 18));
+        tituloDadosEmpresa.setForeground(VERDE);
+        tituloDadosEmpresa.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 12;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(15, 10, 10, 10);
+
+        formulario.add(tituloDadosEmpresa, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// CNPJ
+/////////////////////////////////////////////////////////////////////
+
+        labelCnpj = criarLabel("CNPJ da empresa:", fonteLabel);
+        campoCnpj = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelCnpj, campoCnpj, 13);
+
+/////////////////////////////////////////////////////////////////////
+// NOME DA EMPRESA
+/////////////////////////////////////////////////////////////////////
+
+        labelNomeEmpresa = criarLabel("Nome da empresa:", fonteLabel);
+        campoNomeEmpresa = new JTextField(24);
+
+        adicionarCampo(formulario, gbc, labelNomeEmpresa, campoNomeEmpresa, 14);
+
+/////////////////////////////////////////////////////////////////////
+// FATURAMENTO
+/////////////////////////////////////////////////////////////////////
+
+        labelFaturamento = criarLabel("Faturamento da empresa:", fonteLabel);
+        campoFaturamento = new JTextField(24);
+
+        campoFaturamento.setToolTipText("Exemplo: 50000.00");
+
+        adicionarCampo(formulario, gbc, labelFaturamento, campoFaturamento, 15);
+
+/////////////////////////////////////////////////////////////////////
+// MENSAGEM DE ERRO
+/////////////////////////////////////////////////////////////////////
+
+        mensagemErro = new JLabel(" ");
+
+        mensagemErro.setFont(new Font("Arial", Font.PLAIN, 14));
+        mensagemErro.setForeground(VERMELHO_ERRO);
+        mensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 16;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 10, 5, 10);
+
+        formulario.add(mensagemErro, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// BOTÕES
+/////////////////////////////////////////////////////////////////////
+
+        BotaoArredondado btnCadastrar = new BotaoArredondado("Cadastrar");
+        BotaoArredondado btnVoltar = new BotaoArredondado("Voltar");
+
+        Dimension tamanhoBotao = new Dimension(180, 50);
+        Font fonteBotao = new Font("Arial", Font.BOLD, 16);
+
+        btnCadastrar.setPreferredSize(tamanhoBotao);
+        btnVoltar.setPreferredSize(tamanhoBotao);
+
+        btnCadastrar.setFont(fonteBotao);
+        btnVoltar.setFont(fonteBotao);
+
+        btnCadastrar.setBackground(VERDE);
+        btnCadastrar.setForeground(AZUL_ESCURO);
+
+        btnVoltar.setBackground(VERMELHO);
+        btnVoltar.setForeground(BRANCO);
+
+        JPanel painelBotoes = new JPanel();
+
+        painelBotoes.setBackground(AZUL_ESCURO);
+
+        painelBotoes.add(btnVoltar);
+        painelBotoes.add(btnCadastrar);
+
+        gbc.gridx = 0;
+        gbc.gridy = 17;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(15, 10, 15, 10);
+
+        formulario.add(painelBotoes, gbc);
+
+/////////////////////////////////////////////////////////////////////
+// ALTERA OS CAMPOS DE ACORDO COM O TIPO DA CONTA
+/////////////////////////////////////////////////////////////////////
+
+        tipoConta.addActionListener(e -> atualizarCamposConta());
+
+/////////////////////////////////////////////////////////////////////
+// AÇÃO CADASTRAR
+/////////////////////////////////////////////////////////////////////
+
+        btnCadastrar.addActionListener(e -> validarCadastro());
+
+/////////////////////////////////////////////////////////////////////
+// AÇÃO VOLTAR
+/////////////////////////////////////////////////////////////////////
+
+        btnVoltar.addActionListener(e -> dispose());
+
+/////////////////////////////////////////////////////////////////////
+// EFEITOS DOS BOTÕES
+/////////////////////////////////////////////////////////////////////
+
+        adicionarEfeitoMouse(btnCadastrar, VERDE, VERDE_ESCURO);
+        adicionarEfeitoMouse(btnVoltar, VERMELHO, VERMELHO_ESCURO);
+
+        add(formulario, BorderLayout.CENTER);
+
+/////////////////////////////////////////////////////////////////////
+// DEFINE OS CAMPOS VISÍVEIS INICIAIS
+/////////////////////////////////////////////////////////////////////
+
+        atualizarCamposConta();
+    }
+
+/////////////////////////////////////////////////////////////////////
+// CRIA UMA LABEL PADRÃO
+/////////////////////////////////////////////////////////////////////
+
+    private JLabel criarLabel(String texto, Font fonte) {
+        JLabel label = new JLabel(texto);
+
+        label.setFont(fonte);
         label.setForeground(BRANCO);
+
+        return label;
     }
 
+/////////////////////////////////////////////////////////////////////
+// ADICIONA LABEL E CAMPO NO FORMULÁRIO
+/////////////////////////////////////////////////////////////////////
 
-    // ============================================================
-    // CRIA CAMPO DE TEXTO
-    // ============================================================
+    private void adicionarCampo(JPanel painel, GridBagConstraints gbc, JLabel label, JComponent campo, int linha) {
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(5, 10, 5, 10);
 
-    private JTextField criarCampoTexto() {
+        gbc.gridx = 0;
+        gbc.gridy = linha;
 
-        JTextField campo =
-                new JTextField();
+        painel.add(label, gbc);
 
-        campo.setFont(
-                new Font(
-                        "Arial",
-                        Font.PLAIN,
-                        16
-                )
+        gbc.gridx = 1;
+
+        painel.add(campo, gbc);
+    }
+
+/////////////////////////////////////////////////////////////////////
+// MOSTRA OS CAMPOS NECESSÁRIOS PARA CADA TIPO DE CONTA
+/////////////////////////////////////////////////////////////////////
+
+    private void atualizarCamposConta() {
+        String contaSelecionada = (String) tipoConta.getSelectedItem();
+
+/////////////////////////////////////////////////////////////////////
+// CONTA CONJUNTA
+/////////////////////////////////////////////////////////////////////
+
+        boolean contaConjunta = "Conta Conjunta".equals(contaSelecionada);
+
+        labelCpfCotitular.setVisible(contaConjunta);
+        campoCpfCotitular.setVisible(contaConjunta);
+
+/////////////////////////////////////////////////////////////////////
+// CONTA PJ
+/////////////////////////////////////////////////////////////////////
+
+        boolean contaPJ = "Conta PJ".equals(contaSelecionada);
+
+        tituloDadosEmpresa.setVisible(contaPJ);
+
+        labelCnpj.setVisible(contaPJ);
+        campoCnpj.setVisible(contaPJ);
+
+        labelNomeEmpresa.setVisible(contaPJ);
+        campoNomeEmpresa.setVisible(contaPJ);
+
+        labelFaturamento.setVisible(contaPJ);
+        campoFaturamento.setVisible(contaPJ);
+
+/////////////////////////////////////////////////////////////////////
+// LIMPA CAMPOS QUE NÃO ESTÃO SENDO UTILIZADOS
+/////////////////////////////////////////////////////////////////////
+
+        if (!contaConjunta) {
+            campoCpfCotitular.setText("");
+        }
+
+        if (!contaPJ) {
+            campoCnpj.setText("");
+            campoNomeEmpresa.setText("");
+            campoFaturamento.setText("");
+        }
+
+        mensagemErro.setText(" ");
+
+        revalidate();
+        repaint();
+    }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA E CADASTRA
+/////////////////////////////////////////////////////////////////////
+
+    private void validarCadastro() {
+
+/////////////////////////////////////////////////////////////////////
+// PEGA OS DADOS DIGITADOS
+/////////////////////////////////////////////////////////////////////
+
+        String nome = campoNome.getText().trim();
+        String cpf = campoCpf.getText().trim();
+        String dataTexto = campoDataNascimento.getText().trim();
+        String rendaTexto = campoRenda.getText().trim();
+        String telefone = campoTelefone.getText().trim();
+        String endereco = campoEndereco.getText().trim();
+        String nomePai = campoNomePai.getText().trim();
+        String nomeMae = campoNomeMae.getText().trim();
+        String email = campoEmail.getText().trim();
+
+        String contaSelecionada = (String) tipoConta.getSelectedItem();
+
+        mensagemErro.setText(" ");
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA NOME
+/////////////////////////////////////////////////////////////////////
+
+        if (nome.isEmpty()) {
+            mensagemErro.setText("Digite o nome do titular.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA CPF
+/////////////////////////////////////////////////////////////////////
+
+        if (cpf.isEmpty()) {
+            mensagemErro.setText("Digite o CPF do titular.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VERIFICA CPF DUPLICADO
+/////////////////////////////////////////////////////////////////////
+
+        Cliente clienteExistente = SistemaBanco.buscarClientePorCpf(cpf);
+
+        if (clienteExistente != null) {
+            mensagemErro.setText("Já existe um cliente cadastrado com este CPF.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA DATA
+/////////////////////////////////////////////////////////////////////
+
+        if (dataTexto.isEmpty()) {
+            mensagemErro.setText("Digite a data de nascimento.");
+            return;
+        }
+
+        LocalDate dataNascimento;
+
+        try {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            dataNascimento = LocalDate.parse(dataTexto, formato);
+
+        } catch (DateTimeParseException erro) {
+            mensagemErro.setText("Data inválida. Use dd/MM/yyyy.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA RENDA
+/////////////////////////////////////////////////////////////////////
+
+        if (rendaTexto.isEmpty()) {
+            mensagemErro.setText("Digite a renda.");
+            return;
+        }
+
+        double renda;
+
+        try {
+            renda = Double.parseDouble(rendaTexto.replace(",", "."));
+
+            if (renda < 0) {
+                mensagemErro.setText("A renda não pode ser negativa.");
+                return;
+            }
+
+        } catch (NumberFormatException erro) {
+            mensagemErro.setText("Digite uma renda válida.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA TELEFONE
+/////////////////////////////////////////////////////////////////////
+
+        if (telefone.isEmpty()) {
+            mensagemErro.setText("Digite o telefone.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA ENDEREÇO
+/////////////////////////////////////////////////////////////////////
+
+        if (endereco.isEmpty()) {
+            mensagemErro.setText("Digite o endereço.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA NOME DO PAI
+/////////////////////////////////////////////////////////////////////
+
+        if (nomePai.isEmpty()) {
+            mensagemErro.setText("Digite o nome do pai.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA NOME DA MÃE
+/////////////////////////////////////////////////////////////////////
+
+        if (nomeMae.isEmpty()) {
+            mensagemErro.setText("Digite o nome da mãe.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// VALIDA EMAIL
+/////////////////////////////////////////////////////////////////////
+
+        if (email.isEmpty()) {
+            mensagemErro.setText("Digite o email.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// DADOS ESPECÍFICOS DAS CONTAS
+/////////////////////////////////////////////////////////////////////
+
+        String cpfCotitular = "";
+        String cnpj = "";
+        String nomeEmpresa = "";
+        double faturamento = 0;
+
+/////////////////////////////////////////////////////////////////////
+// CONTA CONJUNTA
+/////////////////////////////////////////////////////////////////////
+
+        Cliente cotitular = null;
+
+        if ("Conta Conjunta".equals(contaSelecionada)) {
+
+            cpfCotitular = campoCpfCotitular.getText().trim();
+
+            if (cpfCotitular.isEmpty()) {
+                mensagemErro.setText("Digite o CPF do cotitular.");
+                return;
+            }
+
+            if (cpfCotitular.equals(cpf)) {
+                mensagemErro.setText("O cotitular deve ter um CPF diferente.");
+                return;
+            }
+
+            cotitular = SistemaBanco.buscarClientePorCpf(cpfCotitular);
+
+            if (cotitular == null) {
+                mensagemErro.setText("Cotitular não encontrado. Cadastre-o primeiro.");
+                return;
+            }
+        }
+
+/////////////////////////////////////////////////////////////////////
+// CONTA PJ
+/////////////////////////////////////////////////////////////////////
+
+        if ("Conta PJ".equals(contaSelecionada)) {
+
+            cnpj = campoCnpj.getText().trim();
+            nomeEmpresa = campoNomeEmpresa.getText().trim();
+
+            String faturamentoTexto = campoFaturamento.getText().trim();
+
+            if (cnpj.isEmpty()) {
+                mensagemErro.setText("Digite o CNPJ da empresa.");
+                return;
+            }
+
+            if (SistemaBanco.buscarContaPjPorCnpj(cnpj) != null) {
+                mensagemErro.setText("Já existe uma Conta PJ com este CNPJ.");
+                return;
+            }
+
+            if (nomeEmpresa.isEmpty()) {
+                mensagemErro.setText("Digite o nome da empresa.");
+                return;
+            }
+
+            if (faturamentoTexto.isEmpty()) {
+                mensagemErro.setText("Digite o faturamento da empresa.");
+                return;
+            }
+
+            try {
+                faturamento = Double.parseDouble(faturamentoTexto.replace(",", "."));
+
+                if (faturamento < 0) {
+                    mensagemErro.setText("O faturamento não pode ser negativo.");
+                    return;
+                }
+
+            } catch (NumberFormatException erro) {
+                mensagemErro.setText("Digite um faturamento válido.");
+                return;
+            }
+        }
+
+/////////////////////////////////////////////////////////////////////
+// CRIA O CLIENTE
+/////////////////////////////////////////////////////////////////////
+
+        Cliente cliente = new Cliente(
+                nome,
+                cpf,
+                dataNascimento,
+                renda,
+                telefone,
+                endereco,
+                nomePai,
+                nomeMae,
+                email
         );
 
-        campo.setBackground(BRANCO);
+/////////////////////////////////////////////////////////////////////
+// CRIA A CONTA
+/////////////////////////////////////////////////////////////////////
 
-        campo.setForeground(AZUL_ESCURO);
+        Conta conta = null;
 
-        return campo;
-    }
+/////////////////////////////////////////////////////////////////////
+// CONTA POUPANÇA
+/////////////////////////////////////////////////////////////////////
 
+        if ("Conta Poupança".equals(contaSelecionada)) {
 
-    // ============================================================
-    // CONFIGURA BOTÃO
-    // ============================================================
+            conta = new ContaPoupanca(cliente);
+        }
 
-    private void configurarBotao(
-            BotaoArredondado botao
-    ) {
+/////////////////////////////////////////////////////////////////////
+// CONTA CORRENTE
+/////////////////////////////////////////////////////////////////////
 
-        botao.setBackground(VERDE);
+        else if ("Conta Corrente".equals(contaSelecionada)) {
 
-        botao.setForeground(AZUL_ESCURO);
+            conta = new ContaCorrente(cliente);
+        }
 
-        botao.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
+/////////////////////////////////////////////////////////////////////
+// CONTA CONJUNTA
+/////////////////////////////////////////////////////////////////////
 
-        botao.setFocusPainted(false);
-    }
+        else if ("Conta Conjunta".equals(contaSelecionada)) {
 
+            conta = new ContaConjunta(cliente, cotitular);
+        }
 
-    // ============================================================
-    // MENSAGEM DE ERRO
-    // ============================================================
+/////////////////////////////////////////////////////////////////////
+// CONTA PJ
+/////////////////////////////////////////////////////////////////////
 
-    private void mostrarErro(
-            String mensagem
-    ) {
+        else if ("Conta PJ".equals(contaSelecionada)) {
+
+            conta = new ContaPJ(
+                    cnpj,
+                    nomeEmpresa,
+                    faturamento,
+                    cliente
+            );
+        }
+
+/////////////////////////////////////////////////////////////////////
+// GARANTE QUE A CONTA FOI CRIADA
+/////////////////////////////////////////////////////////////////////
+
+        if (conta == null) {
+            mensagemErro.setText("Não foi possível criar a conta.");
+            return;
+        }
+
+/////////////////////////////////////////////////////////////////////
+// SALVA CLIENTE
+/////////////////////////////////////////////////////////////////////
+
+        SistemaBanco.adicionarCliente(cliente);
+
+/////////////////////////////////////////////////////////////////////
+// SALVA CONTA
+/////////////////////////////////////////////////////////////////////
+
+        SistemaBanco.adicionarConta(conta);
+
+/////////////////////////////////////////////////////////////////////
+// MOSTRA SUCESSO
+/////////////////////////////////////////////////////////////////////
 
         JOptionPane.showMessageDialog(
                 this,
-                mensagem,
-                "Erro no cadastro",
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
-
-
-    // ============================================================
-    // MENSAGEM DE SUCESSO
-    // ============================================================
-
-    private void mostrarSucesso() {
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Conta criada com sucesso!",
+                "Cliente e conta cadastrados com sucesso!\nTipo: " + conta.getTipoConta(),
                 "Banco ES",
                 JOptionPane.INFORMATION_MESSAGE
         );
+
+/////////////////////////////////////////////////////////////////////
+// LIMPA OS CAMPOS
+/////////////////////////////////////////////////////////////////////
+
+        limparCamposCadastro();
     }
 
+/////////////////////////////////////////////////////////////////////
+// LIMPA OS CAMPOS DEPOIS DO CADASTRO
+/////////////////////////////////////////////////////////////////////
 
-    // ============================================================
-    // EFEITO DO MOUSE
-    // ============================================================
+    private void limparCamposCadastro() {
 
-    private void adicionarEfeitoMouseVerde(
-            BotaoArredondado botao
-    ) {
+        campoNome.setText("");
+        campoCpf.setText("");
+        campoDataNascimento.setText("");
+        campoRenda.setText("");
+        campoTelefone.setText("");
+        campoEndereco.setText("");
+        campoNomePai.setText("");
+        campoNomeMae.setText("");
+        campoEmail.setText("");
 
-        botao.addMouseListener(
-                new java.awt.event.MouseAdapter() {
+        campoCpfCotitular.setText("");
 
-                    @Override
-                    public void mouseEntered(
-                            java.awt.event.MouseEvent evt
-                    ) {
+        campoCnpj.setText("");
+        campoNomeEmpresa.setText("");
+        campoFaturamento.setText("");
 
-                        botao.setBackground(
-                                VERDE_ESCURO
-                        );
+        mensagemErro.setText(" ");
 
-                        botao.setForeground(
-                                BRANCO
-                        );
-                    }
+        tipoConta.setSelectedIndex(0);
+    }
 
+/////////////////////////////////////////////////////////////////////
+// EFEITO AO PASSAR O MOUSE
+/////////////////////////////////////////////////////////////////////
 
-                    @Override
-                    public void mouseExited(
-                            java.awt.event.MouseEvent evt
-                    ) {
+    private void adicionarEfeitoMouse(BotaoArredondado botao, Color corNormal, Color corEscura) {
 
-                        botao.setBackground(
-                                VERDE
-                        );
+        botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
-                        botao.setForeground(
-                                AZUL_ESCURO
-                        );
-                    }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botao.setBackground(corEscura);
+
+                if (corNormal.equals(VERDE)) {
+                    botao.setForeground(BRANCO);
                 }
-        );
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                botao.setBackground(corNormal);
+
+                if (corNormal.equals(VERDE)) {
+                    botao.setForeground(AZUL_ESCURO);
+                }
+            }
+        });
     }
 }
-
