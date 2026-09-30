@@ -289,6 +289,11 @@ public class TelaPrincipal extends JFrame {
             System.exit(0);
 
         });
+
+        //Abre uma nova janela de cadastro do cliente
+        btnCliente.addActionListener(e -> {
+            new TelaCadastroCliente();
+        });
     }
 
 /////////////////////////////////////////////////////////////////////
