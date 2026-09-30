@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class TelaGerente extends JFrame {
 
@@ -18,12 +17,6 @@ public class TelaGerente extends JFrame {
     private final Color VERMELHO_ESCURO = new Color(190, 55, 55);
 
     private final Color BRANCO = Color.WHITE;
-
-    // =========================================================
-    // LISTA DE FUNCIONÁRIOS
-    // =========================================================
-
-    private ArrayList<Funcionario> funcionarios = new ArrayList<>();
 
     // =========================================================
     // CONSTRUTOR
@@ -129,9 +122,6 @@ public class TelaGerente extends JFrame {
         BotaoArredondado btnExcluir =
                 new BotaoArredondado("Excluir funcionário");
 
-        BotaoArredondado btnRelatorio =
-                new BotaoArredondado("Emitir relatório");
-
         BotaoArredondado btnVoltar =
                 new BotaoArredondado("Voltar");
 
@@ -145,7 +135,6 @@ public class TelaGerente extends JFrame {
         btnConsultar.setPreferredSize(tamanho);
         btnAlterar.setPreferredSize(tamanho);
         btnExcluir.setPreferredSize(tamanho);
-        btnRelatorio.setPreferredSize(tamanho);
         btnVoltar.setPreferredSize(tamanho);
 
         // -----------------------------------------------------
@@ -160,9 +149,6 @@ public class TelaGerente extends JFrame {
 
         btnAlterar.setBackground(VERDE);
         btnAlterar.setForeground(AZUL_ESCURO);
-
-        btnRelatorio.setBackground(VERDE);
-        btnRelatorio.setForeground(AZUL_ESCURO);
 
         btnExcluir.setBackground(VERMELHO);
         btnExcluir.setForeground(BRANCO);
@@ -180,7 +166,6 @@ public class TelaGerente extends JFrame {
         btnConsultar.setFont(fonteBotao);
         btnAlterar.setFont(fonteBotao);
         btnExcluir.setFont(fonteBotao);
-        btnRelatorio.setFont(fonteBotao);
         btnVoltar.setFont(fonteBotao);
 
         // -----------------------------------------------------
@@ -216,10 +201,6 @@ public class TelaGerente extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
 
-        painel.add(btnRelatorio, gbc);
-
-        gbc.gridx = 1;
-
         painel.add(btnVoltar, gbc);
 
         add(painel, BorderLayout.CENTER);
@@ -231,7 +212,6 @@ public class TelaGerente extends JFrame {
         adicionarEfeitoMouse(btnCadastrar, VERDE, VERDE_ESCURO);
         adicionarEfeitoMouse(btnConsultar, VERDE, VERDE_ESCURO);
         adicionarEfeitoMouse(btnAlterar, VERDE, VERDE_ESCURO);
-        adicionarEfeitoMouse(btnRelatorio, VERDE, VERDE_ESCURO);
 
         adicionarEfeitoMouse(btnExcluir, VERMELHO, VERMELHO_ESCURO);
 
@@ -246,8 +226,6 @@ public class TelaGerente extends JFrame {
         btnAlterar.addActionListener(e -> abrirAlteracao());
 
         btnExcluir.addActionListener(e -> abrirExclusao());
-
-        // Por enquanto o botão de relatório não possui ação.
 
         btnVoltar.addActionListener(e -> dispose());
     }
@@ -344,18 +322,15 @@ public class TelaGerente extends JFrame {
             return;
         }
 
+        int codigo = Integer.parseInt(codigoTexto);
+
         // -----------------------------------------------------
         // VERIFICA SE O CÓDIGO JÁ EXISTE
         // -----------------------------------------------------
 
-        for (Funcionario funcionario : funcionarios) {
-
-            if (funcionario.getCodigo().equals(codigoTexto)) {
-
-                mostrarErro("Já existe um funcionário com esse código.");
-
-                return;
-            }
+        if (SistemaBanco.buscarFuncionarioPorCodigo(codigo) != null) {
+            mostrarErro("Já existe um funcionário com esse código.");
+            return;
         }
 
         // -----------------------------------------------------
@@ -365,11 +340,11 @@ public class TelaGerente extends JFrame {
         Funcionario funcionario = new Funcionario(
                 usuario,
                 senha,
-                codigoTexto,
+                codigo,
                 cargo
         );
 
-        funcionarios.add(funcionario);
+        SistemaBanco.adicionarFuncionario(funcionario);
 
         JOptionPane.showMessageDialog(
                 this,
@@ -385,37 +360,36 @@ public class TelaGerente extends JFrame {
 
     private void abrirConsulta() {
 
-        String codigo = JOptionPane.showInputDialog(
+        String codigoTexto = JOptionPane.showInputDialog(
                 this,
                 "Digite o código do funcionário:",
                 "Consultar funcionário",
                 JOptionPane.QUESTION_MESSAGE
         );
 
-        if (codigo == null) {
+        if (codigoTexto == null) {
             return;
         }
 
-        codigo = codigo.trim();
+        codigoTexto = codigoTexto.trim();
 
-        if (codigo.isEmpty()) {
+        if (codigoTexto.isEmpty()) {
             mostrarErro("Digite o código.");
-
             return;
         }
 
-        if (!codigo.matches("\\d+")) {
+        if (!codigoTexto.matches("\\d+")) {
             mostrarErro("O código deve conter apenas números.");
-
             return;
         }
 
-        Funcionario funcionario = buscarFuncionario(codigo);
+        int codigo = Integer.parseInt(codigoTexto);
+
+        Funcionario funcionario =
+                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
 
         if (funcionario == null) {
-
             mostrarErro("Funcionário não encontrado.");
-
             return;
         }
 
@@ -435,32 +409,31 @@ public class TelaGerente extends JFrame {
 
     private void abrirAlteracao() {
 
-        String codigo = JOptionPane.showInputDialog(
+        String codigoTexto = JOptionPane.showInputDialog(
                 this,
                 "Digite o código do funcionário:",
                 "Alterar funcionário",
                 JOptionPane.QUESTION_MESSAGE
         );
 
-        if (codigo == null) {
+        if (codigoTexto == null) {
             return;
         }
 
-        codigo = codigo.trim();
+        codigoTexto = codigoTexto.trim();
 
-        if (!codigo.matches("\\d+")) {
-
+        if (!codigoTexto.matches("\\d+")) {
             mostrarErro("O código deve conter apenas números.");
-
             return;
         }
 
-        Funcionario funcionario = buscarFuncionario(codigo);
+        int codigo = Integer.parseInt(codigoTexto);
+
+        Funcionario funcionario =
+                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
 
         if (funcionario == null) {
-
             mostrarErro("Funcionário não encontrado.");
-
             return;
         }
 
@@ -511,30 +484,22 @@ public class TelaGerente extends JFrame {
         // -----------------------------------------------------
 
         if (novoUsuario.isEmpty()) {
-
             mostrarErro("Digite o usuário.");
-
             return;
         }
 
         if (novaSenha.isEmpty()) {
-
             mostrarErro("Digite a nova senha.");
-
             return;
         }
 
         if (novaSenha.length() < 8) {
-
             mostrarErro("A senha deve ter no mínimo 8 caracteres.");
-
             return;
         }
 
         if (novoCargo.isEmpty()) {
-
             mostrarErro("Digite o cargo.");
-
             return;
         }
 
@@ -543,9 +508,7 @@ public class TelaGerente extends JFrame {
         // -----------------------------------------------------
 
         funcionario.setUsuario(novoUsuario);
-
         funcionario.setSenha(novaSenha);
-
         funcionario.setCargo(novoCargo);
 
         JOptionPane.showMessageDialog(
@@ -562,32 +525,31 @@ public class TelaGerente extends JFrame {
 
     private void abrirExclusao() {
 
-        String codigo = JOptionPane.showInputDialog(
+        String codigoTexto = JOptionPane.showInputDialog(
                 this,
                 "Digite o código do funcionário:",
                 "Excluir funcionário",
                 JOptionPane.QUESTION_MESSAGE
         );
 
-        if (codigo == null) {
+        if (codigoTexto == null) {
             return;
         }
 
-        codigo = codigo.trim();
+        codigoTexto = codigoTexto.trim();
 
-        if (!codigo.matches("\\d+")) {
-
+        if (!codigoTexto.matches("\\d+")) {
             mostrarErro("O código deve conter apenas números.");
-
             return;
         }
 
-        Funcionario funcionario = buscarFuncionario(codigo);
+        int codigo = Integer.parseInt(codigoTexto);
+
+        Funcionario funcionario =
+                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
 
         if (funcionario == null) {
-
             mostrarErro("Funcionário não encontrado.");
-
             return;
         }
 
@@ -611,7 +573,7 @@ public class TelaGerente extends JFrame {
 
         if (confirmacao == JOptionPane.YES_OPTION) {
 
-            funcionarios.remove(funcionario);
+            SistemaBanco.excluirFuncionario(funcionario);
 
             JOptionPane.showMessageDialog(
                     this,
@@ -620,23 +582,6 @@ public class TelaGerente extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE
             );
         }
-    }
-
-    // =========================================================
-    // BUSCAR FUNCIONÁRIO PELO CÓDIGO
-    // =========================================================
-
-    private Funcionario buscarFuncionario(String codigo) {
-
-        for (Funcionario funcionario : funcionarios) {
-
-            if (funcionario.getCodigo().equals(codigo)) {
-
-                return funcionario;
-            }
-        }
-
-        return null;
     }
 
     // =========================================================
@@ -687,7 +632,6 @@ public class TelaGerente extends JFrame {
                     public void mouseEntered(
                             java.awt.event.MouseEvent evt
                     ) {
-
                         botao.setBackground(corEscura);
                     }
 
@@ -695,65 +639,10 @@ public class TelaGerente extends JFrame {
                     public void mouseExited(
                             java.awt.event.MouseEvent evt
                     ) {
-
                         botao.setBackground(corNormal);
                     }
                 }
         );
     }
 
-    // =========================================================
-    // CLASSE FUNCIONÁRIO
-    // =========================================================
-
-    private static class Funcionario {
-
-        private String usuario;
-        private String senha;
-        private String codigo;
-        private String cargo;
-
-        public Funcionario(
-                String usuario,
-                String senha,
-                String codigo,
-                String cargo
-        ) {
-
-            this.usuario = usuario;
-            this.senha = senha;
-            this.codigo = codigo;
-            this.cargo = cargo;
-        }
-
-        public String getUsuario() {
-            return usuario;
-        }
-
-        public String getSenha() {
-            return senha;
-        }
-
-        public String getCodigo() {
-            return codigo;
-        }
-
-        public String getCargo() {
-            return cargo;
-        }
-
-        public void setUsuario(String usuario) {
-            this.usuario = usuario;
-        }
-
-        public void setSenha(String senha) {
-            this.senha = senha;
-        }
-
-        public void setCargo(String cargo) {
-            this.cargo = cargo;
-        }
-    }
 }
-
-
