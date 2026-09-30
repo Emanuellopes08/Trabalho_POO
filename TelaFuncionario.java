@@ -155,13 +155,8 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnAlterar.addActionListener(e -> {
-
-            /*
-             * Depois vamos criar:
-             *
-             * TelaAlterarCliente
-             */
-
+            TelaAlterarCliente telaAlterar = new TelaAlterarCliente();
+            telaAlterar.setVisible(true);
         });
 
 /////////////////////////////////////////////////////////////////////

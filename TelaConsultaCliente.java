@@ -96,7 +96,9 @@ public class TelaConsultaCliente extends JFrame {
         labelTipoConta.setForeground(BRANCO);
 
         tipoConta = new JComboBox<>(new String[]{
+                "Conta Poupança",
                 "Conta Corrente",
+                "Conta Conjunta",
                 "Conta PJ"
         });
 
@@ -270,27 +272,10 @@ public class TelaConsultaCliente extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-// CONSULTA CONTA CORRENTE PELO CPF
-/////////////////////////////////////////////////////////////////////
-
-        if ("Conta Corrente".equals(contaSelecionada)) {
-
-            Cliente cliente = SistemaBanco.buscarClientePorCpf(documento);
-
-            if (cliente == null) {
-                erroDocumento.setText("Cliente não encontrado.");
-                return;
-            }
-
-            resultadoNome.setText("Nome: " + cliente.getNome());
-            resultadoDocumento.setText("CPF: " + cliente.getCpf());
-        }
-
-/////////////////////////////////////////////////////////////////////
 // CONSULTA CONTA PJ PELO CNPJ
 /////////////////////////////////////////////////////////////////////
 
-        else if ("Conta PJ".equals(contaSelecionada)) {
+        if ("Conta PJ".equals(contaSelecionada)) {
 
             ContaPJ contaPJ = SistemaBanco.buscarContaPjPorCnpj(documento);
 
@@ -301,6 +286,23 @@ public class TelaConsultaCliente extends JFrame {
 
             resultadoNome.setText("Titular: " + contaPJ.getTitular().getNome());
             resultadoDocumento.setText("CNPJ: " + documento);
+        }
+
+/////////////////////////////////////////////////////////////////////
+// CONSULTA OUTRAS CONTAS PELO CPF
+/////////////////////////////////////////////////////////////////////
+
+        else {
+
+            Cliente cliente = SistemaBanco.buscarClientePorCpf(documento);
+
+            if (cliente == null) {
+                erroDocumento.setText("Cliente não encontrado.");
+                return;
+            }
+
+            resultadoNome.setText("Nome: " + cliente.getNome());
+            resultadoDocumento.setText("CPF: " + cliente.getCpf());
         }
     }
 
