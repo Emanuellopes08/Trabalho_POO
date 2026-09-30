@@ -511,6 +511,7 @@ public class Main {
                             System.out.println("|2. Consultar funcionário   |");
                             System.out.println("|3. Alterar funcionário     |");
                             System.out.println("|4. Excluir funcionário     |");
+                            System.out.println("|5. Emitir relatório        |");
                             System.out.println("|0. Voltar                  |");
                             System.out.println("|___________________________|");
 
@@ -679,6 +680,9 @@ public class Main {
                                             System.out.println("Exclusão cancelada.");
                                         }
 
+                                        break;
+                                    case 5:
+                                        gerente.emitirRelatorio();
                                         break;
 
                                     case 0:
