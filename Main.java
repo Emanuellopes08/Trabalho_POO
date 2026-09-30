@@ -9,6 +9,9 @@ public class Main {
     static Scanner entrada = new Scanner(System.in);
     static List<Cliente> clientes = new ArrayList<>();
     static List<Conta> contas = new ArrayList<>();
+    static List<Funcionario> funcionarios = new ArrayList<>();
+
+    static Gerente gerente = new Gerente ("Dorivaldo Silva", "Dori123456$",1);
 
     public static void main(String[] args) {
 
@@ -153,23 +156,27 @@ public class Main {
                         break;
 
                     case 4:
-                        //Operação
-                        System.out.println(" _______________________");
-                        System.out.println("|        MENU:          |");
-                        System.out.println("|_______________________|");
-                        System.out.println("|                       |");
-                        System.out.println("|1. Conta Poupança      |");
-                        System.out.println("|2. Conta Corrente      |");
-                        System.out.println("|3. Conta Conjunta      |");
-                        System.out.println("|4. Conta Pessoa Jurica |");
-                        System.out.println("|_______________________|");
-                        System.out.print("Escolha o tipo de Conta: ");
-                        int tipoConta = entrada.nextInt();
+                        System.out.println(" _________________________");
+                        System.out.println("|     ÁREA DO CLIENTE     |");
+                        System.out.println("|_________________________|");
+
+                        System.out.print("Informe seu CPF: ");
+                        String cpfCliente = entrada.nextLine();
+
+                        Cliente clienteLogado = verificaExistenciaCliente(cpfCliente);
+
+                        if (clienteLogado == null) {
+                            System.out.println("Cliente não encontrado.");
+                            break;
+                        }
+
+                        System.out.println();
+                        System.out.println("Bem-vindo(a), " + clienteLogado.getNome());
 
                         break;
 
                     case 5:
-                        Gerente adm = new Gerente(nome, senha, codigo);
+                        Gerente adm = new Gerente(usuario, senha, codigo);
                         //chamar o metodo
                         break;
 
