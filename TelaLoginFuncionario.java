@@ -29,7 +29,7 @@ public class TelaLoginFuncionario extends JFrame {
     }
 
 /////////////////////////////////////////////////////////////////////
-//                  CONFIGURA A JANELA
+// CONFIGURA A JANELA
 /////////////////////////////////////////////////////////////////////
 
     private void configurarJanela() {
@@ -42,7 +42,7 @@ public class TelaLoginFuncionario extends JFrame {
     }
 
 /////////////////////////////////////////////////////////////////////
-//                      CRIA O TÍTULO
+// CRIA O TÍTULO
 /////////////////////////////////////////////////////////////////////
 
     private void criarTitulo() {
@@ -73,7 +73,7 @@ public class TelaLoginFuncionario extends JFrame {
     }
 
 /////////////////////////////////////////////////////////////////////
-//                  CRIA O FORMULÁRIO
+// CRIA O FORMULÁRIO
 /////////////////////////////////////////////////////////////////////
 
     private void criarFormulario() {
@@ -90,7 +90,7 @@ public class TelaLoginFuncionario extends JFrame {
         Font fonteLabel = new Font("Arial", Font.BOLD, 16);
 
 /////////////////////////////////////////////////////////////////////
-//                      USUÁRIO
+// USUÁRIO
 /////////////////////////////////////////////////////////////////////
 
         JLabel lblUsuario = new JLabel("Usuário:");
@@ -114,7 +114,7 @@ public class TelaLoginFuncionario extends JFrame {
         painel.add(erroUsuario, gbc);
 
 /////////////////////////////////////////////////////////////////////
-//                      SENHA
+// SENHA
 /////////////////////////////////////////////////////////////////////
 
         JLabel lblSenha = new JLabel("Senha:");
@@ -138,7 +138,7 @@ public class TelaLoginFuncionario extends JFrame {
         painel.add(erroSenha, gbc);
 
 /////////////////////////////////////////////////////////////////////
-//                      CÓDIGO
+// CÓDIGO
 /////////////////////////////////////////////////////////////////////
 
         JLabel lblCodigo = new JLabel("Código:");
@@ -162,7 +162,7 @@ public class TelaLoginFuncionario extends JFrame {
         painel.add(erroCodigo, gbc);
 
 /////////////////////////////////////////////////////////////////////
-//                      BOTÕES
+// BOTÕES
 /////////////////////////////////////////////////////////////////////
 
         BotaoArredondado btnEntrar = new BotaoArredondado("Entrar");
@@ -185,8 +185,8 @@ public class TelaLoginFuncionario extends JFrame {
         btnVoltar.setFont(fonteBotao);
 
         JPanel painelBotoes = new JPanel();
-        painelBotoes.setBackground(AZUL_ESCURO);
 
+        painelBotoes.setBackground(AZUL_ESCURO);
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnEntrar);
 
@@ -196,24 +196,26 @@ public class TelaLoginFuncionario extends JFrame {
         gbc.insets = new Insets(20, 10, 10, 10);
 
         painel.add(painelBotoes, gbc);
+
         add(painel, BorderLayout.CENTER);
 
 /////////////////////////////////////////////////////////////////////
-//                      EFEITO DO BOTÃO ENTRAR
+// EFEITO DOS BOTÕES
 /////////////////////////////////////////////////////////////////////
 
         adicionarEfeitoMouse(btnEntrar, VERDE, VERDE_ESCURO);
 
 /////////////////////////////////////////////////////////////////////
-//                      AÇÃO DOS BOTÕES
+// AÇÃO DOS BOTÕES
 /////////////////////////////////////////////////////////////////////
 
         btnVoltar.addActionListener(e -> dispose());
+
         btnEntrar.addActionListener(e -> tentarLogin());
     }
 
 /////////////////////////////////////////////////////////////////////
-//                  VALIDA OS DADOS DO LOGIN
+// VALIDA OS DADOS DO LOGIN
 /////////////////////////////////////////////////////////////////////
 
     private void tentarLogin() {
@@ -221,7 +223,7 @@ public class TelaLoginFuncionario extends JFrame {
         String senha = new String(campoSenha.getPassword()).trim();
         String codigoTexto = campoCodigo.getText().trim();
 
-        // Limpa mensagens antigas
+        // Limpa os erros antigos
         erroUsuario.setText(" ");
         erroSenha.setText(" ");
         erroCodigo.setText(" ");
@@ -229,7 +231,7 @@ public class TelaLoginFuncionario extends JFrame {
         boolean temErro = false;
 
 /////////////////////////////////////////////////////////////////////
-//                      VALIDA USUÁRIO
+// VALIDA USUÁRIO
 /////////////////////////////////////////////////////////////////////
 
         if (usuario.isEmpty()) {
@@ -238,7 +240,7 @@ public class TelaLoginFuncionario extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-//                      VALIDA SENHA
+// VALIDA SENHA
 /////////////////////////////////////////////////////////////////////
 
         if (senha.isEmpty()) {
@@ -247,7 +249,7 @@ public class TelaLoginFuncionario extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-//                      VALIDA CÓDIGO
+// VALIDA CÓDIGO
 /////////////////////////////////////////////////////////////////////
 
         if (codigoTexto.isEmpty()) {
@@ -270,22 +272,25 @@ public class TelaLoginFuncionario extends JFrame {
         }
 
 /////////////////////////////////////////////////////////////////////
-//                  BLOQUEIA O LOGIN SE HOUVER ERRO
+// BLOQUEIA O LOGIN SE HOUVER ERRO
 /////////////////////////////////////////////////////////////////////
 
         if (temErro) {
             return;
         }
 
-        /*
-         * Aqui depois vamos verificar se
-         * usuário, senha e código pertencem
-         * a um funcionário cadastrado.
-         */
+/////////////////////////////////////////////////////////////////////
+// ABRE A TELA PRINCIPAL DO FUNCIONÁRIO
+/////////////////////////////////////////////////////////////////////
+
+        TelaFuncionario telaFuncionario = new TelaFuncionario();
+        telaFuncionario.setVisible(true);
+
+        dispose();
     }
 
 /////////////////////////////////////////////////////////////////////
-//                  EFEITO AO PASSAR O MOUSE
+// EFEITO AO PASSAR O MOUSE
 /////////////////////////////////////////////////////////////////////
 
     private void adicionarEfeitoMouse(BotaoArredondado botao, Color corNormal, Color corEscura) {
