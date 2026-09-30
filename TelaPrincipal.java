@@ -10,9 +10,5 @@ public class TelaPrincipal extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-    public static void main(String[] args) {
-        TelaPrincipal tela = new TelaPrincipal();
-        tela.setVisible(true);
-
-    }
+    
 }
