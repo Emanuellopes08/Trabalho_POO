@@ -5,9 +5,10 @@ import java.awt.*;
 public class TelaPrincipal extends JFrame {
 
     public TelaPrincipal() {
-        setSize(900, 1500);
+        setSize(700, 1500);
         setTitle("Banco ES");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
     public static void main(String[] args) {
         TelaPrincipal tela = new TelaPrincipal();

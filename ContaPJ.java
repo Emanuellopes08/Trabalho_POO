@@ -1,47 +1,33 @@
 public class ContaPJ extends Conta {
 
-    CadastroCliente cliente;
-
-    private String CNPJ;
+    private String cnpj;
     private String nomeEmpresa;
-    private double faturamentoEmpresa;
+    private double faturaEmpresa;
 
+    public ContaPJ(String cnpj, String nomeEmpresa,
+                   double faturaEmpresa, Cliente cliente) {
 
-    public ContaPJ(String CNPJ, String nomeEmpresa, double faturaEmpresa, CadastroCliente cliente,){
+        super(TipoConta.PJ, cliente);
 
-        this.CNPJ = CNPJ;
+        this.cnpj = cnpj;
         this.nomeEmpresa = nomeEmpresa;
-        this.faturamentoEmpresa = faturaEmpresa;
-        this.cliente = cliente;
+        this.faturaEmpresa = faturaEmpresa;
 
     }
 
-    @Override
-    public void efetuarSaque(double saque) {
-        double taxa = saque * 0.02;
-        double valorTotal = saque + taxa;
-
-        super.efetuarSaque(valorTotal);
-    }
-
-    // Gets e Sets
-    public String getNomeEmpresa(){
+    public String getNomeEmpresa() {
         return nomeEmpresa;
     }
 
-    public void setNomeEmpresa(String nomeEmpresa){
+    public void setNomeEmpresa(String nomeEmpresa) {
         this.nomeEmpresa = nomeEmpresa;
     }
 
-    public double getFaturamento(){
-        return faturamentoEmpresa;
+    public double getFatura() {
+        return faturaEmpresa;
     }
 
-    private void setCNPJ(String CNPJ){
-        this.CNPJ = CNPJ;
-    }
-
-    public String getCNPJ(){
-        return CNPJ;
+    public String getCnpj() {
+        return cnpj;
     }
 }
