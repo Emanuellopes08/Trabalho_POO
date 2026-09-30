@@ -427,6 +427,11 @@ public class TelaPrincipal extends JFrame {
         btnCliente.addActionListener(e -> {
             new TelaCadastroCliente();
         });
+
+        //Abre uma nova janela de login do gerente
+        btnGerente.addActionListener(e -> {
+            new TelaLoginGerente().setVisible(true);;
+        });
     }
 
 /////////////////////////////////////////////////////////////////////
