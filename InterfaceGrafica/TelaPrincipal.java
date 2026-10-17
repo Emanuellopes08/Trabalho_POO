@@ -76,9 +76,9 @@ public class TelaPrincipal extends JFrame {
         menu.setBackground(AZUL_ESCURO);
 
 
-        BotaoArredondado btnGerente = new BotaoArredondado("Pessoas.Gerente");
+        BotaoArredondado btnGerente = new BotaoArredondado("Gerente");
         BotaoArredondado btnFuncionario = new BotaoArredondado("Funcionário");
-        BotaoArredondado btnCliente = new BotaoArredondado("Pessoas.Cliente");
+        BotaoArredondado btnCliente = new BotaoArredondado("Cliente");
         BotaoArredondado btnSair = new BotaoArredondado("Sair");
 
 /////////////////////////////////////////////////////////////////////

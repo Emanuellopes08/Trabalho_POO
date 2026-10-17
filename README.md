@@ -3,9 +3,9 @@
 ## Partes de cada um no trabalho de POO
 
 - **Emanuel** - Administrador, Parte Gráfica 1 e integração das telas com o `SistemaBanco`
-- **Iasmin** - Pessoas.Cliente, Slide
-- **Liane** - Main
-- **Adryan** - Contas.ContaPJ, Parte Gráfica 2
+- **Iasmin** - Cliente, Slide
+- **Liane** - Conta, Correções
+- **Adryan** - ContaPJ, Parte Gráfica 2
 - **Vinícius** - ContaPoupança
 - **Murilo** - Funcionário
 
@@ -31,16 +31,16 @@ O projeto foi estruturado utilizando conceitos de **Programação Orientada a Ob
 
 O sistema possui diferentes tipos de usuários:
 
-- **Pessoas.Cliente**
+- **Cliente**
 - **Funcionário**
-- **Pessoas.Gerente**
+- **Gerente**
 
 Também possui diferentes modalidades de contas:
 
-- **Contas.Conta Corrente**
-- **Contas.Conta Poupança**
-- **Contas.Conta Conjunta**
-- **Contas.Conta PJ**
+- **Conta Corrente**
+- **Conta Poupança**
+- **Conta Conjunta**
+- **Conta PJ**
 
 Além da versão original executada pelo console, o projeto possui uma versão gráfica desenvolvida com **Java Swing**. A interface gráfica possui telas de login, cadastro, consulta, alteração, exclusão e operações bancárias.
 
@@ -54,7 +54,7 @@ A classe `SistemaBanco` é utilizada para compartilhar os clientes, contas e fun
 2. Certificar-se de que o JDK está instalado e configurado.
 3. Compilar todas as classes do projeto.
 4. Executar a classe `InterfaceGrafica.MainGrafica`.
-5. A classe `MainGrafica` abrirá a `TelaPrincipal`, permitindo o acesso às áreas de Pessoas.Gerente, Funcionário e Pessoas.Cliente.
+5. A classe `MainGrafica` abrirá a `TelaPrincipal`, permitindo o acesso às áreas de Gerente, Funcionário e Cliente.
 
 Fluxo inicial da versão gráfica:
 
@@ -63,7 +63,7 @@ InterfaceGrafica.MainGrafica
      ↓
 InterfaceGrafica.TelaPrincipal
      ↓
-Pessoas.Gerente / Funcionário / Pessoas.Cliente
+Pessoas.Gerente / Pessoas.Funcionário / Pessoas.Cliente
 ```
 
 A classe `Main.java` contém a versão original do sistema em modo console e serviu como referência para várias regras de negócio posteriormente utilizadas na interface gráfica.
@@ -72,29 +72,29 @@ A classe `Main.java` contém a versão original do sistema em modo console e ser
 
 ## 4. Classes Principais
 
-- **Pessoas.Gerente:** representa o gerente da instituição bancária. Na lógica atual do sistema, o gerente é responsável principalmente pelo gerenciamento dos funcionários, podendo cadastrar, consultar, alterar e excluir funcionários.
+- **Gerente:** representa o gerente da instituição bancária. Na lógica atual do sistema, o gerente é responsável principalmente pelo gerenciamento dos funcionários, podendo cadastrar, consultar, alterar e excluir funcionários.
 
 - **Funcionário:** representa os funcionários que atuam no banco. Na interface gráfica, o funcionário realiza login e pode cadastrar, consultar, alterar e excluir clientes.
 
-- **Pessoas.Cliente:** representa os clientes da instituição bancária. O cliente possui dados como nome, CPF, data de nascimento, renda, telefone, endereço, nome do pai, nome da mãe e email. Um cliente pode possuir uma ou mais contas e realizar operações como depósito e saque.
+- **Cliente:** representa os clientes da instituição bancária. O cliente possui dados como nome, CPF, data de nascimento, renda, telefone, endereço, nome do pai, nome da mãe e email. Um cliente pode possuir uma ou mais contas e realizar operações como depósito e saque.
 
-- **Contas.Conta:** representa a estrutura geral de uma conta bancária, contendo características e comportamentos comuns às diferentes modalidades de conta, como saldo, titular, consulta de saldo, depósito e saque.
+- **Conta:** representa a estrutura geral de uma conta bancária, contendo características e comportamentos comuns às diferentes modalidades de conta, como saldo, titular, consulta de saldo, depósito e saque.
 
-- **Contas.Conta Corrente:** representa uma modalidade de conta destinada às operações bancárias cotidianas dos clientes. Possui uma mensalidade associada.
+- **Conta Corrente:** representa uma modalidade de conta destinada às operações bancárias cotidianas dos clientes. Possui uma mensalidade associada.
 
-- **Contas.Conta Poupança:** representa uma conta destinada à manutenção de valores e ao rendimento das economias do cliente. Possui rendimento de 0,5% sobre o saldo, de acordo com a regra definida no projeto.
+- **Conta Poupança:** representa uma conta destinada à manutenção de valores e ao rendimento das economias do cliente. Possui rendimento de 0,5% sobre o saldo, de acordo com a regra definida no projeto.
 
-- **Contas.Conta PJ:** representa uma conta destinada a pessoas jurídicas. Está associada a um cliente titular e possui informações específicas da empresa, como CNPJ, nome da empresa e faturamento.
+- **Conta PJ:** representa uma conta destinada a pessoas jurídicas. Está associada a um cliente titular e possui informações específicas da empresa, como CNPJ, nome da empresa e faturamento.
 
-- **Contas.Conta Conjunta:** representa uma conta compartilhada entre um titular e um cotitular. Ambos podem acessar a mesma conta e utilizar o mesmo saldo.
+- **Conta Conjunta:** representa uma conta compartilhada entre um titular e um cotitular. Ambos podem acessar a mesma conta e utilizar o mesmo saldo.
 
-- **InterfaceGrafica.SistemaBanco:** centraliza e compartilha os dados utilizados pelas telas. Mantém listas de clientes, contas e funcionários em memória e disponibiliza métodos para cadastrar, buscar e excluir objetos.
+- **SistemaBanco:** centraliza e compartilha os dados utilizados pelas telas. Mantém listas de clientes, contas e funcionários em memória e disponibiliza métodos para cadastrar, buscar e excluir objetos.
 
-- **InterfaceGrafica.BotaoArredondado:** classe gráfica que herda de `JButton` e personaliza o desenho dos botões por meio da sobrescrita do método `paintComponent()`.
+- **BotaoArredondado:** classe gráfica que herda de `JButton` e personaliza o desenho dos botões por meio da sobrescrita do método `paintComponent()`.
 
 - **Main:** contém a versão original do sistema em modo console e as regras que serviram de base para o desenvolvimento das funcionalidades.
 
-- **InterfaceGrafica.MainGrafica:** é responsável por iniciar a versão gráfica do sistema, abrindo a `TelaPrincipal`.
+- **MainGrafica:** é responsável por iniciar a versão gráfica do sistema, abrindo a `TelaPrincipal`.
 
 ---
 
@@ -129,9 +129,9 @@ BoxLayout
 
 Permite escolher entre:
 
-- Pessoas.Gerente
+- Gerente
 - Funcionário
-- Pessoas.Cliente
+- Cliente
 - Sair
 
 ### InterfaceGrafica.TelaLoginFuncionario
@@ -176,9 +176,9 @@ Tipos de conta disponíveis:
 - Conjunta
 - PJ
 
-Para uma Contas.Conta Conjunta também é solicitado o CPF do cotitular.
+Para uma Conta Conjunta também é solicitado o CPF do cotitular.
 
-Para uma Contas.Conta PJ também são solicitados:
+Para uma Conta PJ também são solicitados:
 
 - CNPJ
 - Nome da empresa
@@ -186,19 +186,19 @@ Para uma Contas.Conta PJ também são solicitados:
 
 Após as validações, a tela cria os objetos e os adiciona ao `SistemaBanco`.
 
-### InterfaceGrafica.TelaConsultaCliente
+### TelaConsultaCliente
 
 Permite procurar um cliente através do CPF.
 
 A busca utiliza:
 
 ```java
-InterfaceGrafica.SistemaBanco.buscarClientePorCpf(cpf);
+SistemaBanco.buscarClientePorCpf(cpf);
 ```
 
 Quando o cliente é encontrado, são apresentados o nome e o CPF.
 
-### InterfaceGrafica.TelaAlterarCliente
+### TelaAlterarCliente
 
 Permite localizar um cliente pelo CPF e alterar:
 
@@ -210,11 +210,11 @@ Permite localizar um cliente pelo CPF e alterar:
 
 A tela utiliza getters para obter os dados existentes e setters para alterá-los.
 
-### InterfaceGrafica.TelaExcluirCliente
+### TelaExcluirCliente
 
 Permite procurar um cliente pelo CPF e, após uma confirmação, excluí-lo da lista de clientes mantida pelo `SistemaBanco`.
 
-### InterfaceGrafica.TelaLoginCliente
+### TelaLoginCliente
 
 O cliente é localizado pelo CPF.
 
@@ -330,29 +330,29 @@ O valor do depósito deve ser maior que zero. Quando válido, o valor é acresce
 
 O valor do saque deve ser maior que zero e não pode ultrapassar o saldo disponível da conta. Quando válido, o valor é subtraído do saldo atual.
 
-### RN4 - Rendimento da Contas.Conta Poupança
+### RN4 - Rendimento da Conta Poupança
 
-A Contas.Conta Poupança possui uma taxa de rendimento de 0,5% e o rendimento é calculado sobre o saldo da conta.
+A Conta Poupança possui uma taxa de rendimento de 0,5% e o rendimento é calculado sobre o saldo da conta.
 
-### RN5 - Contas.Conta Conjunta
+### RN5 - Conta Conjunta
 
-Uma Contas.Conta Conjunta possui obrigatoriamente um titular e um cotitular. O cotitular deve ser um cliente já cadastrado no sistema.
+Uma Conta Conjunta possui obrigatoriamente um titular e um cotitular. O cotitular deve ser um cliente já cadastrado no sistema.
 
 Tanto o titular quanto o cotitular podem localizar e utilizar a mesma Contas.Conta Conjunta, compartilhando o mesmo saldo.
 
-### RN6 - Mensalidade da Contas.Conta Corrente
+### RN6 - Mensalidade da Conta Corrente
 
-A Contas.Conta Corrente possui uma mensalidade associada à conta, cujo valor pode ser consultado.
+A Conta Corrente possui uma mensalidade associada à conta, cujo valor pode ser consultado.
 
-### RN7 - Contas.Conta para Pessoa Jurídica
+### RN7 - Conta para Pessoa Jurídica
 
-A Contas.Conta PJ está associada a um cliente titular e possui informações específicas da empresa, como CNPJ, nome da empresa e faturamento.
+A Conta PJ está associada a um cliente titular e possui informações específicas da empresa, como CNPJ, nome da empresa e faturamento.
 
 ### RN8 - Identificação do Funcionário
 
 O funcionário possui usuário, senha, código e cargo para representar suas informações no sistema.
 
-### RN9 - Identificação do Pessoas.Gerente
+### RN9 - Identificação do Gerente
 
 O gerente possui nome, senha e código para sua identificação no sistema.
 
@@ -374,7 +374,7 @@ Durante o cadastro, o sistema verifica se já existe um cliente utilizando o CPF
 
 ### RN14 - CNPJ Único
 
-Durante a criação de uma Contas.Conta PJ, o sistema verifica se já existe uma Contas.Conta PJ utilizando o mesmo CNPJ.
+Durante a criação de uma Conta PJ, o sistema verifica se já existe uma Conta PJ utilizando o mesmo CNPJ.
 
 ### RN15 - Validação de Valores
 
@@ -395,7 +395,7 @@ import Pessoas.Cliente;
 import Pessoas.Gerente;
 
 Cliente
-        Pessoas.Funcionario
+        Funcionario
 Gerente
         Conta
 ContaCorrente
@@ -409,11 +409,11 @@ Os objetos são criados com `new`.
 Exemplos:
 
 ```java
-new Pessoas.Cliente(...)
-new Contas.ContaCorrente(...)
-new Contas.ContaPoupanca(...)
-new Contas.ContaConjunta(...)
-new Contas.ContaPJ(...)
+new Cliente(...)
+new ContaCorrente(...)
+new ContaPoupanca(...)
+new ContaConjunta(...)
+new ContaPJ(...)
 ```
 
 ### Atributos
@@ -457,11 +457,11 @@ Os construtores são executados quando um objeto é criado.
 Exemplos:
 
 ```java
-new Pessoas.Cliente(...)
-new Contas.ContaCorrente(cliente)
-new Contas.ContaPoupanca(cliente)
-new Contas.ContaConjunta(cliente, cotitular)
-new Contas.ContaPJ(cnpj, nomeEmpresa, faturamento, cliente)
+new Cliente(...)
+new ContaCorrente(cliente)
+new ContaPoupanca(cliente)
+new ContaConjunta(cliente, cotitular)
+new ContaPJ(cnpj, nomeEmpresa, faturamento, cliente)
 ```
 
 ### Palavra-chave `this`
@@ -510,11 +510,11 @@ conta.efetuarSaque(...);
 Os diferentes tipos de conta herdam da classe `Conta`.
 
 ```text
-Contas.Conta
-├── Contas.ContaCorrente
-├── Contas.ContaPoupanca
-├── Contas.ContaConjunta
-└── Contas.ContaPJ
+Conta
+├── ContaCorrente
+├── ContaPoupanca
+├── ContaConjunta
+└── ContaPJ
 ```
 
 Também existe herança na interface gráfica:
@@ -538,31 +538,29 @@ Uma variável do tipo geral `Conta` pode armazenar diferentes subclasses.
 Exemplo:
 
 ```java
-import Contas.Conta;
+import Conta;
 
 Conta conta;
 
-conta =new
-
-ContaCorrente(cliente);
+conta = new ContaCorrente(cliente);
 ```
 
 ou:
 
 ```java
-conta = new Contas.ContaPoupanca(cliente);
+conta = new ContaPoupanca(cliente);
 ```
 
 ou:
 
 ```java
-conta = new Contas.ContaConjunta(cliente, cotitular);
+conta = new ContaConjunta(cliente, cotitular);
 ```
 
 ou:
 
 ```java
-conta = new Contas.ContaPJ(cnpj, nomeEmpresa, faturamento, cliente);
+conta = new ContaPJ(cnpj, nomeEmpresa, faturamento, cliente);
 ```
 
 ### Sobrescrita de Métodos
@@ -620,7 +618,7 @@ sem precisar criar uma instância de `SistemaBanco`.
 Exemplo:
 
 ```java
-import Contas.ContaConjunta;if(conta instanceof ContaConjunta)
+import ContaConjunta;if(conta instanceof ContaConjunta)
 ```
 
 ### Cast
@@ -630,7 +628,7 @@ Depois de verificar o tipo com `instanceof`, o objeto pode ser tratado como a cl
 Exemplo:
 
 ```java
-import Contas.ContaConjunta;
+import ContaConjunta;
 
 ContaConjunta contaConjunta = (ContaConjunta) conta;
 ```
@@ -682,13 +680,13 @@ Exemplo:
 ```text
 Programa inicia
       ↓
-Pessoas.Cliente é cadastrado
+Cliente é cadastrado
       ↓
-Pessoas.Cliente pode ser consultado
+Cliente pode ser consultado
       ↓
-Pessoas.Cliente pode ser alterado
+Cliente pode ser alterado
       ↓
-Pessoas.Cliente pode entrar na área bancária
+Cliente pode entrar na área bancária
 ```
 
 Quando a aplicação é encerrada, os dados armazenados apenas em memória são perdidos.
@@ -708,43 +706,43 @@ InterfaceGrafica.TelaLoginFuncionario
       ↓
 InterfaceGrafica.TelaFuncionario
       │
-      ├── Cadastrar Pessoas.Cliente
+      ├── Cadastrar Cliente
       │        ↓
       │   InterfaceGrafica.TelaCadastroCliente
       │
-      ├── Consultar Pessoas.Cliente
+      ├── Consultar Cliente
       │        ↓
       │   InterfaceGrafica.TelaConsultaCliente
       │
-      ├── Alterar Pessoas.Cliente
+      ├── Alterar Cliente
       │        ↓
       │   InterfaceGrafica.TelaAlterarCliente
       │
-      └── Excluir Pessoas.Cliente
+      └── Excluir Cliente
                ↓
          InterfaceGrafica.TelaExcluirCliente
 ```
 
 ---
 
-## 12. Fluxo do Pessoas.Cliente
+## 12. Fluxo do Cliente
 
 ```text
-InterfaceGrafica.TelaPrincipal
+TelaPrincipal
       ↓
-Pessoas.Cliente
+Cliente
       ↓
-InterfaceGrafica.TelaLoginCliente
+TelaLoginCliente
       ↓
 CPF
       ↓
-InterfaceGrafica.SistemaBanco.buscarClientePorCpf()
+SistemaBanco.buscarClientePorCpf()
       ↓
-InterfaceGrafica.SistemaBanco.buscarContasDoCliente()
+SistemaBanco.buscarContasDoCliente()
       ↓
-InterfaceGrafica.TelaCliente
+TelaCliente
       ↓
-Selecionar Contas.Conta
+Selecionar Conta
       │
       ├── Visualizar Saldo
       ├── Depositar
@@ -753,7 +751,7 @@ Selecionar Contas.Conta
 
 ---
 
-## 13. Funcionamento da Contas.Conta Conjunta
+## 13. Funcionamento da Conta Conjunta
 
 O método `buscarContasDoCliente()` primeiro verifica se o cliente é o titular:
 

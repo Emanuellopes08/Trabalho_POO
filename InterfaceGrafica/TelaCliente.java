@@ -109,7 +109,7 @@ public class TelaCliente extends JFrame {
 // NOME DO CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        labelNomeCliente = new JLabel("Pessoas.Cliente:");
+        labelNomeCliente = new JLabel("Cliente:");
 
         labelNomeCliente.setFont(new Font("Arial", Font.BOLD, 18));
         labelNomeCliente.setForeground(BRANCO);
@@ -315,7 +315,7 @@ public class TelaCliente extends JFrame {
     private void carregarDadosCliente() {
 
         labelNomeCliente.setText(
-                "Pessoas.Cliente: " + cliente.getNome()
+                "Cliente: " + cliente.getNome()
         );
 
 /////////////////////////////////////////////////////////////////////
