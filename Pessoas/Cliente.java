@@ -1,23 +1,46 @@
 package Pessoas;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
+/**
+*Representa um cliente do banco.
+*A classe apenas guarda e protege os dados do cliente. A leitura de dados pelo terminal ou pelas tela é responsabilidade da camada de interface (SRP).
+*/
 public class Cliente{
 
     private String nome;
-    private String cpf;
-    private LocalDate dataNascimento;
+    private final String cpf;
+    private final LocalDate dataNascimento;
     private double renda;
     private String telefone;
     private String endereco;
-    private String nomePai;
-    private String nomeMae;
+    private final String nomePai;
+    private final String nomeMae;
     private String email;
 
+     /**
+     * Cria um cliente.
+     *
+     * @param nome           nome completo (obrigatório)
+     * @param cpf            CPF (obrigatório)
+     * @param dataNascimento data de nascimento (obrigatória)
+     * @param renda          renda mensal (não pode ser negativa)
+     * @param telefone       telefone de contato
+     * @param endereco       endereço
+     * @param nomePai        nome do pai
+     * @param nomeMae        nome da mãe
+     * @param email          email
+     * @throws IllegalArgumentException se nome, CPF ou data forem vazios, ou a renda for negativa
+     */
     // Construtor completo
     public Cliente(String nome, String cpf, LocalDate dataNascimento, double renda, String telefone, String endereco, String nomePai, String nomeMae, String email) {
+        exigirTexto(nome, "O nome é obrigatório.");   
+        exigirTexto(cpf, "O CPF é obrigatório.");  
+        if (dataNascimento == null) {    
+            throw new IllegalArgumentException("A data de nascimento é obrigatória.");
+        }
+        exigirRendaValida(renda);
+        
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
@@ -29,124 +52,104 @@ public class Cliente{
         this.email = email;
     }
 
-    // Metodo que pede os dados ao usuário
-    public void solicitarDados() {
-        Scanner sc = new Scanner(System.in);
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        System.out.print("Nome: ");
-        this.nome = sc.nextLine();
-
-        System.out.print("CPF: ");
-        this.cpf = sc.nextLine();
-
-        // DateTimeFormatter é a classe que define o "formato" (padrão) em que uma data
-        // vai ser lida ou escrita como texto.
-        // O metodo estático "ofPattern(...)" recebe uma String descrevendo o padrão desejado:
-        //   dd -> dia com 2 dígitos (ex: 05)
-        //   MM -> mês com 2 dígitos (ex: 03)
-        //   yyyy -> ano com 4 dígitos (ex: 1998)
-        // Ou seja, esse formatador vai entender/exigir datas no formato "dia/mes/ano".
-        // Criamos o objeto "formato" para poder usar depois, ao converter texto em LocalDate.
-      
-        System.out.print("Data de nascimento (dd/MM/yyyy): ");
-        this.dataNascimento = LocalDate.parse(sc.nextLine(), formato);
-
-        System.out.print("Renda: ");
-        this.renda = Double.parseDouble(sc.nextLine());
-
-        System.out.print("Telefone: ");
-        this.telefone = sc.nextLine();
-
-        System.out.print("Endereço: ");
-        this.endereco = sc.nextLine();
-
-        System.out.print("Nome do pai: ");
-        this.nomePai = sc.nextLine();
-
-        System.out.print("Nome da mãe: ");
-        this.nomeMae = sc.nextLine();
-
-        System.out.print("Email: ");
-        this.email = sc.nextLine();
+    /** Lança exceção se o texto for nulo ou estiver em branco. */ 
+    private static void exigirTexto(String texto, String mensagem) { 
+         if (texto == null || texto.isBlank()) {
+             throw new IllegalArgumentException(mensagem); 
+         }
     }
 
-    // Getters e Setters
+    /** Lança exceção se a renda for negativa ou inválida. */
+    private static void exigirRendaValida(double renda) { 
+         if (Double.isNaN(renda) || renda < 0) {   
+             throw new IllegalArgumentException("A renda não pode ser negativa.");
+         }
+    }
+    
+
+
+    /** @return o nome do cliente*/
     public String getNome() {
         return nome;
     }
 
+    /**  @param nome novo nome (obrigatório)
+    * @throws IllegalArgumentException se o nome for vazio
+    */
+
     public void setNome(String nome) {
+        exigirTexto(nome, "O nome é obrigatório.");
         this.nome = nome;
     }
 
+    /** @return o CPF do cliente (não pode ser alterado depois do cadastro) */
     public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
+    /** @return a data de nascimento */
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
+    /** @return a renda do cliente */
     public double getRenda() {
         return renda;
     }
 
+     /**
+     * @param renda nova renda (não pode ser negativa)
+     * @throws IllegalArgumentException se a renda for negativa
+     */
     public void setRenda(double renda) {
+        exigirRendaValida(renda); 
         this.renda = renda;
     }
 
+    /** @return o telefone */
     public String getTelefone() {
         return telefone;
     }
 
+    /** @param telefone novo telefone */
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
+    /** @return o endereço */
     public String getEndereco() {
         return endereco;
     }
 
+    /** @param endereco novo endereço */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
+    /** @return o nome do pai */
     public String getNomePai() {
         return nomePai;
     }
 
-    public void setNomePai(String nomePai) {
-        this.nomePai = nomePai;
-    }
-
+    /** @return o nome da mãe */
     public String getNomeMae() {
         return nomeMae;
     }
 
-    public void setNomeMae(String nomeMae) {
-        this.nomeMae = nomeMae;
-    }
-
+    /** @return o email */
     public String getEmail() {
         return email;
     }
 
+    /** @param email novo email */
     public void setEmail(String email) {
         this.email = email;
     }
 
     //para acusar erro
+    /** @return nome e CPF do cliente */
     @Override
     public String toString() {
-        return nome + cpf + dataNascimento +  renda + telefone  + endereco  + nomePai  + nomeMae + email;
+        return nome + " (CPF: " + cpf + ")"; 
 }
 }
