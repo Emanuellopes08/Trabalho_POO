@@ -1,4 +1,4 @@
-package application.usecases;
+package application.casodeuso;
 
 import domain.pessoas.Cliente;
 import presentation.swing.SistemaBanco;

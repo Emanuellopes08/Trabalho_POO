@@ -1,4 +1,4 @@
-package application.usecases;
+package application.casodeuso;
 
 public class AlterarCliente {
 }
