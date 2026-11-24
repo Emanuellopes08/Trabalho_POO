@@ -1,5 +1,6 @@
-import InterfaceGrafica.TelaPrincipal;
 import javax.swing.SwingUtilities;
+
+import presentation.swing.TelaPrincipal;
 
 public class Main {
 
