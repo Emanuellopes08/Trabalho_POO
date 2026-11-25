@@ -3,10 +3,11 @@ package domain.pessoas;
 import java.time.LocalDate;
 
 /**
- *Representa um cliente do banco.
- *A classe apenas guarda e protege os dados do cliente. A leitura de dados pelo terminal ou pelas tela é responsabilidade da camada de interface (SRP).
+ * Representa um cliente do banco.
+ * A classe apenas guarda e protege os dados do cliente. A leitura de dados
+ * pelo terminal ou pelas telas é responsabilidade da camada de interface (SRP).
  */
-public class Cliente{
+public class Cliente {
 
     private String nome;
     private final String cpf;
@@ -17,28 +18,43 @@ public class Cliente{
     private final String nomePai;
     private final String nomeMae;
     private String email;
+    private String senha;
 
     /**
-     * Cria um cliente.
-     *
-     * @param nome           nome completo (obrigatório)
-     * @param cpf            CPF (obrigatório)
-     * @param dataNascimento data de nascimento (obrigatória)
-     * @param renda          renda mensal (não pode ser negativa)
-     * @param telefone       telefone de contato
-     * @param endereco       endereço
-     * @param nomePai        nome do pai
-     * @param nomeMae        nome da mãe
-     * @param email          email
-     * @throws IllegalArgumentException se nome, CPF ou data forem vazios, ou a renda for negativa
+     * Construtor compatível com o código antigo.
+     * Mantido para não quebrar testes e outras partes que ainda não informam senha.
      */
-    // Construtor completo
-    public Cliente(String nome, String cpf, LocalDate dataNascimento, double renda, String telefone, String endereco, String nomePai, String nomeMae, String email) {
+    public Cliente(String nome, String cpf, LocalDate dataNascimento, double renda,
+                   String telefone, String endereco, String nomePai, String nomeMae,
+                   String email) {
+        this(nome, cpf, dataNascimento, renda, telefone, endereco, nomePai, nomeMae,
+                email, null);
+    }
+
+    /**
+     * Cria um cliente com senha.
+     *
+     * @param nome nome completo (obrigatório)
+     * @param cpf CPF (obrigatório)
+     * @param dataNascimento data de nascimento (obrigatória)
+     * @param renda renda mensal (não pode ser negativa)
+     * @param telefone telefone de contato
+     * @param endereco endereço
+     * @param nomePai nome do pai
+     * @param nomeMae nome da mãe
+     * @param email email
+     * @param senha senha do cliente (mínimo de 8 caracteres)
+     */
+    public Cliente(String nome, String cpf, LocalDate dataNascimento, double renda,
+                   String telefone, String endereco, String nomePai, String nomeMae,
+                   String email, String senha) {
         exigirTexto(nome, "O nome é obrigatório.");
         exigirTexto(cpf, "O CPF é obrigatório.");
+
         if (dataNascimento == null) {
             throw new IllegalArgumentException("A data de nascimento é obrigatória.");
         }
+
         exigirRendaValida(renda);
 
         this.nome = nome;
@@ -50,6 +66,11 @@ public class Cliente{
         this.nomePai = nomePai;
         this.nomeMae = nomeMae;
         this.email = email;
+        this.senha = senha;
+
+        if (senha != null) {
+            exigirSenhaValida(senha);
+        }
     }
 
     /** Lança exceção se o texto for nulo ou estiver em branco. */
@@ -66,17 +87,22 @@ public class Cliente{
         }
     }
 
+    /** Valida a senha informada no cadastro. */
+    private static void exigirSenhaValida(String senha) {
+        if (senha == null || senha.isBlank()) {
+            throw new IllegalArgumentException("A senha é obrigatória.");
+        }
+        if (senha.length() < 8) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 8 caracteres.");
+        }
+    }
 
-
-    /** @return o nome do cliente*/
+    /** @return o nome do cliente */
     public String getNome() {
         return nome;
     }
 
-    /**  @param nome novo nome (obrigatório)
-     * @throws IllegalArgumentException se o nome for vazio
-     */
-
+    /** @param nome novo nome (obrigatório) */
     public void setNome(String nome) {
         exigirTexto(nome, "O nome é obrigatório.");
         this.nome = nome;
@@ -97,10 +123,7 @@ public class Cliente{
         return renda;
     }
 
-    /**
-     * @param renda nova renda (não pode ser negativa)
-     * @throws IllegalArgumentException se a renda for negativa
-     */
+    /** @param renda nova renda (não pode ser negativa) */
     public void setRenda(double renda) {
         exigirRendaValida(renda);
         this.renda = renda;
@@ -146,7 +169,20 @@ public class Cliente{
         this.email = email;
     }
 
-    //para acusar erro
+    /** @return a senha cadastrada; pode ser null em clientes criados pelo construtor antigo */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * Altera a senha do cliente.
+     * Senhas devem ser armazenadas com hash antes de persistir em produção.
+     */
+    public void setSenha(String senha) {
+        exigirSenhaValida(senha);
+        this.senha = senha;
+    }
+
     /** @return nome e CPF do cliente */
     @Override
     public String toString() {

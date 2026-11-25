@@ -33,6 +33,7 @@ public class TelaCadastroCliente extends JFrame {
     private JTextField campoNomePai;
     private JTextField campoNomeMae;
     private JTextField campoEmail;
+    private JPasswordField campoSenha;
 
     // Contas.Conta Conjunta
     private JLabel labelCpfCotitular;
@@ -226,6 +227,16 @@ public class TelaCadastroCliente extends JFrame {
         adicionarCampo(formulario, gbc, labelEmail, campoEmail, 9);
 
 /////////////////////////////////////////////////////////////////////
+// SENHA DO CLIENTE
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelSenha = criarLabel("Senha:", fonteLabel);
+        campoSenha = new JPasswordField(24);
+        campoSenha.setToolTipText("Mínimo de 8 caracteres");
+
+        adicionarCampo(formulario, gbc, labelSenha, campoSenha, 10);
+
+/////////////////////////////////////////////////////////////////////
 // TIPO DE CONTA
 /////////////////////////////////////////////////////////////////////
 
@@ -240,7 +251,7 @@ public class TelaCadastroCliente extends JFrame {
 
         tipoConta.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        adicionarCampo(formulario, gbc, labelTipoConta, tipoConta, 10);
+        adicionarCampo(formulario, gbc, labelTipoConta, tipoConta, 11);
 
 /////////////////////////////////////////////////////////////////////
 // CPF DO COTITULAR
@@ -249,7 +260,7 @@ public class TelaCadastroCliente extends JFrame {
         labelCpfCotitular = criarLabel("CPF do cotitular:", fonteLabel);
         campoCpfCotitular = new JTextField(24);
 
-        adicionarCampo(formulario, gbc, labelCpfCotitular, campoCpfCotitular, 11);
+        adicionarCampo(formulario, gbc, labelCpfCotitular, campoCpfCotitular, 12);
 
 /////////////////////////////////////////////////////////////////////
 // TÍTULO - DADOS DA EMPRESA
@@ -262,7 +273,7 @@ public class TelaCadastroCliente extends JFrame {
         tituloDadosEmpresa.setHorizontalAlignment(SwingConstants.CENTER);
 
         gbc.gridx = 0;
-        gbc.gridy = 12;
+        gbc.gridy = 13;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(15, 10, 10, 10);
 
@@ -275,7 +286,7 @@ public class TelaCadastroCliente extends JFrame {
         labelCnpj = criarLabel("CNPJ da empresa:", fonteLabel);
         campoCnpj = new JTextField(24);
 
-        adicionarCampo(formulario, gbc, labelCnpj, campoCnpj, 13);
+        adicionarCampo(formulario, gbc, labelCnpj, campoCnpj, 14);
 
 /////////////////////////////////////////////////////////////////////
 // NOME DA EMPRESA
@@ -284,7 +295,7 @@ public class TelaCadastroCliente extends JFrame {
         labelNomeEmpresa = criarLabel("Nome da empresa:", fonteLabel);
         campoNomeEmpresa = new JTextField(24);
 
-        adicionarCampo(formulario, gbc, labelNomeEmpresa, campoNomeEmpresa, 14);
+        adicionarCampo(formulario, gbc, labelNomeEmpresa, campoNomeEmpresa, 15);
 
 /////////////////////////////////////////////////////////////////////
 // FATURAMENTO
@@ -295,7 +306,7 @@ public class TelaCadastroCliente extends JFrame {
 
         campoFaturamento.setToolTipText("Exemplo: 50000.00");
 
-        adicionarCampo(formulario, gbc, labelFaturamento, campoFaturamento, 15);
+        adicionarCampo(formulario, gbc, labelFaturamento, campoFaturamento, 16);
 
 /////////////////////////////////////////////////////////////////////
 // MENSAGEM DE ERRO
@@ -308,7 +319,7 @@ public class TelaCadastroCliente extends JFrame {
         mensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
 
         gbc.gridx = 0;
-        gbc.gridy = 16;
+        gbc.gridy = 17;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(10, 10, 5, 10);
 
@@ -344,7 +355,7 @@ public class TelaCadastroCliente extends JFrame {
         painelBotoes.add(btnCadastrar);
 
         gbc.gridx = 0;
-        gbc.gridy = 17;
+        gbc.gridy = 18;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(15, 10, 15, 10);
 
@@ -487,6 +498,7 @@ public class TelaCadastroCliente extends JFrame {
         String nomePai = campoNomePai.getText().trim();
         String nomeMae = campoNomeMae.getText().trim();
         String email = campoEmail.getText().trim();
+        String senha = new String(campoSenha.getPassword());
 
         String contaSelecionada = (String) tipoConta.getSelectedItem();
 
@@ -610,6 +622,16 @@ public class TelaCadastroCliente extends JFrame {
             return;
         }
 
+        if (senha.isEmpty()) {
+            mensagemErro.setText("Digite uma senha.");
+            return;
+        }
+
+        if (senha.length() < 8) {
+            mensagemErro.setText("A senha deve ter pelo menos 8 caracteres.");
+            return;
+        }
+
 /////////////////////////////////////////////////////////////////////
 // DADOS ESPECÍFICOS DAS CONTAS
 /////////////////////////////////////////////////////////////////////
@@ -696,6 +718,8 @@ public class TelaCadastroCliente extends JFrame {
 // CRIA O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
+        // A senha é capturada e validada na interface, mas ainda não é persistida:
+        // a classe Cliente e o repositório precisam possuir suporte a credenciais.
         Cliente cliente = new Cliente(
                 nome,
                 cpf,
@@ -809,6 +833,7 @@ public class TelaCadastroCliente extends JFrame {
         campoNomePai.setText("");
         campoNomeMae.setText("");
         campoEmail.setText("");
+        campoSenha.setText("");
 
         campoCpfCotitular.setText("");
 

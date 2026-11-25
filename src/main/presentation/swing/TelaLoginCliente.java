@@ -20,6 +20,7 @@ public class TelaLoginCliente extends JFrame {
 
     // Componentes
     private JTextField campoCpf;
+    private JPasswordField campoSenha;
     private JLabel mensagemErro;
 
 
@@ -34,7 +35,7 @@ public class TelaLoginCliente extends JFrame {
     /////////////////////////////////////////////////////////////////////
 
     private void configurarJanela() {
-        setSize(550, 500);
+        setSize(550, 560);
         setTitle("Banco ES - Login do Pessoas.Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -113,6 +114,28 @@ public class TelaLoginCliente extends JFrame {
         painel.add(campoCpf, gbc);
 
 /////////////////////////////////////////////////////////////////////
+// SENHA
+/////////////////////////////////////////////////////////////////////
+
+        JLabel labelSenha = new JLabel("Senha:");
+
+        labelSenha.setFont(new Font("Arial", Font.BOLD, 16));
+        labelSenha.setForeground(BRANCO);
+
+        campoSenha = new JPasswordField(22);
+        campoSenha.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+
+        painel.add(labelSenha, gbc);
+
+        gbc.gridx = 1;
+
+        painel.add(campoSenha, gbc);
+
+/////////////////////////////////////////////////////////////////////
 // MENSAGEM DE ERRO
 /////////////////////////////////////////////////////////////////////
 
@@ -123,7 +146,7 @@ public class TelaLoginCliente extends JFrame {
         mensagemErro.setHorizontalAlignment(SwingConstants.CENTER);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
 
         painel.add(mensagemErro, gbc);
@@ -140,7 +163,7 @@ public class TelaLoginCliente extends JFrame {
         btnEntrar.setForeground(AZUL_ESCURO);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(20, 10, 8, 10);
 
@@ -158,7 +181,7 @@ public class TelaLoginCliente extends JFrame {
         btnVoltar.setForeground(BRANCO);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(8, 10, 10, 10);
 
@@ -192,6 +215,7 @@ public class TelaLoginCliente extends JFrame {
 
     private void validarLogin() {
         String cpf = campoCpf.getText().trim();
+        String senha = new String(campoSenha.getPassword());
 
         mensagemErro.setText(" ");
 
@@ -204,11 +228,19 @@ public class TelaLoginCliente extends JFrame {
             return;
         }
 
+        if (senha.isEmpty()) {
+            mensagemErro.setText("Digite a senha.");
+            return;
+        }
+
 /////////////////////////////////////////////////////////////////////
 // BUSCA CLIENTE
 /////////////////////////////////////////////////////////////////////
 
         Cliente cliente = SistemaBanco.buscarClientePorCpf(cpf);
+
+        // A senha ainda precisa ser comparada com a credencial persistida no modelo/repositório.
+        // Neste arquivo, a autenticação existente continua baseada na busca por CPF.
 
         if (cliente == null) {
             mensagemErro.setText("Pessoas.Cliente não encontrado.");
