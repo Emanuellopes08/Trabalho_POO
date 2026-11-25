@@ -1,4 +1,173 @@
-# Trabalho_POO
+# Banco ES - Trabalho 2 (Marco 2)
+
+Evolução do sistema bancário **Banco ES** em Java, refatorado para atender aos princípios **SOLID**, **Clean Architecture** e **Clean Code**, com **interface gráfica em Swing**, **persistência em banco de dados (SQLite via JDBC)** e **documentação JavaDoc em HTML**.
+
+> **Nota:** A documentação original do **Marco 1** foi preservada integralmente na segunda metade deste arquivo para registro histórico e conferência do checklist inicial.
+
+---
+
+## 1. Integrantes e Responsabilidades (Marco 2)
+
+| Integrante | Responsabilidade Principal | Princípios / Entregas |
+|---|---|---|
+| **Iasmin Dembinski da Silva** | Entidades e regras de negócio (`domain/pessoas` e `domain/contas`) | SRP, LSP, validações de domínio, `SaldoInsuficienteException`, `ContaLspTest` e JavaDoc do domínio |
+| **Liane Paim De Castro Genz** | Casos de uso e regras de aplicação (`application/casodeuso` e `application/validacao`) | SRP, OCP, remoção de regras das telas, injeção de repositórios e JavaDoc |
+| **Emanuel Lopes Vieira** | Interfaces, abstrações e arquitetura (`application/repositories` e estrutura de camadas) | ISP, DIP, Clean Architecture, injeção de dependências no `Main` e JavaDoc |
+| **Vinícius Schaefer Sanchotene** | Banco de dados e persistência (`infrastructure/persistence`) | SQLite, JDBC, `PreparedStatement`, `script.sql`, repositórios JDBC e JavaDoc |
+| **Adryan Oliveira de Oliveira** | Interface gráfica, testes de integração e documentação final (`presentation/swing`) | Identidade visual, layout, usabilidade, integração com casos de uso, prints e geração do JavaDoc HTML |
+
+---
+
+## 2. Arquitetura do Projeto (Clean Architecture)
+
+O projeto foi reorganizado em camadas com dependências direcionadas ao núcleo (`domain`), permitindo que as regras de negócio funcionem de forma independente da interface gráfica e do banco de dados:
+
+```text
+Trabalho_POO/
+├── lib/
+│   └── sqlite-jdbc-3.54.1.0.jar
+├── PrintTelas/
+├── docs/                          # [PREENCHER — Adryan: pasta do JavaDoc HTML gerado]
+└── src/
+    ├── main/
+    │   ├── Main.java              # Ponto de entrada e injeção de dependências
+    │   ├── domain/                # Camada de Entidades (núcleo, sem dependências externas)
+    │   │   ├── pessoas/           # Cliente, Funcionario, Gerente
+    │   │   └── contas/            # Conta, ContaCorrente, ContaPoupanca, ContaConjunta, ContaPJ, TipoConta, SaldoInsuficienteException
+    │   ├── application/           # Camada de Casos de Uso e Contratos
+    │   │   ├── casodeuso/         # autenticacao/, cliente/, conta/, funcionario/
+    │   │   ├── repositories/      # ClienteRepository, ContaRepository, FuncionarioRepository
+    │   │   └── validacao/         # ValidadorCliente, ValidadorFuncionario, ValidadorValor
+    │   ├── infrastructure/        # Camada de Infraestrutura (detalhes externos)
+    │   │   └── persistence/       # Conexao, *RepositoryJDBC, script.sql
+    │   └── presentation/          # Camada de Apresentação
+    │       └── swing/             # Telas Swing e componentes visuais
+    └── test/
+        └── ContaLspTest.java      # Testes de Substituição de Liskov (LSP)
+```
+
+Fluxo de dependências entre camadas:
+
+```text
+Interface Gráfica (presentation/swing)
+        ↓
+Casos de Uso (application/casodeuso)
+        ↓
+Interfaces de Repositório (application/repositories)  ←──  Entidades (domain)
+        ↑
+Implementações JDBC (infrastructure/persistence)
+        ↓
+Banco de Dados SQLite
+```
+
+---
+
+## 3. Configuração do Banco de Dados e Instruções de Execução
+
+### Pré-requisitos
+- **JDK:** Java 17 ou superior (conforme `pom.xml`)
+- **Driver JDBC:** `lib/sqlite-jdbc-3.54.1.0.jar` (já incluso no repositório)
+- **IDE recomendada:** IntelliJ IDEA ou Visual Studio Code
+
+### Configuração do Banco de Dados
+- **SGBD utilizado:** SQLite
+- **Script de criação:** `src/main/infrastructure/persistence/script.sql`
+- `[PREENCHER — Vinícius: explicar se o banco é criado automaticamente ao rodar a aplicação ou quais passos seguir para executar o script.sql, onde o arquivo .db é gerado e se existe algum usuário gerente/funcionário inicial para login.]`
+
+### Como executar o sistema
+1. Clone o repositório e abra o projeto na IDE.
+2. Certifique-se de que o driver `lib/sqlite-jdbc-3.54.1.0.jar` está adicionado ao *classpath* (ou carregue as dependências via Maven pelo `pom.xml`).
+3. Execute a classe `src/main/Main.java`.
+4. `[PREENCHER — Emanuel/Adryan: adicionar credenciais de teste para Gerente/Funcionário e qualquer passo extra de execução.]`
+
+### Como executar os testes
+- Execute `src/test/ContaLspTest.java` (JUnit 5) pela IDE para validar o comportamento polimórfico das subclasses de `Conta`.
+- `[PREENCHER — Vinícius: se desejar, mencionar como rodar os testes de persistência em infrastructure/persistence/Teste*.java.]`
+
+---
+
+## 4. Atendimento aos Requisitos da Rubrica (10 Critérios)
+
+### Critério 1 — Checklist do Trabalho 1
+Todos os requisitos e as 15 regras de negócio (RN1 a RN15) do Marco 1 foram preservados, e as pendências da primeira entrega foram corrigidas:
+- **Pacotes Java:** antes ausentes, agora organizados em `domain`, `application`, `infrastructure` e `presentation`.
+- **Interfaces em Java:** antes ausentes, agora implementadas por `ClienteRepository`, `ContaRepository` e `FuncionarioRepository`.
+- **Encapsulamento e domínio:** removidos `Cliente.solicitarDados()`, `setCpf()`, `setDataNascimento()` e o construtor vazio `Conta()`, reforçando a proteção do estado das entidades.
+- **Nota sobre `ContaPJ`:** o Marco 1 mencionava uma possível sobrescrita de saque em `ContaPJ`; no Marco 2 confirmou-se que todas as contas seguem exatamente a regra de saque de `Conta` para respeitar o LSP (a sobrescrita `@Override` continua demonstrada em `BotaoArredondado.paintComponent()`, `Cliente.toString()`, `Conta.toString()`, `ContaConjunta.toString()` e nos repositórios JDBC).
+
+### Critério 2 — SOLID: SRP e OCP
+
+#### SRP (Princípio da Responsabilidade Única)
+- **Camada de Domínio (Iasmin):**
+  - `Cliente` (`domain/pessoas/Cliente.java`) teve o método `solicitarDados()` (com `Scanner` e `System.out`) removido. Agora sua única responsabilidade é representar e proteger os dados do cliente (incluindo `senha` para autenticação).
+  - `Gerente` (`domain/pessoas/Gerente.java`) deixou de imprimir no console em `emitirRelatorio()`, passando a apenas montar e retornar a `String` do relatório.
+  - `Conta` (`domain/contas/Conta.java`) concentra a responsabilidade de manter o saldo e validar regras de depósito e saque no domínio, sem depender de telas.
+- **Camada de Aplicação (Liane):** `[PREENCHER — Liane: citar a separação de cada operação em uma classe específica dentro de application/casodeuso/ e a retirada das regras das telas.]`
+- **Infraestrutura e Apresentação (Vinícius / Adryan):** `[PREENCHER — Vinícius/Adryan: citar a separação entre persistência JDBC e telas Swing.]`
+
+#### OCP (Princípio Aberto/Fechado)
+- `[PREENCHER — Liane: descrever como a criação de contas ou os casos de uso permitem adicionar novas modalidades/comportamentos por extensão sem alterar o fluxo central, citando as classes/métodos concretos.]`
+
+### Critério 3 — SOLID: LSP, ISP e DIP
+
+#### LSP (Princípio da Substituição de Liskov)
+- **Hierarquia de `Conta` (Iasmin):**
+  - `ContaCorrente`, `ContaPoupanca`, `ContaConjunta` e `ContaPJ` podem ser utilizadas em qualquer ponto do sistema onde se espera uma `Conta`, mantendo os mesmos pré e pós-requisitos de saldo, depósito e saque.
+  - Os métodos `efetuarDeposito(double)` e `efetuarSaque(double)` foram declarados como `final` em `Conta`, impedindo que subclasses endureçam ou alterem o contrato base.
+  - **Correção prática de LSP em `ContaPoupanca`:** `aplicarRendimento()` anteriormente chamava `efetuarDeposito(0)` quando o saldo era zero, o que violaria a validação de valor positivo. Agora o depósito do rendimento só ocorre quando `rendimento > 0`, preservando o contrato da superclasse.
+  - **Demonstração em testes:** `src/test/ContaLspTest.java` executa a mesma bateria de testes (saldo inicial zero, depósito válido/inválido, saque válido/inválido e saque acima do saldo) iterando sobre uma `List<Conta>` contendo todas as subclasses.
+
+#### ISP (Princípio da Segregação de Interfaces)
+- `[PREENCHER — Emanuel: explicar como os contratos foram segregados em ClienteRepository, ContaRepository e FuncionarioRepository para que nenhum caso de uso dependa de métodos que não utiliza.]`
+
+#### DIP (Princípio da Inversão de Dependência)
+- `[PREENCHER — Emanuel: explicar como os casos de uso dependem das interfaces em application/repositories e recebem as implementações JDBC por injeção de dependência no construtor a partir do Main.]`
+
+### Critério 4 — Clean Architecture
+- **Domínio (`domain`):** `Cliente`, `Funcionario`, `Gerente`, `Conta`, suas subclasses, `TipoConta` e `SaldoInsuficienteException` não importam nada de `javax.swing`, `java.sql` ou das demais camadas. Todas as validações de domínio funcionam sem abrir a interface gráfica (como demonstrado em `ContaLspTest`).
+- **Aplicação, Infraestrutura e Apresentação:** `[PREENCHER — Emanuel/Liane: explicar brevemente como os casos de uso orquestram as operações sem depender de Swing nem de JDBC, e como o Main faz a ligação final.]`
+
+### Critério 5 — Clean Code
+- **Domínio (Iasmin):**
+  - Nomes claros e constantes expressivas (`MENSALIDADE`, `TAXA_RENDIMENTO`).
+  - Atributos imutáveis declarados como `final` (`cpf`, `dataNascimento`, `nomePai`, `nomeMae`, `codigo`, `tipoConta`, `titular`, `cotitular`, `cnpj`, `faturaEmpresa`).
+  - Métodos auxiliares privados para evitar duplicação de validação (`exigirTexto`, `exigirRendaValida` em `Cliente`/`Funcionario`, e `validarValor` em `Conta`).
+  - Tratamento de erros com mensagens claras e exceção específica de domínio (`SaldoInsuficienteException` e `IllegalArgumentException`).
+- **Demais camadas:** `[PREENCHER — Liane/Emanuel/Vinícius/Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
+
+### Critérios 6, 7 e 8 — Interface Gráfica (Identidade Visual, Layout e Usabilidade)
+- `[PREENCHER — Adryan: descrever paleta de cores, tipografia, padronização de componentes (ex.: BotaoArredondado), alinhamentos/espaçamentos, validações de formulário, feedback de sucesso/erro, navegação por teclado e prevenção de travamento da janela.]`
+
+#### Capturas de Tela
+- `[PREENCHER — Adryan: atualizar ou adicionar os prints das telas finais, como TelaPrincipal, TelaCliente, TelaLoginCliente, etc.]`
+
+![Tela de Login do Gerente](PrintTelas/TelaLoginGerente.png)
+![Tela do Gerente](PrintTelas/TelaGerente.png)
+![Tela de Login do Funcionário](PrintTelas/TelaLoginFuncionario.png)
+![Tela do Funcionário](PrintTelas/TelaFuncionario.png)
+![Tela de Cadastro de Cliente](PrintTelas/TelaCadastroCliente.png)
+![Tela de Consulta de Cliente](PrintTelas/TelaFuncionarioConsultarCliente.png)
+
+### Critério 9 — Banco de Dados e Persistência
+- `[PREENCHER — Vinícius: descrever as tabelas e relacionamentos do script.sql, uso de PreparedStatement nas classes ClienteRepositoryJDBC, ContaRepositoryJDBC e FuncionarioRepositoryJDBC, uso do id da conta para atualização de saldo e comprovação de persistência após reiniciar o sistema.]`
+
+### Critério 10 — Documentação JavaDoc
+- **Domínio (Iasmin):** 100% das classes, enum, exceção, construtores e métodos públicos de `domain/pessoas` e `domain/contas` documentados com JavaDoc, incluindo `@param`, `@return` e `@throws`.
+- **Demais camadas e HTML gerado:** `[PREENCHER — Adryan: informar o comando usado para gerar o JavaDoc em HTML e o caminho do arquivo index.html gerado no repositório.]`
+
+---
+
+## 5. Checklist Final de Entrega
+
+- [x] Código de domínio revisado com SRP, LSP, validações, `id` em `Conta`, `senha` em `Cliente` e JavaDoc *(Iasmin)*
+- [ ] Casos de uso integrados às interfaces de repositório e exemplo de OCP *(Liane)*
+- [ ] Interfaces de repositório, injeção de dependências no `Main` e conferência da Clean Architecture *(Emanuel)*
+- [ ] Persistência SQLite/JDBC com `PreparedStatement`, `script.sql` e testes após reinicialização *(Vinícius)*
+- [ ] Interface gráfica padronizada, integrada aos casos de uso, prints atualizados e JavaDoc HTML gerado *(Adryan)*
+
+---
+
+# Trabalho_POO - Marco 1
 
 ## Partes de cada um no trabalho de POO
 
