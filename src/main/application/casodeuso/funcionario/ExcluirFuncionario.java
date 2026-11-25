@@ -1,27 +1,26 @@
-package application.casodeuso;
+package application.casodeuso.funcionario;
 
 import application.repositories.FuncionarioRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
-public class ConsultarFuncionario {
+public class ExcluirFuncionario {
 
     private final FuncionarioRepository funcionarioRepo;
 
-    public ConsultarFuncionario(FuncionarioRepository funcionarioRepo) {
+    public ExcluirFuncionario(FuncionarioRepository funcionarioRepo) {
         this.funcionarioRepo = funcionarioRepo;
     }
 
-    public Funcionario executar(int codigo) {
+    public void executar(int codigo) {
 
         ValidadorFuncionario.validarCodigo(codigo);
         Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
 
         if (funcionario == null) {
-            throw new IllegalArgumentException(
-                    "Funcionário não encontrado."
-            );
+            throw new IllegalArgumentException("Funcionário não encontrado.");
         }
-        return funcionario;
+
+        funcionarioRepo.excluir(codigo);
     }
 }

@@ -1,6 +1,6 @@
-package application.casodeuso;
+package application.casodeuso.cliente;
 
-import application.validacao.ValidadorCpf;
+import application.validacao.ValidadorCliente;
 import domain.pessoas.*;
 import application.repositories.ClienteRepository;
 
@@ -13,7 +13,7 @@ public class ExcluirCliente{
     }
 
     public void executar(String cpf) {
-        ValidadorCpf.validarCpf(cpf);
+        ValidadorCliente.validarCpf(cpf);
         Cliente cliente = clienteRepo.buscarPorCpf(cpf);
 
         if (cliente == null){

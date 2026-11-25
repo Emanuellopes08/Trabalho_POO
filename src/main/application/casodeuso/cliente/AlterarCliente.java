@@ -1,6 +1,6 @@
-package application.casodeuso;
+package application.casodeuso.cliente;
 
-import application.validacao.ValidadorCpf;
+import application.validacao.ValidadorCliente;
 import domain.pessoas.Cliente;
 import application.repositories.ClienteRepository;
 
@@ -19,7 +19,7 @@ public class AlterarCliente{
         }
 
         String cpf = cliente.getCpf();
-        ValidadorCpf.validarCpf(cpf);
+        ValidadorCliente.validarCpf(cpf);
 
         Cliente clienteExistente = clienteRepo.buscarPorCpf(cpf);
 

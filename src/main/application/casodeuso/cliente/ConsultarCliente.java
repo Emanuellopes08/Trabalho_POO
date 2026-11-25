@@ -1,6 +1,6 @@
-package application.casodeuso;
+package application.casodeuso.cliente;
 import application.repositories.ClienteRepository;
-import application.validacao.ValidadorCpf;
+import application.validacao.ValidadorCliente;
 import domain.pessoas.Cliente;
 
 public class ConsultarCliente{
@@ -13,7 +13,7 @@ public class ConsultarCliente{
     }
 
     public Cliente executar(String cpf) {
-        ValidadorCpf.validarCpf(cpf);
+        ValidadorCliente.validarCpf(cpf);
         Cliente clienteExistente = clienteRepository.buscarPorCpf(cpf);
 
         if (clienteExistente == null) {

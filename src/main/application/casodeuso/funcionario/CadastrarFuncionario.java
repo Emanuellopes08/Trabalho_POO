@@ -1,4 +1,4 @@
-package application.casodeuso;
+package application.casodeuso.funcionario;
 
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
@@ -14,15 +14,10 @@ public class CadastrarFuncionario{
 
     public void executar(Funcionario funcionario) {
 
-        if (funcionario == null) {
-            throw new IllegalArgumentException("Funcionário não informado.");
-        }
-
         int codigo = funcionario.getCodigo();
         ValidadorFuncionario.validarFuncionario(funcionario);
 
-        Funcionario funcionarioExistente =
-                funcionarioRepo.buscarPorCodigo(codigo);
+        Funcionario funcionarioExistente = funcionarioRepo.buscarPorCodigo(codigo);
 
         if (funcionarioExistente != null) {
             throw new IllegalArgumentException("Funcionário já cadastrado!");

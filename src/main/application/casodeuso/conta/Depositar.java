@@ -1,14 +1,14 @@
-package application.casodeuso;
+package application.casodeuso.conta;
 
 import application.validacao.ValidadorValor;
 import domain.contas.Conta;
 import application.repositories.ContaRepository;
 
-public class Sacar{
+public class Depositar{
 
     private final ContaRepository contaRepo;
 
-    public Sacar(ContaRepository contaRepo) {
+    public Depositar(ContaRepository contaRepo) {
         this.contaRepo = contaRepo;
     }
 
@@ -21,11 +21,7 @@ public class Sacar{
             throw new IllegalArgumentException("Conta não encontrada.");
         }
 
-        if (valor > conta.getSaldo()) {
-            throw new IllegalArgumentException("Saldo insuficiente.");
-        }
-
-        conta.efetuarSaque(valor);
+        conta.efetuarDeposito(valor);
 
         contaRepo.atualizar(conta);
     }
