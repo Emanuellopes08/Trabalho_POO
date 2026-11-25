@@ -1,4 +1,19 @@
 package domain.contas;
 
-public enum TipoConta {POUPANCA, CORRENTE, CONJUNTA,PJ};
-//sempre declarar o public para outros pacotes ter acesso
+/**
+ * Modalidades de conta oferecidas pelo banco.
+ */
+public enum TipoConta {
+
+    /** Conta poupança, com rendimento sobre o saldo. */
+    POUPANCA,
+
+    /** Conta corrente, com mensalidade. */
+    CORRENTE,
+
+    /** Conta compartilhada entre titular e cotitular. */
+    CONJUNTA,
+
+    /** Conta de pessoa jurídica. */
+    PJ
+}
