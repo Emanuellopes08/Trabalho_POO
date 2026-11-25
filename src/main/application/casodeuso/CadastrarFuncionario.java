@@ -1,6 +1,6 @@
 package application.casodeuso;
 
-import application.validacao.ValidadorCodigo;
+import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 import application.repositories.FuncionarioRepository;
 
@@ -19,7 +19,7 @@ public class CadastrarFuncionario{
         }
 
         int codigo = funcionario.getCodigo();
-        ValidadorCodigo.validarCodigo(codigo);
+        ValidadorFuncionario.validarFuncionario(funcionario);
 
         Funcionario funcionarioExistente =
                 funcionarioRepo.buscarPorCodigo(codigo);

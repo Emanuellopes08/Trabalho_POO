@@ -1,7 +1,7 @@
 package application.casodeuso;
 
 import application.repositories.FuncionarioRepository;
-import application.validacao.ValidadorCodigo;
+import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
 public class ConsultarFuncionario {
@@ -14,17 +14,14 @@ public class ConsultarFuncionario {
 
     public Funcionario executar(int codigo) {
 
-        ValidadorCodigo.validarCodigo(codigo);
-
-        Funcionario funcionario =
-                funcionarioRepo.buscarPorCodigo(codigo);
+        ValidadorFuncionario.validarCodigo(codigo);
+        Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
 
         if (funcionario == null) {
             throw new IllegalArgumentException(
                     "Funcionário não encontrado."
             );
         }
-
         return funcionario;
     }
 }
