@@ -1,10 +1,11 @@
 package application.casodeuso;
 
+import application.validacao.ValidadorCpf;
 import domain.pessoas.*;
 import application.repositories.ClienteRepository;
 
 
-public class ExcluirCliente extends CasoUso{
+public class ExcluirCliente{
     private final ClienteRepository clienteRepo;
 
     public ExcluirCliente(ClienteRepository clienteRepo){
@@ -12,7 +13,7 @@ public class ExcluirCliente extends CasoUso{
     }
 
     public void executar(String cpf) {
-        validarCpf(cpf);
+        ValidadorCpf.validarCpf(cpf);
         Cliente cliente = clienteRepo.buscarPorCpf(cpf);
 
         if (cliente == null){

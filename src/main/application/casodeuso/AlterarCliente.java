@@ -1,9 +1,10 @@
 package application.casodeuso;
 
+import application.validacao.ValidadorCpf;
 import domain.pessoas.Cliente;
 import application.repositories.ClienteRepository;
 
-public class AlterarCliente extends CasoUso {
+public class AlterarCliente{
 
     private final ClienteRepository clienteRepo;
 
@@ -18,7 +19,7 @@ public class AlterarCliente extends CasoUso {
         }
 
         String cpf = cliente.getCpf();
-        validarCpf(cpf);
+        ValidadorCpf.validarCpf(cpf);
 
         Cliente clienteExistente = clienteRepo.buscarPorCpf(cpf);
 

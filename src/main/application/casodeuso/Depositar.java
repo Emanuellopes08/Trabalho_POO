@@ -1,9 +1,10 @@
 package application.casodeuso;
 
+import application.validacao.ValidadorValor;
 import domain.contas.Conta;
 import application.repositories.ContaRepository;
 
-public class Depositar extends CasoUso{
+public class Depositar{
 
     private final ContaRepository contaRepo;
 
@@ -13,7 +14,7 @@ public class Depositar extends CasoUso{
 
     public void executar(int id, double valor) {
 
-        validarValor(valor);
+        ValidadorValor.validarValor(valor);
         Conta conta = contaRepo.buscarPorId(id);
 
         if (conta == null) {
