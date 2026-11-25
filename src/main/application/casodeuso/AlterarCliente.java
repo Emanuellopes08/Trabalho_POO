@@ -3,7 +3,7 @@ package application.casodeuso;
 import domain.pessoas.Cliente;
 import application.repositories.ClienteRepository;
 
-public class AlterarCliente {
+public class AlterarCliente extends CasoUso {
 
     private final ClienteRepository clienteRepo;
 
@@ -27,11 +27,5 @@ public class AlterarCliente {
         }
 
         clienteRepo.atualizar(cliente);
-    }
-
-    private void validarCpf(String cpf) {
-        if (cpf == null || cpf.isBlank()) {
-            throw new IllegalArgumentException("CPF não informado.");
-        }
     }
 }

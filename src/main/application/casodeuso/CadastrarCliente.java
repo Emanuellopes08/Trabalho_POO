@@ -3,18 +3,12 @@ package application.casodeuso;
 import domain.pessoas.Cliente;
 import application.repositories.ClienteRepository;
 
-public class CadastrarCliente {
+public class CadastrarCliente extends CasoUso{
 
     private final ClienteRepository clienteRepo;
 
     public CadastrarCliente(ClienteRepository clienteRepo) {
         this.clienteRepo = clienteRepo;
-    }
-
-    private void validarCpf(String cpf) {
-        if (cpf == null || cpf.isBlank()) {
-            throw new IllegalArgumentException("CPF não informado.");
-        }
     }
 
     public void executar(Cliente cliente) {

@@ -4,17 +4,11 @@ import domain.pessoas.*;
 import application.repositories.ClienteRepository;
 
 
-public class ExcluirCliente {
+public class ExcluirCliente extends CasoUso{
     private final ClienteRepository clienteRepo;
 
     public ExcluirCliente(ClienteRepository clienteRepo){
         this.clienteRepo = clienteRepo;
-    }
-
-    private void validarCpf(String cpf) {
-        if (cpf == null || cpf.isBlank()) {
-            throw new IllegalArgumentException("CPF não informado.");
-        }
     }
 
     public void executar(String cpf) {

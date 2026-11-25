@@ -3,7 +3,7 @@ package application.casodeuso;
 import domain.contas.Conta;
 import application.repositories.ContaRepository;
 
-public class Sacar {
+public class Sacar extends CasoUso{
 
     private final ContaRepository contaRepo;
 
@@ -13,10 +13,7 @@ public class Sacar {
 
     public void executar(int id, double valor) {
 
-        if (!Double.isFinite(valor) || valor <= 0) {
-            throw new IllegalArgumentException("Valor de saque inválido.");
-        }
-
+        validarValor(valor);
         Conta conta = contaRepo.buscarPorId(id);
 
         if (conta == null) {
