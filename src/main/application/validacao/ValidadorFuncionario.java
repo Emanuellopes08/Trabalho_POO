@@ -2,16 +2,35 @@ package application.validacao;
 
 import domain.pessoas.Funcionario;
 
+/**
+ * Classe utilitária responsável pela validação
+ * dos dados dos funcionários do sistema bancário.
+ */
 public final class ValidadorFuncionario {
 
     private ValidadorFuncionario() {
     }
 
+    /**
+     * Valida o código de identificação do funcionário.
+     *
+     * @param codigo código do funcionário.
+     * @throws IllegalArgumentException se o código for negativo.
+     */
     public static void validarCodigo(int codigo) {
         if (codigo < 0) {
             throw new IllegalArgumentException("Código inválido.");
         }
     }
+
+    /**
+     * Valida o código, o usuário, a senha e o cargo
+     * do funcionário.
+     *
+     * @param funcionario funcionário a ser validado.
+     * @throws IllegalArgumentException se o funcionário for nulo
+     * ou apresentar algum dos dados inválidos.
+     */
     public static void validarFuncionario(Funcionario funcionario) {
 
         if (funcionario == null) {throw new IllegalArgumentException("Funcionário não informado.");
