@@ -1,26 +1,35 @@
-
 package infrastructure.persistence;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
 
 public class Conexao {
 
-    private static final String URL = "jdbc:sqlite:banco_es.db";
+    private static final String URL = "jdbc:sqlite:banco.db";
 
     public static Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL);
+
+        Connection conexao = DriverManager.getConnection(URL);
+
+        try (Statement statement = conexao.createStatement()) {
+            statement.execute("PRAGMA foreign_keys = ON");
+        } catch (SQLException e) {
+            conexao.close();
+            throw e;
+        }
+
+        return conexao;
     }
 
     public static void criarTabelas() throws SQLException, IOException {
 
         String script = Files.readString(
-                Path.of("BancoDados", "script.sql")
+                Path.of("src", "main", "infrastructure", "persistence", "script.sql")
         );
 
         try (Connection conexao = conectar();
@@ -36,4 +45,4 @@ public class Conexao {
             }
         }
     }
-}   
+}
