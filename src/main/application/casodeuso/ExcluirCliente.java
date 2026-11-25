@@ -24,7 +24,7 @@ public class ExcluirCliente {
         if (cliente == null){
             throw new IllegalArgumentException("Cliente não encontrado.");
         }
-        ClienteRepository.excluir(cpf);
+        clienteRepo.excluir(cpf);
     }
 
 }
