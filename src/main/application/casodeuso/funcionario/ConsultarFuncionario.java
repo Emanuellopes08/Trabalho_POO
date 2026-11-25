@@ -4,16 +4,33 @@ import application.repositories.FuncionarioRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
+/**
+ * Caso de uso responsável pela consulta de funcionários
+ * por meio do código de identificação.
+ */
 public class ConsultarFuncionario {
-
     private final FuncionarioRepository funcionarioRepo;
 
+    /**
+     * Inicializa o caso de uso com o repositório de funcionários.
+     *
+     * @param funcionarioRepo repositório responsável pelo acesso
+     * aos dados dos funcionários.
+     */
     public ConsultarFuncionario(FuncionarioRepository funcionarioRepo) {
         this.funcionarioRepo = funcionarioRepo;
     }
 
+    /**
+     * Valida o código informado e consulta o funcionário
+     * cadastrado no repositório.
+     *
+     * @param codigo código do funcionário a ser consultado.
+     * @return funcionário encontrado no repositório.
+     * @throws IllegalArgumentException se o código for inválido
+     * ou se o funcionário não for encontrado.
+     */
     public Funcionario executar(int codigo) {
-
         ValidadorFuncionario.validarCodigo(codigo);
         Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
 
