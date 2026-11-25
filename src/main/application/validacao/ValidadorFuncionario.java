@@ -42,7 +42,7 @@ public final class ValidadorFuncionario {
             throw new IllegalArgumentException("Usuário não informado.");
         }
 
-        if (funcionario.getSenha() == null || funcionario.getSenha().isEmpty()) {
+        if (funcionario.getSenha() == null || funcionario.getSenha().isBlank()) {
             throw new IllegalArgumentException("Senha não informada.");
         }
 

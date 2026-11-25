@@ -27,11 +27,15 @@ public class CadastrarCliente{
      *
      * @param cliente cliente a ser cadastrado.
      * @param senha senha de acesso do cliente.
-     * @throws IllegalArgumentException se o CPF ou a senha
-     * forem inválidos ou se o cliente já estiver cadastrado.
+     * @throws IllegalArgumentException se o cliente for nulo,
+     * o CPF ou a senha forem inválidos ou se o cliente
+     * já estiver cadastrado.
      */
     public void executar(Cliente cliente, String senha) {
 
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não informado.");
+        }
         String cpf = cliente.getCpf();
         ValidadorCliente.validarCpf(cpf);
         ValidadorCliente.validarSenha(senha);
