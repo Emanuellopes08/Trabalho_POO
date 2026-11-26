@@ -240,7 +240,12 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
 
         conta.setId(rs.getInt("id"));
-        conta.efetuarDeposito(rs.getDouble("saldo"));
+
+        double saldo = rs.getDouble("saldo");
+
+        if (saldo > 0) {
+            conta.efetuarDeposito(saldo);
+        }
 
         return conta;
     }
