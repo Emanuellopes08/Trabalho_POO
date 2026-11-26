@@ -159,17 +159,24 @@ Essa organização reduz o acoplamento entre as camadas, facilita a manutenção
 Na camada de persistência, foram realizadas melhorias de legibilidade e organização do código por meio da separação das operações de acesso ao banco de dados em repositórios específicos para clientes, contas e funcionários. A lógica de conexão com o SQLite foi centralizada na classe Conexao.java, reduzindo a duplicação de código. Também foi aprimorado o tratamento de exceções com o uso de try-with-resources, garantindo o fechamento adequado dos recursos utilizados nas operações JDBC e contribuindo para a confiabilidade da aplicação.
 
 ### Critérios 6, 7 e 8 — Interface Gráfica (Identidade Visual, Layout e Usabilidade)
-- `[PREENCHER — Adryan: descrever paleta de cores, tipografia, padronização de componentes (ex.: BotaoArredondado), alinhamentos/espaçamentos, validações de formulário, feedback de sucesso/erro, navegação por teclado e prevenção de travamento da janela.]`
+(Adryan): A interface gráfica do Banco ES passou por melhorias visuais e de organização, buscando uma aparência mais moderna e próxima à de um aplicativo bancário real. Foi adotada uma paleta de cores baseada em azul-marinho, azul, verde, branco e vermelho, utilizando o verde para destacar ações positivas e o vermelho para ações de saída ou cancelamento. A tipografia foi padronizada com a fonte Segoe UI, proporcionando melhor legibilidade e hierarquia visual.
+
+Também foi aprimorada a padronização dos componentes, especialmente com a utilização da classe reutilizável `BotaoArredondado`, que recebeu bordas arredondadas, sombras, efeitos de degradê e mudanças visuais ao passar o mouse ou pressionar. Os alinhamentos e espaçamentos foram reorganizados para proporcionar uma interface mais equilibrada, incluindo ajustes para manter os botões visíveis mesmo em janelas não maximizadas.
+
+Quanto à usabilidade, foram mantidas validações nos formulários, verificando campos vazios, valores inválidos, valores negativos e saldo insuficiente. As operações de depósito e saque apresentam mensagens de sucesso ou erro, facilitando a compreensão das ações realizadas pelo usuário. Os componentes também permitem navegação pelo teclado, com suporte ao foco visual e à navegação padrão entre controles.
+
+Por fim, a interface foi organizada para melhorar a adaptação dos componentes aos diferentes tamanhos de janela. A prevenção de travamentos durante operações demoradas, entretanto, não foi especificamente implementada nesta refatoração, podendo ser aprimorada futuramente com recursos como `SwingWorker`.
 
 #### Capturas de Tela
-- `[PREENCHER — Adryan: atualizar ou adicionar os prints das telas finais, como TelaPrincipal, TelaCliente, TelaLoginCliente, etc.]`
 
-![Tela de Login do Gerente](PrintTelas/TelaLoginGerente.png)
-![Tela do Gerente](PrintTelas/TelaGerente.png)
-![Tela de Login do Funcionário](PrintTelas/TelaLoginFuncionario.png)
-![Tela do Funcionário](PrintTelas/TelaFuncionario.png)
-![Tela de Cadastro de Cliente](PrintTelas/TelaCadastroCliente.png)
-![Tela de Consulta de Cliente](PrintTelas/TelaFuncionarioConsultarCliente.png)
+![Tela principal](PrintTelas/PrintTelas_refatoracao/TelaPrincipalRefat.png)
+![Tela login do cliente](PrintTelas/PrintTelas_refatoracao/TelaLoginClienteRefat.png)
+![Tela login do gerente](PrintTelas/PrintTelas_refatoracao/TelaLoginGerenteRefat.png)
+![Tela login do funcionario](PrintTelas/PrintTelas_refatoracao/TelaLoginFuncionarioRefat.png)
+![Tela da area do cliente](PrintTelas/PrintTelas_refatoracao/TelaAreaClienteRefat.png)
+![Tela da area do gerente](PrintTelas/PrintTelas_refatoracao/TelaAreaGerenteRefat.png)
+![Tela da area do funcionario](PrintTelas/PrintTelas_refatoracao/TelaAreaFuncionarioRefat.png)
+
 
 ### Critério 9 — Banco de Dados e Persistência
 - A persistência dos dados é realizada por meio do SQLite, utilizando JDBC. O banco de dados é estruturado em três tabelas principais:
