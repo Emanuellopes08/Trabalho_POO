@@ -1,14 +1,24 @@
+
 package presentation.swing;
 
 import application.casodeuso.autenticacao.*;
 import application.casodeuso.cliente.*;
 import application.casodeuso.conta.*;
 import application.casodeuso.funcionario.*;
-import application.repositories.*;
-import infrastructure.persistence.*;
 
-/** Contexto com os casos de uso já existentes, montado na inicialização. */
+/**
+ * Disponibiliza os casos de uso do sistema Banco ES para a camada
+ * de apresentação.
+ *
+ * Recebe os casos de uso já instanciados por meio do construtor,
+ * mantendo a responsabilidade de criação das dependências fora
+ * desta classe.
+ *
+ * Dessa forma, a classe não depende diretamente das implementações
+ * de infraestrutura, contribuindo para a separação de responsabilidades.
+ */
 public class AplicacaoBanco {
+
     public final CadastrarCliente cadastrarCliente;
     public final ConsultarCliente consultarCliente;
     public final AlterarCliente alterarCliente;
@@ -25,24 +35,57 @@ public class AplicacaoBanco {
     public final AutenticarFuncionario autenticarFuncionario;
     public final AutenticarGerente autenticarGerente;
 
-    public AplicacaoBanco() {
-        ClienteRepository clientes = new ClienteRepositoryJDBC();
-        ContaRepository contas = new ContaRepositoryJDBC();
-        FuncionarioRepository funcionarios = new FuncionarioRepositoryJDBC();
-        cadastrarCliente = new CadastrarCliente(clientes);
-        consultarCliente = new ConsultarCliente(clientes);
-        alterarCliente = new AlterarCliente(clientes);
-        excluirCliente = new ExcluirCliente(clientes);
-        cadastrarConta = new CadastrarConta(contas);
-        consultarContasCliente = new ConsultarContasCliente(clientes, contas);
-        depositar = new Depositar(contas);
-        sacar = new Sacar(contas);
-        autenticarCliente = new AutenticarCliente(clientes, contas);
-        cadastrarFuncionario = new CadastrarFuncionario(funcionarios);
-        consultarFuncionario = new ConsultarFuncionario(funcionarios);
-        alterarFuncionario = new AlterarFuncionario(funcionarios);
-        excluirFuncionario = new ExcluirFuncionario(funcionarios);
-        autenticarFuncionario = new AutenticarFuncionario(funcionarios);
-        autenticarGerente = new AutenticarGerente(funcionarios);
+    /**
+     * Inicializa o contexto da aplicação recebendo todos os casos
+     * de uso necessários para a camada de apresentação.
+     *
+     * @param cadastrarCliente caso de uso para cadastro de clientes
+     * @param consultarCliente caso de uso para consulta de clientes
+     * @param alterarCliente caso de uso para alteração de clientes
+     * @param excluirCliente caso de uso para exclusão de clientes
+     * @param cadastrarConta caso de uso para cadastro de contas
+     * @param consultarContasCliente caso de uso para consulta das contas de um cliente
+     * @param depositar caso de uso para depósitos
+     * @param sacar caso de uso para saques
+     * @param autenticarCliente caso de uso para autenticação de clientes
+     * @param cadastrarFuncionario caso de uso para cadastro de funcionários
+     * @param consultarFuncionario caso de uso para consulta de funcionários
+     * @param alterarFuncionario caso de uso para alteração de funcionários
+     * @param excluirFuncionario caso de uso para exclusão de funcionários
+     * @param autenticarFuncionario caso de uso para autenticação de funcionários
+     * @param autenticarGerente caso de uso para autenticação de gerentes
+     */
+    public AplicacaoBanco(
+            CadastrarCliente cadastrarCliente,
+            ConsultarCliente consultarCliente,
+            AlterarCliente alterarCliente,
+            ExcluirCliente excluirCliente,
+            CadastrarConta cadastrarConta,
+            ConsultarContasCliente consultarContasCliente,
+            Depositar depositar,
+            Sacar sacar,
+            AutenticarCliente autenticarCliente,
+            CadastrarFuncionario cadastrarFuncionario,
+            ConsultarFuncionario consultarFuncionario,
+            AlterarFuncionario alterarFuncionario,
+            ExcluirFuncionario excluirFuncionario,
+            AutenticarFuncionario autenticarFuncionario,
+            AutenticarGerente autenticarGerente) {
+
+        this.cadastrarCliente = cadastrarCliente;
+        this.consultarCliente = consultarCliente;
+        this.alterarCliente = alterarCliente;
+        this.excluirCliente = excluirCliente;
+        this.cadastrarConta = cadastrarConta;
+        this.consultarContasCliente = consultarContasCliente;
+        this.depositar = depositar;
+        this.sacar = sacar;
+        this.autenticarCliente = autenticarCliente;
+        this.cadastrarFuncionario = cadastrarFuncionario;
+        this.consultarFuncionario = consultarFuncionario;
+        this.alterarFuncionario = alterarFuncionario;
+        this.excluirFuncionario = excluirFuncionario;
+        this.autenticarFuncionario = autenticarFuncionario;
+        this.autenticarGerente = autenticarGerente;
     }
 }
