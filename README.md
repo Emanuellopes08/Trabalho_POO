@@ -138,7 +138,6 @@ Essa organização reduz o acoplamento entre as camadas, facilita a manutenção
   - **Correção prática de LSP em `ContaPoupanca`:** `aplicarRendimento()` anteriormente chamava `efetuarDeposito(0)` quando o saldo era zero, o que violaria a validação de valor positivo. Agora o depósito do rendimento só ocorre quando `rendimento > 0`, preservando o contrato da superclasse.
   - **Demonstração em testes:** `src/test/ContaLspTest.java` executa a mesma bateria de testes (saldo inicial zero, depósito válido/inválido, saque válido/inválido e saque acima do saldo) iterando sobre uma `List<Conta>` contendo todas as subclasses.
   - **Resultado dos testes (`ContaLspTest`):** 12 testes executados com sucesso (`Tests run: 12, Failures: 0, Errors: 0, Skipped: 0`).
-  ![Resultado dos 12 testes LSP](PrintTelas/testes_lsp.png)
 
 #### ISP (Princípio da Segregação de Interfaces)
 - `[PREENCHER — Emanuel: explicar como os contratos foram segregados em ClienteRepository, ContaRepository e FuncionarioRepository para que nenhum caso de uso dependa de métodos que não utiliza.]`
