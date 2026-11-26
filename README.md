@@ -119,7 +119,12 @@ Todos os requisitos e as 15 regras de negócio (RN1 a RN15) do Marco 1 foram pre
   - `Cliente` (`domain/pessoas/Cliente.java`) teve o método `solicitarDados()` (com `Scanner` e `System.out`) removido. Agora sua única responsabilidade é representar e proteger os dados do cliente (incluindo `senha` para autenticação).
   - `Gerente` (`domain/pessoas/Gerente.java`) deixou de imprimir no console em `emitirRelatorio()`, passando a apenas montar e retornar a `String` do relatório.
   - `Conta` (`domain/contas/Conta.java`) concentra a responsabilidade de manter o saldo e validar regras de depósito e saque no domínio, sem depender de telas.
-- **Camada de Aplicação (Liane):** `[PREENCHER — Liane: citar a separação de cada operação em uma classe específica dentro de application/casodeuso/ e a retirada das regras das telas.]`
+- **Camada de Aplicação (Liane):** 
+  - As operações do sistema foram separadas em classes específicas dentro do pacote `application/casodeuso`, fazendo com que cada caso de uso possua uma responsabilidade definida. Como exemplo, as classes `CadastrarCliente`, `ConsultarCliente`, `AlterarCliente` e `ExcluirCliente` são responsáveis por operações distintas relacionadas ao cliente.
+
+  - As validações de entrada foram centralizadas nas classes `ValidadorCliente`, `ValidadorFuncionario` e `ValidadorValor`, localizadas no pacote `application/validacao`, permitindo a reutilização do código.
+
+  - Essa organização permite retirar regras de aplicação da interface gráfica, reduzindo o acoplamento entre as camadas e facilitando a manutenção do sistema.
 - **Infraestrutura e Apresentação (Vinícius / Adryan):** O projeto mantém separadas as responsabilidades de persistência de dados e apresentação da interface gráfica. A camada de infraestrutura (infrastructure/persistence) concentra a comunicação com o banco de dados SQLite por meio do JDBC, utilizando classes específicas para conexão e operações de cadastro, consulta, atualização e exclusão.
 
 Já a camada de apresentação (presentation/swing) é responsável pelas telas e pela interação com o usuário, sem precisar implementar diretamente os comandos SQL ou gerenciar as conexões com o banco de dados.
@@ -127,7 +132,10 @@ Já a camada de apresentação (presentation/swing) é responsável pelas telas 
 Essa organização reduz o acoplamento entre as camadas, facilita a manutenção e permite que alterações na interface gráfica ou na implementação da persistência sejam realizadas com menor impacto sobre o restante do sistema.
 
 #### OCP (Princípio Aberto/Fechado)
-- `[PREENCHER — Liane: descrever como a criação de contas ou os casos de uso permitem adicionar novas modalidades/comportamentos por extensão sem alterar o fluxo central, citando as classes/métodos concretos.]`
+- **Camada de Aplicação (Liane):** 
+  - O princípio Aberto/Fechado (OCP) foi aplicado na classe `CadastrarConta`, localizada no pacote `application/casodeuso/conta`. O método `executar()` recebe um objeto do tipo abstrato `Conta`, permitindo trabalhar com diferentes modalidades, como `ContaCorrente`, `ContaPoupanca`, `ContaConjunta` e `ContaPJ`.
+
+Dessa forma, é possível acrescentar novas modalidades de conta por meio da criação de subclasses, sem modificar a implementação do caso de uso `CadastrarConta`, utilizando abstração, herança e polimorfismo.
 
 ### Critério 3 — SOLID: LSP, ISP e DIP
 
@@ -147,7 +155,12 @@ Essa organização reduz o acoplamento entre as camadas, facilita a manutenção
 
 ### Critério 4 — Clean Architecture
 - **Domínio (`domain`):** `Cliente`, `Funcionario`, `Gerente`, `Conta`, suas subclasses, `TipoConta` e `SaldoInsuficienteException` não importam nada de `javax.swing`, `java.sql` ou das demais camadas. Todas as validações de domínio funcionam sem abrir a interface gráfica (como demonstrado em `ContaLspTest`).
-- **Aplicação, Infraestrutura e Apresentação:** `[PREENCHER — Emanuel/Liane: explicar brevemente como os casos de uso orquestram as operações sem depender de Swing nem de JDBC, e como o Main faz a ligação final.]`
+- **Aplicação, Infraestrutura e Apresentação:** 
+Os casos de uso foram organizados no pacote `application/casodeuso`, separados em operações de cliente, funcionário, conta e autenticação. Essa organização permite que as operações sejam executadas independentemente da interface gráfica.
+
+Os casos de uso utilizam as entidades do domínio e recebem as interfaces dos repositórios por meio de seus construtores, sem depender diretamente das implementações JDBC ou das telas Swing.
+
+Como exemplo, a classe `Depositar` é responsável por validar o valor informado, consultar a conta por meio da interface `ContaRepository`, solicitar a operação de depósito à entidade `Conta` e atualizar os dados no repositório. Dessa forma, as regras de negócio permanecem no domínio, enquanto o caso de uso coordena a execução da operação.
 
 ### Critério 5 — Clean Code
 - **Domínio (Iasmin):**

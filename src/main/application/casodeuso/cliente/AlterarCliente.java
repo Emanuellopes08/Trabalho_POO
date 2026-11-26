@@ -23,21 +23,19 @@ public class AlterarCliente{
     }
 
     /**
-     * Valida o cliente e seu CPF, verifica sua existência
-     * e solicita a atualização dos seus dados.
+     * Valida os dados do cliente, verifica sua existência
+     * no repositório e atualiza seus dados.
      *
      * @param cliente cliente com os dados atualizados.
      * @throws IllegalArgumentException se o cliente for nulo,
-     * o CPF não for informado ou o cliente não for encontrado.
+     * o CPF ou a senha forem inválidos ou o cliente
+     * não for encontrado.
      */
     public void executar(Cliente cliente) {
 
-        if (cliente == null) {
-            throw new IllegalArgumentException("Cliente não informado.");
-        }
+        ValidadorCliente.validarCliente(cliente);
 
         String cpf = cliente.getCpf();
-        ValidadorCliente.validarCpf(cpf);
 
         Cliente clienteExistente = clienteRepo.buscarPorCpf(cpf);
 

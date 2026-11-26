@@ -1,7 +1,7 @@
 package application.casodeuso.cliente;
 
 import application.validacao.ValidadorCliente;
-import domain.pessoas.*;
+import domain.pessoas.Cliente;
 import application.repositories.ClienteRepository;
 
 /**

@@ -33,7 +33,8 @@ public final class ValidadorFuncionario {
      */
     public static void validarFuncionario(Funcionario funcionario) {
 
-        if (funcionario == null) {throw new IllegalArgumentException("Funcionário não informado.");
+        if (funcionario == null) {
+            throw new IllegalArgumentException("Funcionário não informado.");
         }
 
         validarCodigo(funcionario.getCodigo());

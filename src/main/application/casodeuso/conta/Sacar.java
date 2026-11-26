@@ -3,6 +3,7 @@ package application.casodeuso.conta;
 import application.validacao.ValidadorValor;
 import domain.contas.Conta;
 import application.repositories.ContaRepository;
+import domain.contas.SaldoInsuficienteException;
 
 /**
  * Caso de uso responsável pela realização de saques
@@ -29,8 +30,9 @@ public class Sacar{
      *
      * @param id identificador da conta bancária.
      * @param valor valor a ser sacado.
-     * @throws IllegalArgumentException se o valor for inválido,
-     * a conta não for encontrada ou o saldo for insuficiente.
+     * @throws IllegalArgumentException se o valor for inválido
+     * ou a conta não for encontrada.
+     * @throws SaldoInsuficienteException se o saldo for insuficiente.
      */
     public void executar(int id, double valor) {
         ValidadorValor.validarValor(valor);
@@ -40,9 +42,6 @@ public class Sacar{
             throw new IllegalArgumentException("Conta não encontrada.");
         }
 
-        if (valor > conta.getSaldo()) {
-            throw new IllegalArgumentException("Saldo insuficiente.");
-        }
         conta.efetuarSaque(valor);
         contaRepo.atualizar(conta);
     }
