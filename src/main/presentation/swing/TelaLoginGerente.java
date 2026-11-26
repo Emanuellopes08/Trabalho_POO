@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class TelaLoginGerente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
@@ -24,7 +26,8 @@ public class TelaLoginGerente extends JFrame {
     private JLabel erroCodigo;
 
 
-    public TelaLoginGerente() {
+    public TelaLoginGerente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -39,7 +42,7 @@ public class TelaLoginGerente extends JFrame {
 
         setSize(550, 550);
 
-        setTitle("Banco ES - Login Pessoas.Gerente");
+        setTitle("Banco ES - Login Gerente");
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -576,21 +579,16 @@ public class TelaLoginGerente extends JFrame {
 //                  LOGIN VÁLIDO
 /////////////////////////////////////////////////////////////////////
 
-        // Fecha a tela de login
+        int codigo;
+        try {
+            codigo = Integer.parseInt(codigoTexto);
+            aplicacao.autenticarGerente.executar(codigo, usuario, senha);
+        } catch (RuntimeException ex) {
+            erroCodigo.setText(ex.getMessage());
+            return;
+        }
         dispose();
-
-// Abre a tela principal do gerente
-        new TelaGerente();
-
-        /*
-         * Aqui posteriormente podemos verificar:
-         *
-         * usuário
-         * senha
-         * código
-         *
-         * contra os dados do gerente cadastrado.
-         */
+        new TelaGerente(aplicacao);
     }
 
 

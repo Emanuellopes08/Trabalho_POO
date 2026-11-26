@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class TelaAlterarCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color VERDE = new Color(72, 255, 129);
@@ -30,7 +32,8 @@ public class TelaAlterarCliente extends JFrame {
     private Cliente clienteEncontrado;
 
 
-    public TelaAlterarCliente() {
+    public TelaAlterarCliente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -42,7 +45,7 @@ public class TelaAlterarCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(700, 680);
-        setTitle("Banco ES - Alterar Pessoas.Cliente");
+        setTitle("Banco ES - Alterar Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -111,7 +114,7 @@ public class TelaAlterarCliente extends JFrame {
 // BOTÃO BUSCAR
 /////////////////////////////////////////////////////////////////////
 
-        BotaoArredondado btnBuscar = new BotaoArredondado("Buscar Pessoas.Cliente");
+        BotaoArredondado btnBuscar = new BotaoArredondado("Buscar Cliente");
 
         btnBuscar.setPreferredSize(new Dimension(180, 45));
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 15));
@@ -339,10 +342,11 @@ public class TelaAlterarCliente extends JFrame {
 // BUSCA NO SISTEMA
 /////////////////////////////////////////////////////////////////////
 
-        clienteEncontrado = SistemaBanco.buscarClientePorCpf(cpf);
+        try { clienteEncontrado = aplicacao.consultarCliente.executar(cpf); }
+        catch (RuntimeException ex) { mensagemErro.setText(ex.getMessage()); return; }
 
         if (clienteEncontrado == null) {
-            mensagemErro.setText("Pessoas.Cliente não encontrado.");
+            mensagemErro.setText("Cliente não encontrado.");
             return;
         }
 
@@ -449,6 +453,8 @@ public class TelaAlterarCliente extends JFrame {
         clienteEncontrado.setTelefone(telefone);
         clienteEncontrado.setEndereco(endereco);
         clienteEncontrado.setEmail(email);
+        try { aplicacao.alterarCliente.executar(clienteEncontrado); }
+        catch (RuntimeException ex) { mensagemErro.setText(ex.getMessage()); return; }
 
 /////////////////////////////////////////////////////////////////////
 // SUCESSO
@@ -456,7 +462,7 @@ public class TelaAlterarCliente extends JFrame {
 
         JOptionPane.showMessageDialog(
                 this,
-                "Pessoas.Cliente alterado com sucesso!",
+                "Cliente alterado com sucesso!",
                 "Banco ES",
                 JOptionPane.INFORMATION_MESSAGE
         );

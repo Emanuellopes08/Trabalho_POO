@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class TelaGerente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // =========================================================
     // CORES DO PROJETO
     // =========================================================
@@ -27,7 +29,8 @@ public class TelaGerente extends JFrame {
     // CONSTRUTOR
     // =========================================================
 
-    public TelaGerente() {
+    public TelaGerente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarMenu();
@@ -43,7 +46,7 @@ public class TelaGerente extends JFrame {
 
         setSize(700, 600);
 
-        setTitle("Banco ES - Contas.Conta do Pessoas.Gerente");
+        setTitle("Banco ES - Conta do Gerente");
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -333,9 +336,12 @@ public class TelaGerente extends JFrame {
         // VERIFICA SE O CÓDIGO JÁ EXISTE
         // -----------------------------------------------------
 
-        if (SistemaBanco.buscarFuncionarioPorCodigo(codigo) != null) {
+        try {
+            aplicacao.consultarFuncionario.executar(codigo);
             mostrarErro("Já existe um funcionário com esse código.");
             return;
+        } catch (IllegalArgumentException ignorada) {
+            // Código ainda não cadastrado: pode prosseguir.
         }
 
         // -----------------------------------------------------
@@ -349,11 +355,12 @@ public class TelaGerente extends JFrame {
                 cargo
         );
 
-        SistemaBanco.adicionarFuncionario(funcionario);
+        try { aplicacao.cadastrarFuncionario.executar(funcionario); }
+        catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
         JOptionPane.showMessageDialog(
                 this,
-                "Contas.Conta cadastrada!",
+                "Conta cadastrada!",
                 "Banco ES",
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -390,13 +397,9 @@ public class TelaGerente extends JFrame {
 
         int codigo = Integer.parseInt(codigoTexto);
 
-        Funcionario funcionario =
-                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
-
-        if (funcionario == null) {
-            mostrarErro("Funcionário não encontrado.");
-            return;
-        }
+        Funcionario funcionario;
+        try { funcionario = aplicacao.consultarFuncionario.executar(codigo); }
+        catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
         JOptionPane.showMessageDialog(
                 this,
@@ -434,13 +437,9 @@ public class TelaGerente extends JFrame {
 
         int codigo = Integer.parseInt(codigoTexto);
 
-        Funcionario funcionario =
-                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
-
-        if (funcionario == null) {
-            mostrarErro("Funcionário não encontrado.");
-            return;
-        }
+        Funcionario funcionario;
+        try { funcionario = aplicacao.consultarFuncionario.executar(codigo); }
+        catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
         JTextField campoUsuario =
                 new JTextField(funcionario.getUsuario());
@@ -515,10 +514,12 @@ public class TelaGerente extends JFrame {
         funcionario.setUsuario(novoUsuario);
         funcionario.setSenha(novaSenha);
         funcionario.setCargo(novoCargo);
+        try { aplicacao.alterarFuncionario.executar(funcionario); }
+        catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
         JOptionPane.showMessageDialog(
                 this,
-                "Contas.Conta alterada!",
+                "Conta alterada!",
                 "Banco ES",
                 JOptionPane.INFORMATION_MESSAGE
         );
@@ -550,13 +551,9 @@ public class TelaGerente extends JFrame {
 
         int codigo = Integer.parseInt(codigoTexto);
 
-        Funcionario funcionario =
-                SistemaBanco.buscarFuncionarioPorCodigo(codigo);
-
-        if (funcionario == null) {
-            mostrarErro("Funcionário não encontrado.");
-            return;
-        }
+        Funcionario funcionario;
+        try { funcionario = aplicacao.consultarFuncionario.executar(codigo); }
+        catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
         // -----------------------------------------------------
         // MOSTRA OS DADOS ANTES DA EXCLUSÃO
@@ -578,11 +575,12 @@ public class TelaGerente extends JFrame {
 
         if (confirmacao == JOptionPane.YES_OPTION) {
 
-            SistemaBanco.excluirFuncionario(funcionario);
+            try { aplicacao.excluirFuncionario.executar(codigo); }
+            catch (RuntimeException ex) { mostrarErro(ex.getMessage()); return; }
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Contas.Conta excluída!",
+                    "Conta excluída!",
                     "Banco ES",
                     JOptionPane.INFORMATION_MESSAGE
             );

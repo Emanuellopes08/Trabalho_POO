@@ -38,9 +38,16 @@ public class Conexao {
             String[] comandos = script.split(";");
 
             for (String comando : comandos) {
-
                 if (!comando.trim().isEmpty()) {
                     statement.execute(comando);
+                }
+            }
+            // Migração compatível com bancos criados antes da coluna de senha.
+            try {
+                statement.execute("ALTER TABLE clientes ADD COLUMN senha TEXT");
+            } catch (SQLException colunaJaExiste) {
+                if (!colunaJaExiste.getMessage().toLowerCase().contains("duplicate column")) {
+                    throw colunaJaExiste;
                 }
             }
         }

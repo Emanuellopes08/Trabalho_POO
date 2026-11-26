@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class TelaConsultaCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
@@ -26,7 +28,8 @@ public class TelaConsultaCliente extends JFrame {
     private JLabel resultadoCpf;
 
 
-    public TelaConsultaCliente() {
+    public TelaConsultaCliente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -38,7 +41,7 @@ public class TelaConsultaCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(600, 500);
-        setTitle("Banco ES - Consultar Pessoas.Cliente");
+        setTitle("Banco ES - Consultar Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -245,10 +248,12 @@ public class TelaConsultaCliente extends JFrame {
 // PROCURA O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        Cliente cliente = SistemaBanco.buscarClientePorCpf(cpf);
+        Cliente cliente;
+        try { cliente = aplicacao.consultarCliente.executar(cpf); }
+        catch (RuntimeException ex) { mensagemErro.setText(ex.getMessage()); return; }
 
         if (cliente == null) {
-            mensagemErro.setText("Pessoas.Cliente não encontrado.");
+            mensagemErro.setText("Cliente não encontrado.");
             return;
         }
 

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class TelaLoginCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color VERDE = new Color(72, 255, 129);
@@ -24,7 +26,8 @@ public class TelaLoginCliente extends JFrame {
     private JLabel mensagemErro;
 
 
-    public TelaLoginCliente() {
+    public TelaLoginCliente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -237,24 +240,13 @@ public class TelaLoginCliente extends JFrame {
 // BUSCA CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        Cliente cliente = SistemaBanco.buscarClientePorCpf(cpf);
-
-        // A senha ainda precisa ser comparada com a credencial persistida no modelo/repositório.
-        // Neste arquivo, a autenticação existente continua baseada na busca por CPF.
-
-        if (cliente == null) {
-            mensagemErro.setText("Pessoas.Cliente não encontrado.");
-            return;
-        }
-
-/////////////////////////////////////////////////////////////////////
-// BUSCA CONTAS DO CLIENTE
-/////////////////////////////////////////////////////////////////////
-
-        List<Conta> contasCliente = SistemaBanco.buscarContasDoCliente(cliente);
-
-        if (contasCliente.isEmpty()) {
-            mensagemErro.setText("Nenhuma conta encontrada para este cliente.");
+        Cliente cliente;
+        List<Conta> contasCliente;
+        try {
+            cliente = aplicacao.autenticarCliente.executar(cpf, senha);
+            contasCliente = aplicacao.consultarContasCliente.executar(cpf);
+        } catch (RuntimeException ex) {
+            mensagemErro.setText(ex.getMessage());
             return;
         }
 
@@ -262,7 +254,7 @@ public class TelaLoginCliente extends JFrame {
 // ABRE A TELA DO CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        TelaCliente telaCliente = new TelaCliente(cliente, contasCliente);
+        TelaCliente telaCliente = new TelaCliente(aplicacao, cliente, contasCliente);
         telaCliente.setVisible(true);
 
         dispose();

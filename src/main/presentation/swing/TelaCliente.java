@@ -9,6 +9,8 @@ import java.util.List;
 
 public class TelaCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
@@ -34,7 +36,8 @@ public class TelaCliente extends JFrame {
     private JLabel mensagemErro;
 
 
-    public TelaCliente(Cliente cliente, List<Conta> contas) {
+    public TelaCliente(AplicacaoBanco aplicacao, Cliente cliente, List<Conta> contas) {
+        this.aplicacao = aplicacao;
 
         this.cliente = cliente;
         this.contas = contas;
@@ -51,7 +54,7 @@ public class TelaCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(700, 620);
-        setTitle("Banco ES - Área do Pessoas.Cliente");
+        setTitle("Banco ES - Área do Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -367,6 +370,25 @@ public class TelaCliente extends JFrame {
 // ATUALIZA O SALDO
     /////////////////////////////////////////////////////////////////////
 
+    private void recarregarContaSelecionada() {
+        if (contaSelecionada == null) return;
+        int idConta = contaSelecionada.getId();
+        try {
+            List<Conta> atualizadas = aplicacao.consultarContasCliente.executar(cliente.getCpf());
+            contas.clear();
+            contas.addAll(atualizadas);
+            for (int i = 0; i < contas.size(); i++) {
+                if (contas.get(i).getId() == idConta) {
+                    contaSelecionada = contas.get(i);
+                    comboContas.setSelectedIndex(i);
+                    return;
+                }
+            }
+        } catch (RuntimeException ex) {
+            mensagemErro.setText(ex.getMessage());
+        }
+    }
+
     private void atualizarSaldo() {
 
         if (contaSelecionada == null) {
@@ -439,12 +461,18 @@ public class TelaCliente extends JFrame {
 // REALIZA O DEPÓSITO
 /////////////////////////////////////////////////////////////////////
 
-        contaSelecionada.efetuarDeposito(valor);
+        try {
+            aplicacao.depositar.executar(contaSelecionada.getId(), valor);
+        } catch (RuntimeException ex) {
+            mensagemErro.setText(ex.getMessage());
+            return;
+        }
 
 /////////////////////////////////////////////////////////////////////
 // ATUALIZA O SALDO
 /////////////////////////////////////////////////////////////////////
 
+        recarregarContaSelecionada();
         atualizarSaldo();
 
 /////////////////////////////////////////////////////////////////////
@@ -531,12 +559,18 @@ public class TelaCliente extends JFrame {
 // REALIZA O SAQUE
 /////////////////////////////////////////////////////////////////////
 
-        contaSelecionada.efetuarSaque(valor);
+        try {
+            aplicacao.sacar.executar(contaSelecionada.getId(), valor);
+        } catch (RuntimeException ex) {
+            mensagemErro.setText(ex.getMessage());
+            return;
+        }
 
 /////////////////////////////////////////////////////////////////////
 // ATUALIZA O SALDO
 /////////////////////////////////////////////////////////////////////
 
+        recarregarContaSelecionada();
         atualizarSaldo();
 
 /////////////////////////////////////////////////////////////////////

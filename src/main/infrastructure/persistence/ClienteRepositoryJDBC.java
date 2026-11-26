@@ -28,8 +28,8 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
     public void salvar(Cliente cliente) {
         String sql = "INSERT INTO clientes "
                 + "(cpf, nome, data_nascimento, renda, telefone, endereco, "
-                + "nome_pai, nome_mae, email) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "nome_pai, nome_mae, email, senha) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -43,6 +43,7 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
             stmt.setString(7, cliente.getNomePai());
             stmt.setString(8, cliente.getNomeMae());
             stmt.setString(9, cliente.getEmail());
+            stmt.setString(10, cliente.getSenha());
 
             stmt.executeUpdate();
 
@@ -119,7 +120,8 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 + "endereco = ?, "
                 + "nome_pai = ?, "
                 + "nome_mae = ?, "
-                + "email = ? "
+                + "email = ?, "
+                + "senha = ? "
                 + "WHERE cpf = ?";
 
         try (Connection conexao = Conexao.conectar();
@@ -133,7 +135,8 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
             stmt.setString(6, cliente.getNomePai());
             stmt.setString(7, cliente.getNomeMae());
             stmt.setString(8, cliente.getEmail());
-            stmt.setString(9, cliente.getCpf());
+            stmt.setString(9, cliente.getSenha());
+            stmt.setString(10, cliente.getCpf());
 
             int linhasAlteradas = stmt.executeUpdate();
 
@@ -187,7 +190,7 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
      * @throws SQLException caso ocorra erro na leitura dos dados.
      */
     private Cliente montarCliente(ResultSet resultado) throws SQLException {
-        return new Cliente(
+        Cliente cliente = new Cliente(
                 resultado.getString("nome"),
                 resultado.getString("cpf"),
                 LocalDate.parse(resultado.getString("data_nascimento")),
@@ -198,5 +201,10 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 resultado.getString("nome_mae"),
                 resultado.getString("email")
         );
+        String senha = resultado.getString("senha");
+        if (senha != null && !senha.isBlank()) {
+            cliente.setSenha(senha);
+        }
+        return cliente;
     }
 }

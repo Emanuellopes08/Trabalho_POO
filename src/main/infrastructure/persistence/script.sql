@@ -3,6 +3,8 @@
 -- Criação das tabelas
 -- =========================================
 
+-- conta gerente: usuario = gerente, senha = MinhaSenha123, codigo = 1
+
 PRAGMA foreign_keys = ON;
 
 -- =========================================
@@ -18,7 +20,8 @@ CREATE TABLE IF NOT EXISTS clientes (
     endereco TEXT,
     nome_pai TEXT,
     nome_mae TEXT,
-    email TEXT
+    email TEXT,
+    senha TEXT NOT NULL
 );
 
 -- =========================================

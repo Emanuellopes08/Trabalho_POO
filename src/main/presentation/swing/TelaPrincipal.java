@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class TelaPrincipal extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores do projeto
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color VERDE = new Color(72, 255, 129);
@@ -14,7 +16,8 @@ public class TelaPrincipal extends JFrame {
     private final Color BRANCO = Color.WHITE;
 
 
-    public TelaPrincipal() {
+    public TelaPrincipal(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarMenu();
@@ -166,7 +169,7 @@ public class TelaPrincipal extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnGerente.addActionListener(e -> {
-            TelaLoginGerente telaGerente = new TelaLoginGerente();
+            TelaLoginGerente telaGerente = new TelaLoginGerente(aplicacao);
             telaGerente.setVisible(true);
         });
 
@@ -175,7 +178,7 @@ public class TelaPrincipal extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnFuncionario.addActionListener(e -> {
-            TelaLoginFuncionario telaFuncionario = new TelaLoginFuncionario();
+            TelaLoginFuncionario telaFuncionario = new TelaLoginFuncionario(aplicacao);
             telaFuncionario.setVisible(true);
         });
 
@@ -184,7 +187,7 @@ public class TelaPrincipal extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnCliente.addActionListener(e -> {
-            TelaLoginCliente telaCliente = new TelaLoginCliente();
+            TelaLoginCliente telaCliente = new TelaLoginCliente(aplicacao);
             telaCliente.setVisible(true);
         });
 

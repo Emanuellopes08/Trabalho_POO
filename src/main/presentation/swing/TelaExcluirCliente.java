@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class TelaExcluirCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
@@ -28,7 +30,8 @@ public class TelaExcluirCliente extends JFrame {
     private Cliente clienteEncontrado;
 
 
-    public TelaExcluirCliente() {
+    public TelaExcluirCliente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -40,7 +43,7 @@ public class TelaExcluirCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(650, 540);
-        setTitle("Banco ES - Excluir Pessoas.Cliente");
+        setTitle("Banco ES - Excluir Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -188,7 +191,7 @@ public class TelaExcluirCliente extends JFrame {
 // BOTÕES
 /////////////////////////////////////////////////////////////////////
 
-        BotaoArredondado btnExcluir = new BotaoArredondado("Excluir Pessoas.Cliente");
+        BotaoArredondado btnExcluir = new BotaoArredondado("Excluir Cliente");
         BotaoArredondado btnVoltar = new BotaoArredondado("Voltar");
 
         Dimension tamanhoBotao = new Dimension(180, 50);
@@ -253,10 +256,11 @@ public class TelaExcluirCliente extends JFrame {
 // BUSCA O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-            clienteEncontrado = SistemaBanco.buscarClientePorCpf(cpf);
+            try { clienteEncontrado = aplicacao.consultarCliente.executar(cpf); }
+            catch (RuntimeException ex) { mensagemErro.setText(ex.getMessage()); return; }
 
             if (clienteEncontrado == null) {
-                mensagemErro.setText("Pessoas.Cliente não encontrado.");
+                mensagemErro.setText("Cliente não encontrado.");
                 return;
             }
 
@@ -301,7 +305,8 @@ public class TelaExcluirCliente extends JFrame {
 // EXCLUI O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-            SistemaBanco.excluirCliente(clienteEncontrado);
+            try { aplicacao.excluirCliente.executar(clienteEncontrado.getCpf()); }
+            catch (RuntimeException ex) { mensagemErro.setText(ex.getMessage()); return; }
 
 /////////////////////////////////////////////////////////////////////
 // MOSTRA SUCESSO
@@ -309,7 +314,7 @@ public class TelaExcluirCliente extends JFrame {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Pessoas.Cliente excluído com sucesso!",
+                    "Cliente excluído com sucesso!",
                     "Banco ES",
                     JOptionPane.INFORMATION_MESSAGE
             );

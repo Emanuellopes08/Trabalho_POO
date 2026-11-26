@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class TelaLoginFuncionario extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color AZUL_SECUNDARIO = new Color(28, 30, 56);
@@ -27,7 +29,8 @@ public class TelaLoginFuncionario extends JFrame {
     private JLabel erroCodigo;
 
 
-    public TelaLoginFuncionario() {
+    public TelaLoginFuncionario(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -293,38 +296,10 @@ public class TelaLoginFuncionario extends JFrame {
         System.out.println("Senha digitada: " + senha);
         System.out.println("Código digitado: " + codigo);
 
-        Funcionario funcionario = SistemaBanco.buscarFuncionarioPorCodigo(codigo);
-
-        System.out.println("Funcionário encontrado: " + funcionario);
-
-        if (funcionario == null) {
-            erroCodigo.setText("Funcionário não encontrado.");
-            return;
-        }
-
-/////////////////////////////////////////////////////////////////////
-// CONFERE O USUÁRIO
-/////////////////////////////////////////////////////////////////////
-
-        if (!usuario.equals(funcionario.getUsuario())) {
-            erroUsuario.setText("Usuário incorreto.");
-            temErro = true;
-        }
-
-/////////////////////////////////////////////////////////////////////
-// CONFERE A SENHA
-/////////////////////////////////////////////////////////////////////
-
-        if (!senha.equals(funcionario.getSenha())) {
-            erroSenha.setText("Senha incorreta.");
-            temErro = true;
-        }
-
-/////////////////////////////////////////////////////////////////////
-// BLOQUEIA SE O LOGIN ESTIVER ERRADO
-/////////////////////////////////////////////////////////////////////
-
-        if (temErro) {
+        try {
+            aplicacao.autenticarFuncionario.executar(codigo, usuario, senha);
+        } catch (RuntimeException ex) {
+            erroCodigo.setText(ex.getMessage());
             return;
         }
 
@@ -332,7 +307,7 @@ public class TelaLoginFuncionario extends JFrame {
 // LOGIN CORRETO - ABRE A TELA DO FUNCIONÁRIO
 /////////////////////////////////////////////////////////////////////
 
-        TelaFuncionario telaFuncionario = new TelaFuncionario();
+        TelaFuncionario telaFuncionario = new TelaFuncionario(aplicacao);
         telaFuncionario.setVisible(true);
 
         dispose();

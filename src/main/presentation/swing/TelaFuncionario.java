@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class TelaFuncionario extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color VERDE = new Color(72, 255, 129);
@@ -14,7 +16,8 @@ public class TelaFuncionario extends JFrame {
     private final Color BRANCO = Color.WHITE;
 
 
-    public TelaFuncionario() {
+    public TelaFuncionario(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarMenu();
@@ -75,10 +78,10 @@ public class TelaFuncionario extends JFrame {
         menu.setBackground(AZUL_ESCURO);
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
 
-        BotaoArredondado btnCadastrar = new BotaoArredondado("Cadastrar Pessoas.Cliente");
-        BotaoArredondado btnConsultar = new BotaoArredondado("Consultar Pessoas.Cliente");
-        BotaoArredondado btnAlterar = new BotaoArredondado("Alterar Pessoas.Cliente");
-        BotaoArredondado btnExcluir = new BotaoArredondado("Excluir Pessoas.Cliente");
+        BotaoArredondado btnCadastrar = new BotaoArredondado("Cadastrar Cliente");
+        BotaoArredondado btnConsultar = new BotaoArredondado("Consultar Cliente");
+        BotaoArredondado btnAlterar = new BotaoArredondado("Alterar Cliente");
+        BotaoArredondado btnExcluir = new BotaoArredondado("Excluir Cliente");
         BotaoArredondado btnVoltar = new BotaoArredondado("Voltar");
 
 /////////////////////////////////////////////////////////////////////
@@ -139,7 +142,7 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnCadastrar.addActionListener(e -> {
-            TelaCadastroCliente telaCadastro = new TelaCadastroCliente();
+            TelaCadastroCliente telaCadastro = new TelaCadastroCliente(aplicacao);
             telaCadastro.setVisible(true);
         });
 
@@ -148,7 +151,7 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnConsultar.addActionListener(e -> {
-            TelaConsultaCliente telaConsulta = new TelaConsultaCliente();
+            TelaConsultaCliente telaConsulta = new TelaConsultaCliente(aplicacao);
             telaConsulta.setVisible(true);
         });
 
@@ -157,7 +160,7 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnAlterar.addActionListener(e -> {
-            TelaAlterarCliente telaAlterar = new TelaAlterarCliente();
+            TelaAlterarCliente telaAlterar = new TelaAlterarCliente(aplicacao);
             telaAlterar.setVisible(true);
         });
 
@@ -166,7 +169,7 @@ public class TelaFuncionario extends JFrame {
 /////////////////////////////////////////////////////////////////////
 
         btnExcluir.addActionListener(e -> {
-            TelaExcluirCliente telaExcluir = new TelaExcluirCliente();
+            TelaExcluirCliente telaExcluir = new TelaExcluirCliente(aplicacao);
             telaExcluir.setVisible(true);
         });
 

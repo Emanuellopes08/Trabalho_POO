@@ -37,7 +37,7 @@ public class AutenticarGerente {
     public Funcionario executar(int codigo, String usuario, String senha) {
         Funcionario funcionario = autenticarFuncionario.executar(codigo, usuario, senha);
 
-        if (!"Pessoas.Gerente".equals(funcionario.getCargo())) {
+        if (!"Gerente".equals(funcionario.getCargo())) {
             throw new IllegalArgumentException("Acesso não autorizado.");
         }
         return funcionario;

@@ -11,6 +11,8 @@ import java.time.format.DateTimeParseException;
 
 public class TelaCadastroCliente extends JFrame {
 
+    private final AplicacaoBanco aplicacao;
+
     // Paleta de cores
     private final Color AZUL_ESCURO = new Color(14, 14, 37);
     private final Color VERDE = new Color(72, 255, 129);
@@ -55,7 +57,8 @@ public class TelaCadastroCliente extends JFrame {
     private JLabel mensagemErro;
 
 
-    public TelaCadastroCliente() {
+    public TelaCadastroCliente(AplicacaoBanco aplicacao) {
+        this.aplicacao = aplicacao;
         configurarJanela();
         criarTitulo();
         criarFormulario();
@@ -243,10 +246,10 @@ public class TelaCadastroCliente extends JFrame {
         JLabel labelTipoConta = criarLabel("Tipo de conta:", fonteLabel);
 
         tipoConta = new JComboBox<>(new String[]{
-                "Contas.Conta Poupança",
-                "Contas.Conta Corrente",
-                "Contas.Conta Conjunta",
-                "Contas.Conta PJ"
+                "Conta Poupança",
+                "Conta Corrente",
+                "Conta Conjunta",
+                "Conta PJ"
         });
 
         tipoConta.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -437,7 +440,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA CONJUNTA
 /////////////////////////////////////////////////////////////////////
 
-        boolean contaConjunta = "Contas.Conta Conjunta".equals(contaSelecionada);
+        boolean contaConjunta = "Conta Conjunta".equals(contaSelecionada);
 
         labelCpfCotitular.setVisible(contaConjunta);
         campoCpfCotitular.setVisible(contaConjunta);
@@ -446,7 +449,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA PJ
 /////////////////////////////////////////////////////////////////////
 
-        boolean contaPJ = "Contas.Conta PJ".equals(contaSelecionada);
+        boolean contaPJ = "Conta PJ".equals(contaSelecionada);
 
         tituloDadosEmpresa.setVisible(contaPJ);
 
@@ -526,7 +529,9 @@ public class TelaCadastroCliente extends JFrame {
 // VERIFICA CPF DUPLICADO
 /////////////////////////////////////////////////////////////////////
 
-        Cliente clienteExistente = SistemaBanco.buscarClientePorCpf(cpf);
+        Cliente clienteExistente;
+        try { clienteExistente = aplicacao.consultarCliente.executar(cpf); }
+        catch (IllegalArgumentException ex) { clienteExistente = null; }
 
         if (clienteExistente != null) {
             mensagemErro.setText("Já existe um cliente cadastrado com este CPF.");
@@ -647,7 +652,7 @@ public class TelaCadastroCliente extends JFrame {
 
         Cliente cotitular = null;
 
-        if ("Contas.Conta Conjunta".equals(contaSelecionada)) {
+        if ("Conta Conjunta".equals(contaSelecionada)) {
 
             cpfCotitular = campoCpfCotitular.getText().trim();
 
@@ -661,7 +666,8 @@ public class TelaCadastroCliente extends JFrame {
                 return;
             }
 
-            cotitular = SistemaBanco.buscarClientePorCpf(cpfCotitular);
+            try { cotitular = aplicacao.consultarCliente.executar(cpfCotitular); }
+            catch (IllegalArgumentException ex) { cotitular = null; }
 
             if (cotitular == null) {
                 mensagemErro.setText("Cotitular não encontrado. Cadastre-o primeiro.");
@@ -682,11 +688,6 @@ public class TelaCadastroCliente extends JFrame {
 
             if (cnpj.isEmpty()) {
                 mensagemErro.setText("Digite o CNPJ da empresa.");
-                return;
-            }
-
-            if (SistemaBanco.buscarContaPjPorCnpj(cnpj) != null) {
-                mensagemErro.setText("Já existe uma Contas.Conta PJ com este CNPJ.");
                 return;
             }
 
@@ -718,18 +719,8 @@ public class TelaCadastroCliente extends JFrame {
 // CRIA O CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        // A senha é capturada e validada na interface, mas ainda não é persistida:
-        // a classe Cliente e o repositório precisam possuir suporte a credenciais.
         Cliente cliente = new Cliente(
-                nome,
-                cpf,
-                dataNascimento,
-                renda,
-                telefone,
-                endereco,
-                nomePai,
-                nomeMae,
-                email
+                nome, cpf, dataNascimento, renda, telefone, endereco, nomePai, nomeMae, email, senha
         );
 
 /////////////////////////////////////////////////////////////////////
@@ -742,7 +733,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA POUPANÇA
 /////////////////////////////////////////////////////////////////////
 
-        if ("Contas.Conta Poupança".equals(contaSelecionada)) {
+        if ("Conta Poupança".equals(contaSelecionada)) {
 
             conta = new ContaPoupanca(cliente);
         }
@@ -751,7 +742,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA CORRENTE
 /////////////////////////////////////////////////////////////////////
 
-        else if ("Contas.Conta Corrente".equals(contaSelecionada)) {
+        else if ("Conta Corrente".equals(contaSelecionada)) {
 
             conta = new ContaCorrente(cliente);
         }
@@ -760,7 +751,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA CONJUNTA
 /////////////////////////////////////////////////////////////////////
 
-        else if ("Contas.Conta Conjunta".equals(contaSelecionada)) {
+        else if ("Conta Conjunta".equals(contaSelecionada)) {
 
             conta = new ContaConjunta(cliente, cotitular);
         }
@@ -769,7 +760,7 @@ public class TelaCadastroCliente extends JFrame {
 // CONTA PJ
 /////////////////////////////////////////////////////////////////////
 
-        else if ("Contas.Conta PJ".equals(contaSelecionada)) {
+        else if ("Conta PJ".equals(contaSelecionada)) {
 
             conta = new ContaPJ(
                     cnpj,
@@ -792,13 +783,13 @@ public class TelaCadastroCliente extends JFrame {
 // SALVA CLIENTE
 /////////////////////////////////////////////////////////////////////
 
-        SistemaBanco.adicionarCliente(cliente);
-
-/////////////////////////////////////////////////////////////////////
-// SALVA CONTA
-/////////////////////////////////////////////////////////////////////
-
-        SistemaBanco.adicionarConta(conta);
+        try {
+            aplicacao.cadastrarCliente.executar(cliente, senha);
+            aplicacao.cadastrarConta.executar(conta);
+        } catch (RuntimeException ex) {
+            mensagemErro.setText(ex.getMessage());
+            return;
+        }
 
 /////////////////////////////////////////////////////////////////////
 // MOSTRA SUCESSO
@@ -806,7 +797,7 @@ public class TelaCadastroCliente extends JFrame {
 
         JOptionPane.showMessageDialog(
                 this,
-                "Pessoas.Cliente e conta cadastrados com sucesso!\nTipo: " + conta.getTipoConta(),
+                "Cliente e conta cadastrados com sucesso!\nTipo: " + conta.getTipoConta(),
                 "Banco ES",
                 JOptionPane.INFORMATION_MESSAGE
         );
