@@ -90,7 +90,16 @@ A classe Conexao.java também é responsável por estabelecer as conexões com o
 
 ### Como executar os testes
 - Execute `src/test/ContaLspTest.java` (JUnit 5) pela IDE para validar o comportamento polimórfico das subclasses de `Conta`.
-- `[PREENCHER — Vinícius: se desejar, mencionar como rodar os testes de persistência em infrastructure/persistence/Teste*.java.]`
+- **Testes de Persistência (Vinícius):**
+
+Os testes de persistência estão localizados no pacote `infrastructure/persistence` e verificam o funcionamento dos repositórios JDBC. Para executá-los, basta abrir as respectivas classes de teste na IDE e executar seus métodos `main`.
+
+- `TesteBanco.java`: verifica a conexão com o SQLite e a criação das tabelas.
+- `TesteClienteRepository.java`: testa as operações de cadastro, consulta, listagem, atualização e exclusão de clientes.
+- `TesteContaRepository.java`: verifica as operações de persistência de contas, incluindo busca por ID e CPF, atualização de saldo e exclusão.
+- `TesteFuncionarioRepository.java`: testa o cadastro, consulta por código e usuário, listagem, atualização e exclusão de funcionários.
+
+Os testes utilizam o banco de dados SQLite configurado no projeto (`banco.db`).
 
 ---
 
@@ -190,7 +199,7 @@ Os dados são armazenados no arquivo banco.db, permitindo sua recuperação em e
 - [x] Código de domínio revisado com SRP, LSP, validações, `id` em `Conta`, `senha` em `Cliente` e JavaDoc *(Iasmin)*
 - [ ] Casos de uso integrados às interfaces de repositório e exemplo de OCP *(Liane)*
 - [ ] Interfaces de repositório, injeção de dependências no `Main` e conferência da Clean Architecture *(Emanuel)*
-- [ ] Persistência SQLite/JDBC com `PreparedStatement`, `script.sql` e testes após reinicialização *(Vinícius)*
+- [x] Persistência SQLite/JDBC com `PreparedStatement`, `script.sql` e testes após reinicialização *(Vinícius)*
 - [ ] Interface gráfica padronizada, integrada aos casos de uso, prints atualizados e JavaDoc HTML gerado *(Adryan)*
 
 ---
