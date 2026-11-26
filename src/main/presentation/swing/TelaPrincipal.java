@@ -21,6 +21,7 @@ public class TelaPrincipal extends JFrame {
         configurarJanela();
         criarTitulo();
         criarMenu();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -43,28 +44,63 @@ public class TelaPrincipal extends JFrame {
 
     private void criarTitulo() {
         JPanel topo = new JPanel();
-
         topo.setLayout(new BoxLayout(topo, BoxLayout.Y_AXIS));
         topo.setBackground(AZUL_ESCURO);
+        topo.setBorder(BorderFactory.createEmptyBorder(18, 20, 12, 20));
 
-        topo.add(Box.createVerticalStrut(25));
+        JPanel marca = new JPanel(new FlowLayout(FlowLayout.CENTER, 18, 0));
+        marca.setBackground(AZUL_ESCURO);
+
+        // O logotipo é carregado como recurso para funcionar também fora da IDE.
+        java.net.URL recursoLogo = getClass().getResource("/logo-banco-es.png");
+        if (recursoLogo != null) {
+            JPanel molduraLogo = new JPanel(new BorderLayout()) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setColor(new Color(239, 244, 252));
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 26, 26);
+                    g2.dispose();
+                }
+            };
+            molduraLogo.setOpaque(false);
+            molduraLogo.setPreferredSize(new Dimension(112, 108));
+            molduraLogo.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+
+            Image imagem = new ImageIcon(recursoLogo).getImage()
+                    .getScaledInstance(98, 84, Image.SCALE_SMOOTH);
+            JLabel logo = new JLabel(new ImageIcon(imagem));
+            logo.setHorizontalAlignment(SwingConstants.CENTER);
+            logo.setOpaque(false);
+            molduraLogo.add(logo, BorderLayout.CENTER);
+            marca.add(molduraLogo);
+        }
+
+        JPanel textos = new JPanel();
+        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
+        textos.setBackground(AZUL_ESCURO);
 
         JLabel titulo = new JLabel("BANCO ES");
-        JLabel subtitulo = new JLabel("Bem-vindo ao sistema");
+        JLabel subtitulo = new JLabel("Bem-vindo ao seu banco digital");
 
-        titulo.setFont(new Font("Arial", Font.BOLD, 45));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 39));
         titulo.setForeground(BRANCO);
-
-        subtitulo.setFont(new Font("Arial", Font.PLAIN, 20));
+        subtitulo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
         subtitulo.setForeground(VERDE);
 
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titulo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        subtitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textos.add(Box.createVerticalGlue());
+        textos.add(titulo);
+        textos.add(Box.createVerticalStrut(5));
+        textos.add(subtitulo);
+        textos.add(Box.createVerticalGlue());
+        marca.add(textos);
 
-        topo.add(titulo);
-        topo.add(Box.createVerticalStrut(5));
-        topo.add(subtitulo);
-
+        topo.add(marca);
         add(topo, BorderLayout.NORTH);
     }
 

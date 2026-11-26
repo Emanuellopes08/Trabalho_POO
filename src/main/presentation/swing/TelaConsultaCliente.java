@@ -33,6 +33,7 @@ public class TelaConsultaCliente extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////

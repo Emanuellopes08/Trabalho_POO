@@ -62,6 +62,7 @@ public class TelaCadastroCliente extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////

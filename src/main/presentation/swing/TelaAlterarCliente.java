@@ -37,6 +37,7 @@ public class TelaAlterarCliente extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////

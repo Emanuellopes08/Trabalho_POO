@@ -36,6 +36,7 @@ public class TelaGerente extends JFrame {
         criarMenu();
 
         setVisible(true);
+            TemaBanco.aplicar(this);
     }
 
     // =========================================================

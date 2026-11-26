@@ -31,6 +31,7 @@ public class TelaLoginCliente extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -39,7 +40,7 @@ public class TelaLoginCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(550, 560);
-        setTitle("Banco ES - Login do Pessoas.Cliente");
+        setTitle("Banco ES - Login Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -59,7 +60,7 @@ public class TelaLoginCliente extends JFrame {
 
         topo.add(Box.createVerticalStrut(45));
 
-        JLabel titulo = new JLabel("LOGIN DO CLIENTE");
+        JLabel titulo = new JLabel("CLIENTE");
         JLabel subtitulo = new JLabel("Acesse sua conta");
 
         titulo.setFont(new Font("Arial", Font.BOLD, 32));

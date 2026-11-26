@@ -46,6 +46,7 @@ public class TelaCliente extends JFrame {
         criarTitulo();
         criarConteudo();
         carregarDadosCliente();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -252,12 +253,6 @@ public class TelaCliente extends JFrame {
         painelOperacoes.add(btnDepositar);
         painelOperacoes.add(btnSacar);
 
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(15, 10, 15, 10);
-
-        painel.add(painelOperacoes, gbc);
 
 /////////////////////////////////////////////////////////////////////
 // BOTÃO VOLTAR
@@ -270,13 +265,21 @@ public class TelaCliente extends JFrame {
         btnVoltar.setBackground(VERMELHO);
         btnVoltar.setForeground(BRANCO);
 
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
+        btnVoltar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        painel.add(btnVoltar, gbc);
+        // Rodapé fixo: mantém os botões acessíveis mesmo em janelas menores.
+        JPanel rodape = new JPanel();
+        rodape.setLayout(new BoxLayout(rodape, BoxLayout.Y_AXIS));
+        rodape.setBackground(AZUL_ESCURO);
+        rodape.setBorder(BorderFactory.createEmptyBorder(8, 10, 14, 10));
+
+        painelOperacoes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rodape.add(painelOperacoes);
+        rodape.add(Box.createVerticalStrut(8));
+        rodape.add(btnVoltar);
 
         add(painel, BorderLayout.CENTER);
+        add(rodape, BorderLayout.SOUTH);
 
 /////////////////////////////////////////////////////////////////////
 // ALTERA A CONTA SELECIONADA

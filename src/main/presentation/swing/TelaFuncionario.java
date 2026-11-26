@@ -21,6 +21,7 @@ public class TelaFuncionario extends JFrame {
         configurarJanela();
         criarTitulo();
         criarMenu();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////

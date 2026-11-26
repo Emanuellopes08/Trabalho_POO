@@ -34,6 +34,7 @@ public class TelaLoginFuncionario extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 /////////////////////////////////////////////////////////////////////

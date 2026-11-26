@@ -31,6 +31,7 @@ public class TelaLoginGerente extends JFrame {
         configurarJanela();
         criarTitulo();
         criarFormulario();
+            TemaBanco.aplicar(this);
     }
 
 
