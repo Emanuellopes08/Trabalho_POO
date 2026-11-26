@@ -1,4 +1,3 @@
-
 package infrastructure.persistence;
 
 import application.repositories.ClienteRepository;
@@ -123,6 +122,7 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 + "email = ?, "
                 + "senha = ? "
                 + "WHERE cpf = ?";
+                
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -199,7 +199,8 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 resultado.getString("endereco"),
                 resultado.getString("nome_pai"),
                 resultado.getString("nome_mae"),
-                resultado.getString("email")
+                resultado.getString("email"),
+                resultado.getString("senha")
         );
         String senha = resultado.getString("senha");
         if (senha != null && !senha.isBlank()) {

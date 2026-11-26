@@ -21,7 +21,8 @@ public class TesteClienteRepository {
                     "Rua de Teste",
                     "Nome do Pai",
                     "Nome da Mãe",
-                    "teste@email.com"
+                    "teste@email.com",
+                    "senha123"
             );
 
             // 2. Salvar cliente
@@ -32,12 +33,18 @@ public class TesteClienteRepository {
             Cliente encontrado = repositorio.buscarPorCpf("12345678900");
             System.out.println("\nCliente encontrado:");
             System.out.println(encontrado);
-
+            
             // 4. Listar todos os clientes
             List<Cliente> clientes = repositorio.listarTodos();
             System.out.println("\nClientes cadastrados:");
             for (Cliente c : clientes) {
                 System.out.println(c);
+            }
+
+            if (encontrado != null && "senha123".equals(encontrado.getSenha())) {
+                System.out.println("Senha recuperada corretamente!");
+            } else {
+                    System.out.println("Erro ao recuperar a senha!");
             }
 
             // 5. Atualizar cliente
@@ -50,7 +57,8 @@ public class TesteClienteRepository {
                     "Novo Endereço",
                     "Nome do Pai",
                     "Nome da Mãe",
-                    "atualizado@email.com"
+                    "atualizado@email.com",
+                    "novaSenha123"
             );
 
             repositorio.atualizar(atualizado);
