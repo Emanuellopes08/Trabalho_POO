@@ -72,7 +72,7 @@ public class TelaGerente extends JFrame {
 
         topo.add(Box.createVerticalStrut(30));
 
-        JLabel titulo = new JLabel("CONTA DO GERENTE");
+        JLabel titulo = new JLabel("GERENTE");
 
         JLabel subtitulo = new JLabel("Gerenciamento de funcionários");
 

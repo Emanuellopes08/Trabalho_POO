@@ -75,7 +75,7 @@ public class TelaCliente extends JFrame {
 
         topo.add(Box.createVerticalStrut(25));
 
-        JLabel titulo = new JLabel("ÁREA DO CLIENTE");
+        JLabel titulo = new JLabel("CLIENTE");
         JLabel subtitulo = new JLabel("Gerencie sua conta");
 
         titulo.setFont(new Font("Arial", Font.BOLD, 34));
