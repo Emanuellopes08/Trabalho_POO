@@ -190,7 +190,7 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
      * @throws SQLException caso ocorra erro na leitura dos dados.
      */
     private Cliente montarCliente(ResultSet resultado) throws SQLException {
-        Cliente cliente = new Cliente(
+        return new Cliente(
                 resultado.getString("nome"),
                 resultado.getString("cpf"),
                 LocalDate.parse(resultado.getString("data_nascimento")),
@@ -202,10 +202,5 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 resultado.getString("email"),
                 resultado.getString("senha")
         );
-        String senha = resultado.getString("senha");
-        if (senha != null && !senha.isBlank()) {
-            cliente.setSenha(senha);
-        }
-        return cliente;
     }
 }

@@ -1,3 +1,4 @@
+
 package infrastructure.persistence;
 
 import domain.contas.Conta;
@@ -27,7 +28,8 @@ public class TesteContaRepository {
                 "Rua Teste, 100",
                 "Pai Teste",
                 "Mae Teste",
-                "teste1@email.com"
+                "teste1@email.com",
+                "senhaTeste123"
         );
 
         Cliente cotitular = new Cliente(
@@ -39,7 +41,8 @@ public class TesteContaRepository {
                 "Rua Teste, 200",
                 "Pai Teste 2",
                 "Mae Teste 2",
-                "teste2@email.com"
+                "teste2@email.com",
+                "senhaTeste456"
         );
 
         try {

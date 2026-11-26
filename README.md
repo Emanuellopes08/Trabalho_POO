@@ -72,7 +72,15 @@ Banco de Dados SQLite
 ### Configuração do Banco de Dados
 - **SGBD utilizado:** SQLite
 - **Script de criação:** `src/main/infrastructure/persistence/script.sql`
-- `[PREENCHER — Vinícius: explicar se o banco é criado automaticamente ao rodar a aplicação ou quais passos seguir para executar o script.sql, onde o arquivo .db é gerado e se existe algum usuário gerente/funcionário inicial para login.]`
+- O sistema utiliza o SQLite como banco de dados, com integração realizada por meio do JDBC.
+
+A inicialização do banco ocorre automaticamente ao executar a aplicação. A classe Main.java chama o método Conexao.criarTabelas() antes de abrir a interface principal.
+
+Esse método lê e executa os comandos SQL definidos no arquivo src/main/infrastructure/persistence/script.sql, criando as tabelas necessárias para o funcionamento do sistema.
+
+O arquivo do banco de dados, denominado banco.db, é criado automaticamente pelo SQLite no diretório de execução da aplicação, caso ainda não exista.
+
+A classe Conexao.java também é responsável por estabelecer as conexões com o banco e habilitar a verificação de chaves estrangeiras por meio do comando PRAGMA foreign_keys = ON.
 
 ### Como executar o sistema
 1. Clone o repositório e abra o projeto na IDE.
@@ -103,7 +111,11 @@ Todos os requisitos e as 15 regras de negócio (RN1 a RN15) do Marco 1 foram pre
   - `Gerente` (`domain/pessoas/Gerente.java`) deixou de imprimir no console em `emitirRelatorio()`, passando a apenas montar e retornar a `String` do relatório.
   - `Conta` (`domain/contas/Conta.java`) concentra a responsabilidade de manter o saldo e validar regras de depósito e saque no domínio, sem depender de telas.
 - **Camada de Aplicação (Liane):** `[PREENCHER — Liane: citar a separação de cada operação em uma classe específica dentro de application/casodeuso/ e a retirada das regras das telas.]`
-- **Infraestrutura e Apresentação (Vinícius / Adryan):** `[PREENCHER — Vinícius/Adryan: citar a separação entre persistência JDBC e telas Swing.]`
+- **Infraestrutura e Apresentação (Vinícius / Adryan):** O projeto mantém separadas as responsabilidades de persistência de dados e apresentação da interface gráfica. A camada de infraestrutura (infrastructure/persistence) concentra a comunicação com o banco de dados SQLite por meio do JDBC, utilizando classes específicas para conexão e operações de cadastro, consulta, atualização e exclusão.
+
+Já a camada de apresentação (presentation/swing) é responsável pelas telas e pela interação com o usuário, sem precisar implementar diretamente os comandos SQL ou gerenciar as conexões com o banco de dados.
+
+Essa organização reduz o acoplamento entre as camadas, facilita a manutenção e permite que alterações na interface gráfica ou na implementação da persistência sejam realizadas com menor impacto sobre o restante do sistema.
 
 #### OCP (Princípio Aberto/Fechado)
 - `[PREENCHER — Liane: descrever como a criação de contas ou os casos de uso permitem adicionar novas modalidades/comportamentos por extensão sem alterar o fluxo central, citando as classes/métodos concretos.]`
@@ -134,6 +146,8 @@ Todos os requisitos e as 15 regras de negócio (RN1 a RN15) do Marco 1 foram pre
   - Métodos auxiliares privados para evitar duplicação de validação (`exigirTexto`, `exigirRendaValida` em `Cliente`/`Funcionario`, e `validarValor` em `Conta`).
   - Tratamento de erros com mensagens claras e exceção específica de domínio (`SaldoInsuficienteException` e `IllegalArgumentException`).
 - **Demais camadas:** `[PREENCHER — Liane/Emanuel/Vinícius/Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
+- **(Vinícius):**
+Na camada de persistência, foram realizadas melhorias de legibilidade e organização do código por meio da separação das operações de acesso ao banco de dados em repositórios específicos para clientes, contas e funcionários. A lógica de conexão com o SQLite foi centralizada na classe Conexao.java, reduzindo a duplicação de código. Também foi aprimorado o tratamento de exceções com o uso de try-with-resources, garantindo o fechamento adequado dos recursos utilizados nas operações JDBC e contribuindo para a confiabilidade da aplicação.
 
 ### Critérios 6, 7 e 8 — Interface Gráfica (Identidade Visual, Layout e Usabilidade)
 - `[PREENCHER — Adryan: descrever paleta de cores, tipografia, padronização de componentes (ex.: BotaoArredondado), alinhamentos/espaçamentos, validações de formulário, feedback de sucesso/erro, navegação por teclado e prevenção de travamento da janela.]`
@@ -149,7 +163,21 @@ Todos os requisitos e as 15 regras de negócio (RN1 a RN15) do Marco 1 foram pre
 ![Tela de Consulta de Cliente](PrintTelas/TelaFuncionarioConsultarCliente.png)
 
 ### Critério 9 — Banco de Dados e Persistência
-- `[PREENCHER — Vinícius: descrever as tabelas e relacionamentos do script.sql, uso de PreparedStatement nas classes ClienteRepositoryJDBC, ContaRepositoryJDBC e FuncionarioRepositoryJDBC, uso do id da conta para atualização de saldo e comprovação de persistência após reiniciar o sistema.]`
+- A persistência dos dados é realizada por meio do SQLite, utilizando JDBC. O banco de dados é estruturado em três tabelas principais:
+
+clientes: armazena os dados pessoais dos clientes, utilizando o CPF como chave primária.
+
+funcionarios: armazena os dados dos funcionários, utilizando o código como chave primária e o usuário como campo único.
+
+contas: armazena as informações das contas bancárias, utilizando um identificador numérico (id) como chave primária autoincrementável.
+
+A tabela contas possui relacionamentos com clientes por meio dos campos titular_cpf e cotitular_cpf, que identificam o titular e, quando aplicável, o cotitular da conta. Esses relacionamentos são definidos por chaves estrangeiras.
+
+As classes ClienteRepositoryJDBC, ContaRepositoryJDBC e FuncionarioRepositoryJDBC implementam as operações de persistência utilizando PreparedStatement, permitindo executar comandos SQL parametrizados para cadastrar, consultar, atualizar e excluir registros.
+
+Na persistência das contas, o identificador (id) é utilizado para localizar especificamente a conta que será atualizada, evitando alterações em registros incorretos.
+
+Os dados são armazenados no arquivo banco.db, permitindo sua recuperação em execuções posteriores da aplicação, sem depender de listas mantidas apenas em memória.
 
 ### Critério 10 — Documentação JavaDoc
 - **Domínio (Iasmin):** 100% das classes, enum, exceção, construtores e métodos públicos de `domain/pessoas` e `domain/contas` documentados com JavaDoc, incluindo `@param`, `@return` e `@throws`.
