@@ -155,19 +155,131 @@ Dessa forma, é possível acrescentar novas modalidades de conta por meio da cri
   - **Resultado dos testes (`ContaLspTest`):** 12 testes executados com sucesso (`Tests run: 12, Failures: 0, Errors: 0, Skipped: 0`).
 
 #### ISP (Princípio da Segregação de Interfaces)
-- `[PREENCHER — Emanuel: explicar como os contratos foram segregados em ClienteRepository, ContaRepository e FuncionarioRepository para que nenhum caso de uso dependa de métodos que não utiliza.]`
+
+O Princípio da Segregação de Interfaces (ISP) estabelece que uma classe não deve ser obrigada a depender de métodos que não utiliza. Para aplicar esse princípio, as interfaces de repositório foram divididas em contratos menores e específicos, conforme as operações necessárias para cada caso de uso.
+
+**1. Clientes**
+
+Foram criadas as seguintes interfaces:
+- `ClienteConsultaRepository`: consulta de clientes pelo CPF.
+- `ClienteCadastroRepository`: cadastro de clientes.
+- `ClienteAtualizacaoRepository`: atualização de dados.
+- `ClienteExclusaoRepository`: exclusão de clientes.
+
+**2. Contas**
+
+Os contratos foram separados em:
+- `ContaCadastroRepository`: cadastro de contas.
+- `ContaConsultaRepository`: consulta de contas vinculadas a clientes.
+- `ContaMovimentacaoRepository`: busca de contas por identificador e atualização dos dados após movimentações.
+
+**3. Funcionários**
+
+Foram criadas as interfaces:
+- `FuncionarioConsultaRepository`: consulta de funcionários pelo código.
+- `FuncionarioCadastroRepository`: cadastro de funcionários e gerentes.
+- `FuncionarioAtualizacaoRepository`: atualização de dados.
+- `FuncionarioExclusaoRepository`: exclusão de funcionários.
+
+**Aplicação nos casos de uso**
+
+Cada caso de uso recebe somente as interfaces necessárias para executar sua responsabilidade. Por exemplo, `CadastrarCliente` recebe os contratos de consulta e cadastro, enquanto `Depositar` e `Sacar` recebem somente `ContaMovimentacaoRepository`.
+
+As implementações JDBC continuam centralizando as operações de persistência e podem implementar os diferentes contratos especializados, sem duplicação de código SQL.
+
+**Benefícios obtidos**
+
+- Redução do acoplamento entre os casos de uso e os contratos de persistência.
+- Dependências mais específicas e organizadas.
+- Maior facilidade para realizar testes utilizando implementações alternativas.
+- Melhor manutenção e evolução das interfaces.
+
 
 #### DIP (Princípio da Inversão de Dependência)
-- `[PREENCHER — Emanuel: explicar como os casos de uso dependem das interfaces em application/repositories e recebem as implementações JDBC por injeção de dependência no construtor a partir do Main.]`
+
+O Princípio da Inversão de Dependência (DIP) estabelece que módulos de alto nível não devem depender diretamente de módulos de baixo nível. Ambos devem depender de abstrações.
+
+No Banco ES, os casos de uso da camada Application dependem de interfaces de repositório definidas no pacote `application/repositories`, e não diretamente das implementações JDBC da infraestrutura.
+
+**1. Dependência de abstrações**
+
+As interfaces de repositório definem os contratos utilizados pelos casos de uso. Por exemplo:
+
+- `CadastrarCliente` depende de `ClienteConsultaRepository` e `ClienteCadastroRepository`.
+- `Depositar` e `Sacar` dependem de `ContaMovimentacaoRepository`.
+- `AutenticarFuncionario` depende de `FuncionarioConsultaRepository`.
+
+Dessa forma, os casos de uso não precisam conhecer os detalhes de implementação ou de acesso ao banco de dados.
+
+**2. Injeção de dependências**
+
+A injeção de dependências é realizada pelos construtores das classes. Os casos de uso recebem os contratos necessários como parâmetros, sem instanciar diretamente os repositórios JDBC.
+
+**3. Ponto de composição (Composition Root)**
+
+A classe `Main.java` funciona como ponto de composição da aplicação. Ela instancia as implementações JDBC (`ClienteRepositoryJDBC`, `ContaRepositoryJDBC` e `FuncionarioRepositoryJDBC`) e as injeta nos casos de uso por meio de seus construtores.
+
+A classe `AplicacaoBanco` recebe os casos de uso já instanciados, sem criar diretamente os repositórios ou depender das implementações da infraestrutura.
+
+**Benefícios obtidos**
+
+- Redução do acoplamento entre regras de aplicação e infraestrutura.
+- Facilidade para substituir implementações de persistência.
+- Possibilidade de utilizar implementações em memória nos testes.
+- Maior flexibilidade para manutenção e evolução do sistema.
 
 ### Critério 4 — Clean Architecture
-- **Domínio (`domain`):** `Cliente`, `Funcionario`, `Gerente`, `Conta`, suas subclasses, `TipoConta` e `SaldoInsuficienteException` não importam nada de `javax.swing`, `java.sql` ou das demais camadas. Todas as validações de domínio funcionam sem abrir a interface gráfica (como demonstrado em `ContaLspTest`).
-- **Aplicação, Infraestrutura e Apresentação:** 
-Os casos de uso foram organizados no pacote `application/casodeuso`, separados em operações de cliente, funcionário, conta e autenticação. Essa organização permite que as operações sejam executadas independentemente da interface gráfica.
 
-Os casos de uso utilizam as entidades do domínio e recebem as interfaces dos repositórios por meio de seus construtores, sem depender diretamente das implementações JDBC ou das telas Swing.
+O sistema Banco ES foi organizado seguindo os princípios da Clean Architecture, com separação de responsabilidades em quatro camadas: Domain, Application, Infrastructure e Presentation.
 
-Como exemplo, a classe `Depositar` é responsável por validar o valor informado, consultar a conta por meio da interface `ContaRepository`, solicitar a operação de depósito à entidade `Conta` e atualizar os dados no repositório. Dessa forma, as regras de negócio permanecem no domínio, enquanto o caso de uso coordena a execução da operação.
+O objetivo dessa organização é manter as regras de negócio independentes dos detalhes de implementação, como interface gráfica e banco de dados.
+
+**1. Camada de Domínio (domain)**
+
+Contém as entidades e regras fundamentais do sistema bancário, como `Cliente`, `Funcionario`, `Gerente`, `Conta` e suas subclasses.
+
+Essa camada concentra as regras de negócio e não depende de tecnologias externas, como Swing ou JDBC. Dessa forma, as entidades podem ser utilizadas independentemente da interface gráfica ou do banco de dados.
+
+**2. Camada de Aplicação (application)**
+
+Contém os casos de uso, as validações de entrada e as interfaces de repositório.
+
+Os casos de uso coordenam as operações do sistema, utilizando as entidades do domínio e dependendo de contratos definidos em `application/repositories`, sem conhecer diretamente as implementações JDBC.
+
+As dependências são recebidas pelos construtores, permitindo que cada caso de uso utilize somente as abstrações necessárias para sua responsabilidade.
+
+**3. Camada de Infraestrutura (infrastructure)**
+
+Contém os detalhes técnicos de persistência, incluindo a conexão com o banco SQLite, os comandos SQL e as implementações JDBC dos repositórios.
+
+As classes `ClienteRepositoryJDBC`, `ContaRepositoryJDBC` e `FuncionarioRepositoryJDBC` implementam os contratos definidos na camada de aplicação, mantendo os detalhes de acesso aos dados fora das regras de negócio.
+
+**4. Camada de Apresentação (presentation)**
+
+Contém a interface gráfica desenvolvida com Java Swing.
+
+As telas são responsáveis pela interação com o usuário, recebendo informações e apresentando os resultados das operações. Elas utilizam os casos de uso disponibilizados pela classe `AplicacaoBanco`, sem acessar diretamente o banco de dados ou instanciar repositórios JDBC.
+
+**5. Composição das dependências (Composition Root)**
+
+A classe `Main.java` funciona como ponto de composição da aplicação. Ela inicializa o banco de dados, instancia os repositórios JDBC e realiza a injeção das dependências nos casos de uso por meio dos construtores.
+
+A classe `AplicacaoBanco` recebe os casos de uso já instanciados e os disponibiliza para a camada de apresentação, sem assumir a responsabilidade de criar implementações de infraestrutura.
+
+**6. Exemplo prático: operação de depósito**
+
+No caso de uso `Depositar`, a camada de aplicação recebe uma implementação do contrato `ContaMovimentacaoRepository`.
+
+O caso de uso consulta a conta, solicita à entidade `Conta` a realização do depósito e utiliza o repositório para atualizar os dados persistidos.
+
+Assim, cada camada mantém sua responsabilidade:
+- Presentation: interação com o usuário.
+- Application: coordenação do caso de uso.
+- Domain: aplicação das regras de negócio.
+- Infrastructure: persistência dos dados.
+
+Essa separação reduz o acoplamento, facilita os testes e permite substituir detalhes de infraestrutura sem modificar as regras fundamentais do sistema.
+
 
 ### Critério 5 — Clean Code
 - **Domínio (Iasmin):**
