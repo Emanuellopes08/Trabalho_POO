@@ -34,10 +34,24 @@ Trabalho_POO/
     │   ├── domain/                # Camada de Entidades (núcleo, sem dependências externas)
     │   │   ├── pessoas/           # Cliente, Funcionario, Gerente
     │   │   └── contas/            # Conta, ContaCorrente, ContaPoupanca, ContaConjunta, ContaPJ, TipoConta, SaldoInsuficienteException
-    │   ├── application/           # Camada de Casos de Uso e Contratos
-    │   │   ├── casodeuso/         # autenticacao/, cliente/, conta/, funcionario/
-    │   │   ├── repositories/      # ClienteRepository, ContaRepository, FuncionarioRepository
-    │   │   └── validacao/         # ValidadorCliente, ValidadorFuncionario, ValidadorValor
+│   │   ├── application/           # Camada de Casos de Uso e Contratos
+│   │   │   ├── casodeuso/         # autenticacao/, cliente/, conta/, funcionario/
+│   │   │   ├── repositories/      # Contratos de persistência
+│   │   │   │   ├── ClienteRepository.java
+│   │   │   │   ├── ClienteConsultaRepository.java
+│   │   │   │   ├── ClienteCadastroRepository.java
+│   │   │   │   ├── ClienteAtualizacaoRepository.java
+│   │   │   │   ├── ClienteExclusaoRepository.java
+│   │   │   │   ├── ContaRepository.java
+│   │   │   │   ├── ContaCadastroRepository.java
+│   │   │   │   ├── ContaConsultaRepository.java
+│   │   │   │   ├── ContaMovimentacaoRepository.java
+│   │   │   │   ├── FuncionarioRepository.java
+│   │   │   │   ├── FuncionarioConsultaRepository.java
+│   │   │   │   ├── FuncionarioCadastroRepository.java
+│   │   │   │   ├── FuncionarioAtualizacaoRepository.java
+│   │   │   │   └── FuncionarioExclusaoRepository.java
+│   │   │   └── validacao/         # ValidadorCliente, ValidadorFuncionario, ValidadorValor
     │   ├── infrastructure/        # Camada de Infraestrutura (detalhes externos)
     │   │   └── persistence/       # Conexao, *RepositoryJDBC, script.sql
     │   └── presentation/          # Camada de Apresentação
@@ -86,7 +100,16 @@ A classe Conexao.java também é responsável por estabelecer as conexões com o
 1. Clone o repositório e abra o projeto na IDE.
 2. Certifique-se de que o driver `lib/sqlite-jdbc-3.54.1.0.jar` está adicionado ao *classpath* (ou carregue as dependências via Maven pelo `pom.xml`).
 3. Execute a classe `src/main/Main.java`.
-4. `[PREENCHER — Emanuel/Adryan: adicionar credenciais de teste para Gerente/Funcionário e qualquer passo extra de execução.]`
+4. Acesse o sistema utilizando as credenciais do Gerente.
+
+**Credenciais de teste:**
+
+- **Gerente:**
+  - Usuário: `gerente`
+  - Código: `1`
+  - Senha: `MinhaSenha123`
+
+**Observação:** O sistema inicia sem funcionários cadastrados. O Gerente deve realizar o cadastro dos funcionários para que eles possam acessar o sistema.
 
 ### Como executar os testes
 - Execute `src/test/ContaLspTest.java` (JUnit 5) pela IDE para validar o comportamento polimórfico das subclasses de `Conta`.
@@ -288,6 +311,15 @@ Essa separação reduz o acoplamento, facilita os testes e permite substituir de
   - Métodos auxiliares privados para evitar duplicação de validação (`exigirTexto`, `exigirRendaValida` em `Cliente`/`Funcionario`, e `validarValor` em `Conta`).
   - Tratamento de erros com mensagens claras e exceção específica de domínio (`SaldoInsuficienteException` e `IllegalArgumentException`).
 - **Demais camadas:** `[PREENCHER — Liane/Emanuel/Vinícius/Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
+
+- **Abstrações e Arquitetura (Emanuel):**
+  - Criação de interfaces com nomes expressivos e responsabilidades específicas, como `ClienteConsultaRepository`, `ContaMovimentacaoRepository` e `FuncionarioCadastroRepository`.
+  - Separação dos contratos de persistência conforme as operações necessárias para cada caso de uso, melhorando a organização e reduzindo dependências desnecessárias.
+  - Centralização da criação dos repositórios JDBC e da injeção de dependências na classe `Main.java`, mantendo a responsabilidade de composição fora da camada de apresentação.
+  - Simplificação da classe `AplicacaoBanco`, que passou a receber os casos de uso já instanciados, sem criar diretamente os repositórios.
+  - Utilização de JavaDoc nas classes `Main` e `AplicacaoBanco`, documentando suas responsabilidades e parâmetros dos construtores.
+  - Tratamento de exceções durante a inicialização do banco de dados, com mensagens de erro claras ao usuário.
+
 - **(Vinícius):**
 Na camada de persistência, foram realizadas melhorias de legibilidade e organização do código por meio da separação das operações de acesso ao banco de dados em repositórios específicos para clientes, contas e funcionários. A lógica de conexão com o SQLite foi centralizada na classe Conexao.java, reduzindo a duplicação de código. Também foi aprimorado o tratamento de exceções com o uso de try-with-resources, garantindo o fechamento adequado dos recursos utilizados nas operações JDBC e contribuindo para a confiabilidade da aplicação.
 - **Camada de Aplicação (Liane):**
@@ -345,7 +377,7 @@ Os dados são armazenados no arquivo banco.db, permitindo sua recuperação em e
 
 - [x] Código de domínio revisado com SRP, LSP, validações, `id` em `Conta`, `senha` em `Cliente` e JavaDoc *(Iasmin)*
 - [x] Casos de uso integrados às interfaces de repositório e exemplo de OCP *(Liane)*
-- [ ] Interfaces de repositório, injeção de dependências no `Main` e conferência da Clean Architecture *(Emanuel)*
+- [x] Interfaces de repositório, injeção de dependências no `Main` e conferência da Clean Architecture *(Emanuel)*
 - [x] Persistência SQLite/JDBC com `PreparedStatement`, `script.sql` e testes após reinicialização *(Vinícius)*
 - [ ] Interface gráfica padronizada, integrada aos casos de uso, prints atualizados e JavaDoc HTML gerado *(Adryan)*
 
