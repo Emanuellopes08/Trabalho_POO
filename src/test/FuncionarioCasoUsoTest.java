@@ -13,9 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FuncionarioCasoUsoTest {
 
-    private final FuncionarioRepository repositorio = new FuncionarioRepositoryMemoria();
+    private final FuncionarioRepository repositorio =
+            new FuncionarioRepositoryMemoria();
 
-    private final CadastrarFuncionario cadastrarFuncionario = new CadastrarFuncionario(repositorio);
+    private final CadastrarFuncionario cadastrarFuncionario =
+            new CadastrarFuncionario(repositorio, repositorio);
 
     private Funcionario criarFuncionario() {
         return new Funcionario(
@@ -51,15 +53,18 @@ public class FuncionarioCasoUsoTest {
         Funcionario funcionario = criarFuncionario();
         cadastrarFuncionario.executar(funcionario);
 
-        ConsultarFuncionario consultarFuncionario = new ConsultarFuncionario(repositorio);
+        ConsultarFuncionario consultarFuncionario =
+                new ConsultarFuncionario(repositorio);
 
         Funcionario resultado = consultarFuncionario.executar(1);
+
         assertEquals(funcionario, resultado);
     }
 
     @Test
     void deveRejeitarConsultaDeFuncionarioInexistente() {
-        ConsultarFuncionario consultarFuncionario = new ConsultarFuncionario(repositorio);
+        ConsultarFuncionario consultarFuncionario =
+                new ConsultarFuncionario(repositorio);
 
         assertThrows(IllegalArgumentException.class,
                 () -> consultarFuncionario.executar(99));
@@ -72,10 +77,14 @@ public class FuncionarioCasoUsoTest {
         Funcionario funcionarioAtualizado = criarFuncionario();
         funcionarioAtualizado.setSenha("87654321");
 
-        AlterarFuncionario alterarFuncionario = new AlterarFuncionario(repositorio);
+        AlterarFuncionario alterarFuncionario =
+                new AlterarFuncionario(repositorio, repositorio);
 
         alterarFuncionario.executar(funcionarioAtualizado);
-        assertEquals("87654321", repositorio.buscarPorCodigo(1).getSenha());
+
+        assertEquals("87654321",
+                repositorio.buscarPorCodigo(1).getSenha());
+
         assertEquals(1, repositorio.listarTodos().size());
     }
 
@@ -83,7 +92,8 @@ public class FuncionarioCasoUsoTest {
     void deveRejeitarAlteracaoDeFuncionarioInexistente() {
         Funcionario funcionario = criarFuncionario();
 
-        AlterarFuncionario alterarFuncionario = new AlterarFuncionario(repositorio);
+        AlterarFuncionario alterarFuncionario =
+                new AlterarFuncionario(repositorio, repositorio);
 
         assertThrows(IllegalArgumentException.class,
                 () -> alterarFuncionario.executar(funcionario));
@@ -93,7 +103,8 @@ public class FuncionarioCasoUsoTest {
     void deveExcluirFuncionarioExistente() {
         cadastrarFuncionario.executar(criarFuncionario());
 
-        ExcluirFuncionario excluirFuncionario = new ExcluirFuncionario(repositorio);
+        ExcluirFuncionario excluirFuncionario =
+                new ExcluirFuncionario(repositorio, repositorio);
 
         excluirFuncionario.executar(1);
 
@@ -103,7 +114,8 @@ public class FuncionarioCasoUsoTest {
 
     @Test
     void deveRejeitarExclusaoDeFuncionarioInexistente() {
-        ExcluirFuncionario excluirFuncionario = new ExcluirFuncionario(repositorio);
+        ExcluirFuncionario excluirFuncionario =
+                new ExcluirFuncionario(repositorio, repositorio);
 
         assertThrows(IllegalArgumentException.class,
                 () -> excluirFuncionario.executar(99));
