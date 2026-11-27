@@ -6,6 +6,9 @@ import domain.pessoas.Funcionario;
 
 import java.awt.*;
 
+/**
+ * Janela que reúne as funcionalidades administrativas do gerente.
+ */
 public class TelaGerente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -28,6 +31,11 @@ public class TelaGerente extends JFrame {
     // =========================================================
     // CONSTRUTOR
     // =========================================================
+    /**
+     * Recebe a aplicação e inicializa a área de gerenciamento.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
     public TelaGerente(AplicacaoBanco aplicacao) {
         this.aplicacao = aplicacao;
@@ -620,6 +628,10 @@ public class TelaGerente extends JFrame {
         botao.addMouseListener(
                 new java.awt.event.MouseAdapter() {
 
+                    /**
+                     * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+                     * @param evt evento de mouse associado à interação.
+                     */
                     @Override
                     public void mouseEntered(
                             java.awt.event.MouseEvent evt
@@ -627,6 +639,10 @@ public class TelaGerente extends JFrame {
                         botao.setBackground(corEscura);
                     }
 
+                    /**
+                     * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+                     * @param evt evento de mouse associado à interação.
+                     */
                     @Override
                     public void mouseExited(
                             java.awt.event.MouseEvent evt

@@ -3,6 +3,9 @@ package presentation.swing;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Janela com as funcionalidades disponibilizadas ao funcionário.
+ */
 public class TelaFuncionario extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -14,6 +17,11 @@ public class TelaFuncionario extends JFrame {
     private final Color VERMELHO = new Color(180, 70, 70);
     private final Color VERMELHO_ESCURO = new Color(140, 45, 45);
     private final Color BRANCO = Color.WHITE;
+    /**
+     * Recebe a aplicação e inicializa a área de trabalho do funcionário.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaFuncionario(AplicacaoBanco aplicacao) {
@@ -202,6 +210,10 @@ public class TelaFuncionario extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corEscura);
@@ -211,6 +223,10 @@ public class TelaFuncionario extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corNormal);

@@ -6,7 +6,15 @@ import java.awt.*;
 /**
  * Botão arredondado reutilizável da interface do Banco ES.
  */
+/**
+ * Botão personalizado com aparência arredondada para uso na interface gráfica.
+ */
 public class BotaoArredondado extends JButton {
+    /**
+     * Cria um botão estilizado com o texto informado.
+     
+ * @param texto texto exibido no botão.
+ */
 
     public BotaoArredondado(String texto) {
         super(texto);

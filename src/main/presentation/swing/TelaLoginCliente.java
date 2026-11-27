@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Janela de autenticação dos clientes.
+ */
 public class TelaLoginCliente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -24,6 +27,11 @@ public class TelaLoginCliente extends JFrame {
     private JTextField campoCpf;
     private JPasswordField campoSenha;
     private JLabel mensagemErro;
+    /**
+     * Recebe a aplicação e configura a tela de autenticação do cliente.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaLoginCliente(AplicacaoBanco aplicacao) {
@@ -269,6 +277,10 @@ public class TelaLoginCliente extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corEscura);
@@ -278,6 +290,10 @@ public class TelaLoginCliente extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corNormal);

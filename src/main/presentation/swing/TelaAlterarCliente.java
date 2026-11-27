@@ -6,6 +6,9 @@ import domain.pessoas.Cliente;
 
 import java.awt.*;
 
+/**
+ * Janela responsável pela alteração dos dados cadastrais de um cliente.
+ */
 public class TelaAlterarCliente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -30,6 +33,11 @@ public class TelaAlterarCliente extends JFrame {
     private JTextField campoEmail;
 
     private Cliente clienteEncontrado;
+    /**
+     * Recebe a aplicação e prepara a interface para edição dos dados do cliente.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaAlterarCliente(AplicacaoBanco aplicacao) {
@@ -503,6 +511,10 @@ public class TelaAlterarCliente extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
 
@@ -517,6 +529,10 @@ public class TelaAlterarCliente extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
 

@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Janela que apresenta ao cliente as operações disponíveis sobre suas contas.
+ */
 public class TelaCliente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -34,6 +37,13 @@ public class TelaCliente extends JFrame {
     private JLabel labelSaldo;
     private JTextField campoValor;
     private JLabel mensagemErro;
+    /**
+     * Inicializa a área do cliente com a aplicação, o cliente autenticado e suas contas.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ * @param cliente cliente autenticado associado à janela.
+ * @param contas contas disponíveis para o cliente.
+ */
 
 
     public TelaCliente(AplicacaoBanco aplicacao, Cliente cliente, List<Conta> contas) {
@@ -583,6 +593,10 @@ public class TelaCliente extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
 
@@ -593,6 +607,10 @@ public class TelaCliente extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
 

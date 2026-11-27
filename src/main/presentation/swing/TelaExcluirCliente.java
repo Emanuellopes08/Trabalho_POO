@@ -6,6 +6,9 @@ import domain.pessoas.Cliente;
 
 import java.awt.*;
 
+/**
+ * Janela utilizada para localizar e excluir clientes.
+ */
 public class TelaExcluirCliente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -28,6 +31,11 @@ public class TelaExcluirCliente extends JFrame {
     private JLabel resultadoCpf;
 
     private Cliente clienteEncontrado;
+    /**
+     * Recebe a aplicação e prepara a interface de exclusão de clientes.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaExcluirCliente(AplicacaoBanco aplicacao) {
@@ -355,6 +363,10 @@ public class TelaExcluirCliente extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
 
@@ -369,6 +381,10 @@ public class TelaExcluirCliente extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
 

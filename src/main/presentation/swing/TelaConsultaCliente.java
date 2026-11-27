@@ -6,6 +6,9 @@ import domain.pessoas.Cliente;
 
 import java.awt.*;
 
+/**
+ * Janela destinada à consulta das informações de clientes.
+ */
 public class TelaConsultaCliente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -26,6 +29,11 @@ public class TelaConsultaCliente extends JFrame {
 
     private JLabel resultadoNome;
     private JLabel resultadoCpf;
+    /**
+     * Recebe a aplicação e inicializa a interface de consulta de clientes.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaConsultaCliente(AplicacaoBanco aplicacao) {
@@ -274,6 +282,10 @@ public class TelaConsultaCliente extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corEscura);
@@ -283,6 +295,10 @@ public class TelaConsultaCliente extends JFrame {
                 }
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corNormal);

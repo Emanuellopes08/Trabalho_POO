@@ -6,6 +6,9 @@ import domain.pessoas.Funcionario;
 
 import java.awt.*;
 
+/**
+ * Janela de autenticação dos funcionários.
+ */
 public class TelaLoginFuncionario extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -27,6 +30,11 @@ public class TelaLoginFuncionario extends JFrame {
     private JLabel erroUsuario;
     private JLabel erroSenha;
     private JLabel erroCodigo;
+    /**
+     * Recebe a aplicação e configura a tela de autenticação do funcionário.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaLoginFuncionario(AplicacaoBanco aplicacao) {
@@ -319,11 +327,19 @@ public class TelaLoginFuncionario extends JFrame {
 
         botao.addMouseListener(new java.awt.event.MouseAdapter() {
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corEscura);
             }
 
+            /**
+             * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+             * @param evt evento de mouse associado à interação.
+             */
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 botao.setBackground(corNormal);
