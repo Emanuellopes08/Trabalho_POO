@@ -3,6 +3,9 @@ package presentation.swing;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Janela de autenticação do gerente.
+ */
 public class TelaLoginGerente extends JFrame {
 
     private final AplicacaoBanco aplicacao;
@@ -24,6 +27,11 @@ public class TelaLoginGerente extends JFrame {
     private JLabel erroUsuario;
     private JLabel erroSenha;
     private JLabel erroCodigo;
+    /**
+     * Recebe a aplicação e configura a tela de autenticação do gerente.
+     
+ * @param aplicacao objeto que coordena os serviços e a navegação da aplicação.
+ */
 
 
     public TelaLoginGerente(AplicacaoBanco aplicacao) {
@@ -599,6 +607,10 @@ public class TelaLoginGerente extends JFrame {
         botao.addMouseListener(
                 new java.awt.event.MouseAdapter() {
 
+                    /**
+                     * Executa os ajustes visuais quando o ponteiro do mouse entra no componente.
+                     * @param evt evento de mouse associado à interação.
+                     */
                     @Override
                     public void mouseEntered(
                             java.awt.event.MouseEvent evt
@@ -610,6 +622,10 @@ public class TelaLoginGerente extends JFrame {
                     }
 
 
+                    /**
+                     * Executa os ajustes visuais quando o ponteiro do mouse sai do componente.
+                     * @param evt evento de mouse associado à interação.
+                     */
                     @Override
                     public void mouseExited(
                             java.awt.event.MouseEvent evt
