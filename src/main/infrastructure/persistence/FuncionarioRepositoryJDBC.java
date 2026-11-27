@@ -10,8 +10,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementação JDBC do repositório de funcionários.
+ *
+ * Responsável por realizar as operações de persistência
+ * dos funcionários no banco de dados SQLite, incluindo
+ * cadastro, consulta, listagem, atualização e exclusão.
+ *
+ * Também realiza a reconstrução de objetos Funcionario
+ * a partir dos registros armazenados no banco de dados.
+ */
 public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
 
+    /**
+     * Salva um novo funcionário no banco de dados.
+     *
+     * @param funcionario objeto Funcionario que será persistido.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a operação de persistência.
+     */
     @Override
     public void salvar(Funcionario funcionario) {
         String sql = """
@@ -36,6 +53,14 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
+    /**
+     * Busca um funcionário pelo seu código de identificação.
+     *
+     * @param codigo código do funcionário procurado.
+     * @return objeto Funcionario encontrado ou null caso não exista.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public Funcionario buscarPorCodigo(int codigo) {
         String sql = "SELECT * FROM funcionarios WHERE codigo = ?";
@@ -60,6 +85,14 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
+    /**
+     * Busca um funcionário pelo seu nome de usuário.
+     *
+     * @param usuario nome de usuário utilizado na consulta.
+     * @return objeto Funcionario encontrado ou null caso não exista.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public Funcionario buscarPorUsuario(String usuario) {
         String sql = "SELECT * FROM funcionarios WHERE usuario = ?";
@@ -84,6 +117,14 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
+    /**
+     * Lista todos os funcionários cadastrados no banco de dados,
+     * ordenados pelo código de identificação.
+     *
+     * @return lista contendo os funcionários cadastrados.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public List<Funcionario> listarTodos() {
         String sql = "SELECT * FROM funcionarios ORDER BY codigo";
@@ -107,6 +148,15 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
+    /**
+     * Atualiza os dados de um funcionário já cadastrado,
+     * identificado pelo seu código.
+     *
+     * @param funcionario objeto Funcionario contendo os dados atualizados.
+     * @throws IllegalArgumentException caso o funcionário não seja encontrado.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a atualização no banco de dados.
+     */
     @Override
     public void atualizar(Funcionario funcionario) {
         String sql = """
@@ -140,6 +190,14 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
+    /**
+     * Exclui um funcionário do banco de dados pelo seu código.
+     *
+     * @param codigo código do funcionário que será excluído.
+     * @throws IllegalArgumentException caso o funcionário não seja encontrado.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a exclusão no banco de dados.
+     */
     @Override
     public void excluir(int codigo) {
         String sql = "DELETE FROM funcionarios WHERE codigo = ?";
@@ -164,7 +222,15 @@ public class FuncionarioRepositoryJDBC implements FuncionarioRepository {
         }
     }
 
-    // Reconstrói o objeto Funcionario utilizando os dados do banco
+    /**
+     * Reconstrói um objeto Funcionario a partir dos dados
+     * recuperados do banco de dados.
+     *
+     * @param rs ResultSet contendo os dados do funcionário.
+     * @return objeto Funcionario correspondente ao registro consultado.
+     * @throws SQLException caso ocorra algum erro durante
+     *         a leitura dos dados.
+     */
     private Funcionario montarFuncionario(ResultSet rs)
             throws SQLException {
 

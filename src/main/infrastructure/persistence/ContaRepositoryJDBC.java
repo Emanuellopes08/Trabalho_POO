@@ -11,8 +11,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementação JDBC do repositório de contas.
+ *
+ * Responsável por realizar as operações de persistência
+ * das contas bancárias no banco de dados SQLite, incluindo
+ * cadastro, consulta, atualização e exclusão.
+ *
+ * Também realiza a reconstrução dos objetos Conta a partir
+ * dos registros armazenados no banco de dados.
+ */
 public class ContaRepositoryJDBC implements ContaRepository {
 
+    /**
+     * Salva uma nova conta no banco de dados.
+     *
+     * Após a inserção, recupera o identificador gerado
+     * automaticamente pelo SQLite e atribui esse ID ao objeto Conta.
+     *
+     * @param conta objeto Conta que será salvo.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a operação de persistência.
+     */
     @Override
     public void salvar(Conta conta) {
         String sql = """
@@ -43,6 +63,14 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
+    /**
+     * Busca uma conta pelo seu identificador.
+     *
+     * @param id identificador da conta procurada.
+     * @return objeto Conta encontrado ou null caso não exista.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public Conta buscarPorId(int id) {
         String sql = "SELECT * FROM contas WHERE id = ?";
@@ -65,6 +93,15 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
+    /**
+     * Busca todas as contas nas quais o cliente participa
+     * como titular ou cotitular.
+     *
+     * @param cpf CPF do cliente utilizado na consulta.
+     * @return lista de contas vinculadas ao cliente.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public List<Conta> buscarPorCpfCliente(String cpf) {
         String sql = """
@@ -95,6 +132,14 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
+    /**
+     * Lista todas as contas cadastradas no banco de dados,
+     * ordenadas pelo identificador.
+     *
+     * @return lista contendo todas as contas cadastradas.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a consulta ao banco de dados.
+     */
     @Override
     public List<Conta> listarTodas() {
         String sql = "SELECT * FROM contas ORDER BY id";
@@ -116,6 +161,15 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
+    /**
+     * Atualiza os dados de uma conta já cadastrada,
+     * identificada pelo seu ID.
+     *
+     * @param conta objeto Conta contendo os dados atualizados.
+     * @throws IllegalArgumentException caso a conta não seja encontrada.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a atualização no banco de dados.
+     */
     @Override
     public void atualizar(Conta conta) {
         String sql = """
@@ -149,6 +203,14 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
+    /**
+     * Exclui uma conta do banco de dados pelo seu identificador.
+     *
+     * @param id identificador da conta que será excluída.
+     * @throws IllegalArgumentException caso a conta não seja encontrada.
+     * @throws RuntimeException caso ocorra algum erro durante
+     *         a exclusão no banco de dados.
+     */
     @Override
     public void excluir(int id) {
         String sql = "DELETE FROM contas WHERE id = ?";
@@ -171,7 +233,20 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
-    // Preenche os parâmetros utilizados no INSERT e UPDATE
+    /**
+     * Preenche os parâmetros de um PreparedStatement com os dados
+     * da conta, considerando os diferentes tipos de conta existentes.
+     *
+     * Para contas conjuntas, define o CPF do cotitular.
+     * Para contas PJ, define o CNPJ, nome da empresa e fatura.
+     * Nos demais casos, os campos específicos recebem valores nulos.
+     *
+     * @param stmt PreparedStatement que receberá os parâmetros.
+     * @param conta objeto Conta contendo os dados utilizados
+     *              no preenchimento.
+     * @throws SQLException caso ocorra algum erro ao definir
+     *         os parâmetros da instrução SQL.
+     */
     private void preencherParametros(
             PreparedStatement stmt, Conta conta) throws SQLException {
 
@@ -197,7 +272,20 @@ public class ContaRepositoryJDBC implements ContaRepository {
         }
     }
 
-    // Constrói o objeto Conta a partir dos dados do banco
+    /**
+     * Reconstrói um objeto Conta a partir dos dados recuperados
+     * do banco de dados.
+     *
+     * Identifica o tipo de conta e instancia a classe correspondente,
+     * recuperando também os dados do titular e, quando necessário,
+     * do cotitular.
+     *
+     * @param conexao conexão ativa com o banco de dados.
+     * @param rs ResultSet contendo os dados da conta.
+     * @return objeto Conta correspondente ao registro consultado.
+     * @throws SQLException caso ocorra algum erro na leitura dos dados.
+     * @throws IllegalArgumentException caso o tipo de conta seja desconhecido.
+     */
     private Conta montarConta(
             Connection conexao, ResultSet rs) throws SQLException {
 
@@ -250,7 +338,16 @@ public class ContaRepositoryJDBC implements ContaRepository {
         return conta;
     }
 
-    // Busca o cliente utilizando a mesma conexão da operação
+    /**
+     * Busca um cliente pelo CPF utilizando a mesma conexão
+     * empregada na operação de consulta da conta.
+     *
+     * @param conexao conexão ativa com o banco de dados.
+     * @param cpf CPF do cliente procurado.
+     * @return objeto Cliente encontrado ou null caso não exista.
+     * @throws SQLException caso ocorra algum erro durante
+     *         a consulta ou leitura dos dados.
+     */
     private Cliente buscarCliente(
             Connection conexao, String cpf) throws SQLException {
 
