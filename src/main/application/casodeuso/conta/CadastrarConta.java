@@ -1,6 +1,7 @@
+
 package application.casodeuso.conta;
 
-import application.repositories.ContaRepository;
+import application.repositories.ContaCadastroRepository;
 import domain.contas.Conta;
 
 /**
@@ -10,15 +11,16 @@ import domain.contas.Conta;
  * seguindo o princípio OCP.
  */
 public class CadastrarConta {
-    private final ContaRepository contaRepo;
+
+    private final ContaCadastroRepository contaRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de contas.
+     * Inicializa o caso de uso com o contrato de cadastro de contas.
      *
-     * @param contaRepo repositório responsável pelo acesso
-     * aos dados das contas bancárias.
+     * @param contaRepo contrato responsável pelo cadastro
+     * das contas bancárias.
      */
-    public CadastrarConta(ContaRepository contaRepo){
+    public CadastrarConta(ContaCadastroRepository contaRepo) {
         this.contaRepo = contaRepo;
     }
 
@@ -29,11 +31,12 @@ public class CadastrarConta {
      * @param conta conta bancária a ser cadastrada.
      * @throws IllegalArgumentException se a conta for nula.
      */
-    public void executar (Conta conta) {
+    public void executar(Conta conta) {
+
         if (conta == null) {
             throw new IllegalArgumentException("Conta não informada!");
         }
-    contaRepo.salvar(conta);
+
+        contaRepo.salvar(conta);
     }
 }
-

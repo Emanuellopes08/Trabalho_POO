@@ -1,24 +1,25 @@
+
 package application.casodeuso.conta;
 
 import application.validacao.ValidadorValor;
+import application.repositories.ContaMovimentacaoRepository;
 import domain.contas.Conta;
-import application.repositories.ContaRepository;
 
 /**
  * Caso de uso responsável pela realização de depósitos
  * em contas bancárias.
  */
-public class Depositar{
+public class Depositar {
 
-    private final ContaRepository contaRepo;
+    private final ContaMovimentacaoRepository contaRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de contas.
+     * Inicializa o caso de uso com o contrato de movimentação de contas.
      *
-     * @param contaRepo repositório responsável pelo acesso
-     * aos dados das contas bancárias.
+     * @param contaRepo contrato responsável pela consulta e atualização
+     * das contas bancárias.
      */
-    public Depositar(ContaRepository contaRepo) {
+    public Depositar(ContaMovimentacaoRepository contaRepo) {
         this.contaRepo = contaRepo;
     }
 
@@ -33,7 +34,9 @@ public class Depositar{
      * ou se a conta não for encontrada.
      */
     public void executar(int id, double valor) {
+
         ValidadorValor.validarValor(valor);
+
         Conta conta = contaRepo.buscarPorId(id);
 
         if (conta == null) {

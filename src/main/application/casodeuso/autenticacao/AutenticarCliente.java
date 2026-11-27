@@ -2,7 +2,7 @@
 package application.casodeuso.autenticacao;
 
 import application.repositories.ClienteConsultaRepository;
-import application.repositories.ContaRepository;
+import application.repositories.ContaConsultaRepository;
 import application.validacao.ValidadorCliente;
 import domain.pessoas.Cliente;
 
@@ -13,7 +13,7 @@ import domain.pessoas.Cliente;
 public class AutenticarCliente {
 
     private final ClienteConsultaRepository clienteRepo;
-    private final ContaRepository contaRepo;
+    private final ContaConsultaRepository contaRepo;
 
     /**
      * Inicializa o caso de uso com os contratos
@@ -24,7 +24,7 @@ public class AutenticarCliente {
      */
     public AutenticarCliente(
             ClienteConsultaRepository clienteRepo,
-            ContaRepository contaRepo) {
+            ContaConsultaRepository contaRepo) {
 
         this.clienteRepo = clienteRepo;
         this.contaRepo = contaRepo;
@@ -37,8 +37,6 @@ public class AutenticarCliente {
      * @param cpf CPF do cliente.
      * @param senha senha de acesso do cliente.
      * @return cliente autenticado.
-     * @throws IllegalArgumentException se as credenciais forem
-     * inválidas ou se o cliente não possuir conta bancária.
      */
     public Cliente executar(String cpf, String senha) {
 

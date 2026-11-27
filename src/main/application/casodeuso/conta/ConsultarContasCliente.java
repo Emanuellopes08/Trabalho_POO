@@ -2,7 +2,7 @@
 package application.casodeuso.conta;
 
 import application.repositories.ClienteConsultaRepository;
-import application.repositories.ContaRepository;
+import application.repositories.ContaConsultaRepository;
 import application.validacao.ValidadorCliente;
 import domain.contas.Conta;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class ConsultarContasCliente {
 
     private final ClienteConsultaRepository clienteRepo;
-    private final ContaRepository contaRepo;
+    private final ContaConsultaRepository contaRepo;
 
     /**
      * Inicializa o caso de uso com os contratos
@@ -26,7 +26,7 @@ public class ConsultarContasCliente {
      */
     public ConsultarContasCliente(
             ClienteConsultaRepository clienteRepo,
-            ContaRepository contaRepo) {
+            ContaConsultaRepository contaRepo) {
 
         this.clienteRepo = clienteRepo;
         this.contaRepo = contaRepo;
