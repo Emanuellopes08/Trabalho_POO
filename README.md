@@ -329,6 +329,17 @@ Na camada de persistência, foram realizadas melhorias de legibilidade e organiz
   - Remoção da duplicação da validação de saldo insuficiente no caso de uso `Sacar`, mantendo essa regra de negócio na classe `Conta`.
   - Tratamento de entradas inválidas por meio de exceções com mensagens claras, facilitando a identificação dos erros.
   - Padronização da formatação, indentação e documentação JavaDoc dos casos de uso e validadores.
+ 
+ - **Identidade Visual (Adryan):**
+   
+    A identidade visual do Banco ES busca transmitir **segurança, confiabilidade e profissionalismo**, utilizando elementos visuais inspirados em instituições bancárias tradicionais.      A interface prioriza a organização, a clareza das informações e a facilidade de navegação, proporcionando uma experiência intuitiva e acessível aos usuários.
+    Cores: utilização de uma paleta de cores sóbria e harmoniosa, transmitindo confiança e estabilidade, com cores de destaque para botões, ações e informações importantes.
+
+   - Tipografia: fontes legíveis e de fácil compreensão, priorizando a clareza na apresentação de informações financeiras e mensagens do sistema.
+   - Layout: organização consistente dos elementos, menus e formulários, facilitando a navegação entre as diferentes funcionalidades.
+   - Usabilidade: busca por uma interface intuitiva, reduzindo a complexidade das operações e tornando as funcionalidades acessíveis aos diferentes perfis de usuários.
+   - Consistência visual: padronização dos componentes, botões, campos de entrada, telas e mensagens, proporcionando uma experiência uniforme ao longo do sistema.
+   - Acessibilidade: preocupação com a legibilidade, contraste, clareza das informações e facilidade de interação, visando tornar o sistema mais acessível e confortável de utilizar.
 
 ### Critérios 6, 7 e 8 — Interface Gráfica (Identidade Visual, Layout e Usabilidade)
 (Adryan): A interface gráfica do Banco ES passou por melhorias visuais e de organização, buscando uma aparência mais moderna e próxima à de um aplicativo bancário real. Foi adotada uma paleta de cores baseada em azul-marinho, azul, verde, branco e vermelho, utilizando o verde para destacar ações positivas e o vermelho para ações de saída ou cancelamento. A tipografia foi padronizada com a fonte Segoe UI, proporcionando melhor legibilidade e hierarquia visual.
