@@ -90,6 +90,13 @@ A classe Conexao.java também é responsável por estabelecer as conexões com o
 
 ### Como executar os testes
 - Execute `src/test/ContaLspTest.java` (JUnit 5) pela IDE para validar o comportamento polimórfico das subclasses de `Conta`.
+- **Testes da camada de aplicação (Liane):**
+  - `ClienteCasoUsoTest.java`: testes das operações de cliente.
+  - `FuncionarioCasoUsoTest.java`: testes das operações de funcionário.
+  - `ContaCasoUsoTest.java`: testes das operações bancárias.
+  - Utilização do JUnit 5 e de repositórios em memória, permitindo testar os casos de uso independentemente do banco de dados e da interface gráfica.
+  - Validação de cenários de sucesso e de exceção.
+  - Para executar os testes, basta selecionar as respectivas classes na pasta `src/test` e executá-las pela IDE.
 - **Testes de Persistência (Vinícius):**
 
 Os testes de persistência estão localizados no pacote `infrastructure/persistence` e verificam o funcionamento dos repositórios JDBC. Para executá-los, basta abrir as respectivas classes de teste na IDE e executar seus métodos `main`.
@@ -225,7 +232,7 @@ Os dados são armazenados no arquivo banco.db, permitindo sua recuperação em e
 ## 5. Checklist Final de Entrega
 
 - [x] Código de domínio revisado com SRP, LSP, validações, `id` em `Conta`, `senha` em `Cliente` e JavaDoc *(Iasmin)*
-- [ ] Casos de uso integrados às interfaces de repositório e exemplo de OCP *(Liane)*
+- [x] Casos de uso integrados às interfaces de repositório e exemplo de OCP *(Liane)*
 - [ ] Interfaces de repositório, injeção de dependências no `Main` e conferência da Clean Architecture *(Emanuel)*
 - [x] Persistência SQLite/JDBC com `PreparedStatement`, `script.sql` e testes após reinicialização *(Vinícius)*
 - [ ] Interface gráfica padronizada, integrada aos casos de uso, prints atualizados e JavaDoc HTML gerado *(Adryan)*
