@@ -171,6 +171,13 @@ Como exemplo, a classe `Depositar` é responsável por validar o valor informado
 - **Demais camadas:** `[PREENCHER — Liane/Emanuel/Vinícius/Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
 - **(Vinícius):**
 Na camada de persistência, foram realizadas melhorias de legibilidade e organização do código por meio da separação das operações de acesso ao banco de dados em repositórios específicos para clientes, contas e funcionários. A lógica de conexão com o SQLite foi centralizada na classe Conexao.java, reduzindo a duplicação de código. Também foi aprimorado o tratamento de exceções com o uso de try-with-resources, garantindo o fechamento adequado dos recursos utilizados nas operações JDBC e contribuindo para a confiabilidade da aplicação.
+- **Camada de Aplicação (Liane):**
+  - Utilização de nomes expressivos nas classes, métodos e variáveis, como `CadastrarCliente`, `ConsultarContasCliente` e `clienteExistente`.
+  - Organização das operações em métodos focados, com responsabilidades bem definidas.
+  - Centralização das validações nas classes `ValidadorCliente`, `ValidadorFuncionario` e `ValidadorValor`, permitindo a reutilização do código.
+  - Remoção da duplicação da validação de saldo insuficiente no caso de uso `Sacar`, mantendo essa regra de negócio na classe `Conta`.
+  - Tratamento de entradas inválidas por meio de exceções com mensagens claras, facilitando a identificação dos erros.
+  - Padronização da formatação, indentação e documentação JavaDoc dos casos de uso e validadores.
 
 ### Critérios 6, 7 e 8 — Interface Gráfica (Identidade Visual, Layout e Usabilidade)
 (Adryan): A interface gráfica do Banco ES passou por melhorias visuais e de organização, buscando uma aparência mais moderna e próxima à de um aplicativo bancário real. Foi adotada uma paleta de cores baseada em azul-marinho, azul, verde, branco e vermelho, utilizando o verde para destacar ações positivas e o vermelho para ações de saída ou cancelamento. A tipografia foi padronizada com a fonte Segoe UI, proporcionando melhor legibilidade e hierarquia visual.
