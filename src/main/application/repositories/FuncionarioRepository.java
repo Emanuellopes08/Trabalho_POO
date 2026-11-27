@@ -1,55 +1,34 @@
+
 package application.repositories;
 
 import domain.pessoas.Funcionario;
 import java.util.List;
 
 /**
- * Interface que define o contrato para operações de persistência de funcionários e gerentes.
- * Garante o desacoplamento entre os casos de uso e a implementação JDBC (ISP e DIP).
+ * Reúne os contratos de persistência de funcionários e gerentes.
+ *
+ * Estende as interfaces específicas de consulta, cadastro,
+ * atualização e exclusão, mantendo as operações adicionais
+ * disponíveis para a implementação geral.
  */
-public interface FuncionarioRepository {
+public interface FuncionarioRepository extends
+        FuncionarioConsultaRepository,
+        FuncionarioCadastroRepository,
+        FuncionarioAtualizacaoRepository,
+        FuncionarioExclusaoRepository {
 
     /**
-     * Salva um novo funcionário (ou gerente) no repositório.
+     * Busca um funcionário pelo nome de usuário.
      *
-     * @param funcionario Objeto {@link Funcionario} a ser persistido.
-     */
-    void salvar(Funcionario funcionario);
-
-    /**
-     * Busca um funcionário cadastrado a partir do seu código identificador.
-     *
-     * @param codigo Código único do funcionário no banco de dados.
-     * @return O {@link Funcionario} correspondente, ou {@code null} caso não seja encontrado.
-     */
-    Funcionario buscarPorCodigo(int codigo);
-
-    /**
-     * Busca um funcionário pelo seu nome de usuário (utilizado na autenticação).
-     *
-     * @param usuario Nome de usuário único do funcionário.
-     * @return O {@link Funcionario} correspondente, ou {@code null} caso não seja encontrado.
+     * @param usuario nome de usuário do funcionário.
+     * @return funcionário encontrado ou null caso não exista.
      */
     Funcionario buscarPorUsuario(String usuario);
 
     /**
-     * Retorna todos os funcionários cadastrados no sistema.
+     * Retorna todos os funcionários cadastrados.
      *
-     * @return Lista contendo todos os objetos {@link Funcionario}.
+     * @return lista de funcionários.
      */
     List<Funcionario> listarTodos();
-
-    /**
-     * Atualiza os dados de um funcionário já existente.
-     *
-     * @param funcionario Objeto {@link Funcionario} com os dados atualizados.
-     */
-    void atualizar(Funcionario funcionario);
-
-    /**
-     * Remove um funcionário do repositório com base no seu código.
-     *
-     * @param codigo Código único do funcionário a ser excluído.
-     */
-    void excluir(int codigo);
 }

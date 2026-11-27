@@ -1,6 +1,7 @@
+
 package application.casodeuso.autenticacao;
 
-import application.repositories.FuncionarioRepository;
+import application.repositories.FuncionarioConsultaRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
@@ -10,14 +11,17 @@ import domain.pessoas.Funcionario;
  */
 public class AutenticarFuncionario {
 
-    private final FuncionarioRepository funcionarioRepo;
+    private final FuncionarioConsultaRepository funcionarioRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de funcionários.
+     * Inicializa o caso de uso com o contrato de consulta
+     * de funcionários.
      *
-     * @param funcionarioRepo repositório de funcionários.
+     * @param funcionarioRepo contrato responsável pela consulta.
      */
-    public AutenticarFuncionario(FuncionarioRepository funcionarioRepo) {
+    public AutenticarFuncionario(
+            FuncionarioConsultaRepository funcionarioRepo) {
+
         this.funcionarioRepo = funcionarioRepo;
     }
 
@@ -29,10 +33,10 @@ public class AutenticarFuncionario {
      * @param usuario usuário de acesso do funcionário.
      * @param senha senha de acesso do funcionário.
      * @return funcionário autenticado.
-     * @throws IllegalArgumentException se o código, o usuário
-     * ou a senha forem inválidos.
+     * @throws IllegalArgumentException se as credenciais forem inválidas.
      */
     public Funcionario executar(int codigo, String usuario, String senha) {
+
         ValidadorFuncionario.validarCodigo(codigo);
 
         if (usuario == null || usuario.isBlank()) {
@@ -45,9 +49,12 @@ public class AutenticarFuncionario {
 
         Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
 
-        if (funcionario == null || !usuario.equals(funcionario.getUsuario()) || !senha.equals(funcionario.getSenha())) {
+        if (funcionario == null
+                || !usuario.equals(funcionario.getUsuario())
+                || !senha.equals(funcionario.getSenha())) {
             throw new IllegalArgumentException("Credenciais inválidas.");
         }
+
         return funcionario;
     }
 }

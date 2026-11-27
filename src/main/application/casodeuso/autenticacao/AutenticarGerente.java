@@ -1,11 +1,13 @@
+
 package application.casodeuso.autenticacao;
 
-import application.repositories.FuncionarioRepository;
+import application.repositories.FuncionarioConsultaRepository;
 import domain.pessoas.Funcionario;
 
 /**
  * Caso de uso responsável pela autenticação e autorização
  * de acesso dos gerentes ao sistema bancário.
+ *
  * Reutiliza a autenticação de funcionários, evitando
  * a duplicação das validações de credenciais.
  */
@@ -15,11 +17,11 @@ public class AutenticarGerente {
 
     /**
      * Inicializa o caso de uso de autenticação do gerente,
-     * utilizando a autenticação de funcionários.
+     * utilizando o contrato de consulta de funcionários.
      *
-     * @param funcionarioRepo repositório de funcionários.
+     * @param funcionarioRepo contrato para consulta de funcionários.
      */
-    public AutenticarGerente(FuncionarioRepository funcionarioRepo) {
+    public AutenticarGerente(FuncionarioConsultaRepository funcionarioRepo) {
         this.autenticarFuncionario = new AutenticarFuncionario(funcionarioRepo);
     }
 
@@ -35,11 +37,14 @@ public class AutenticarGerente {
      * inválidas ou se o funcionário não possuir cargo de gerente.
      */
     public Funcionario executar(int codigo, String usuario, String senha) {
-        Funcionario funcionario = autenticarFuncionario.executar(codigo, usuario, senha);
+
+        Funcionario funcionario =
+                autenticarFuncionario.executar(codigo, usuario, senha);
 
         if (!"Gerente".equals(funcionario.getCargo())) {
             throw new IllegalArgumentException("Acesso não autorizado.");
         }
+
         return funcionario;
     }
 }

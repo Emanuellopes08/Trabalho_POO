@@ -65,13 +65,13 @@ public class Main {
                     new Depositar(contas),
                     new Sacar(contas),
                     new AutenticarCliente(clientes, contas),
-                    new CadastrarFuncionario(funcionarios),
+                    new CadastrarFuncionario(funcionarios, funcionarios),
                     new ConsultarFuncionario(funcionarios),
-                    new AlterarFuncionario(funcionarios),
-                    new ExcluirFuncionario(funcionarios),
+                    new AlterarFuncionario(funcionarios, funcionarios),
+                    new ExcluirFuncionario(funcionarios, funcionarios),
                     new AutenticarFuncionario(funcionarios),
                     new AutenticarGerente(funcionarios)
-            );
+                                );
 
             // Inicialização da interface gráfica
             TelaPrincipal tela = new TelaPrincipal(aplicacao);
