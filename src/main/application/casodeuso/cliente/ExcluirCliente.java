@@ -1,24 +1,32 @@
+
 package application.casodeuso.cliente;
 
 import application.validacao.ValidadorCliente;
+import application.repositories.ClienteConsultaRepository;
+import application.repositories.ClienteExclusaoRepository;
 import domain.pessoas.Cliente;
-import application.repositories.ClienteRepository;
 
 /**
  * Caso de uso responsável pela exclusão de clientes
  * cadastrados no sistema bancário.
  */
-public class ExcluirCliente{
-    private final ClienteRepository clienteRepo;
+public class ExcluirCliente {
+
+    private final ClienteConsultaRepository clienteRepo;
+    private final ClienteExclusaoRepository exclusaoRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de clientes.
+     * Inicializa o caso de uso com os contratos de consulta e exclusão.
      *
-     * @param clienteRepo repositório responsável pelo acesso
-     * aos dados dos clientes.
+     * @param clienteRepo contrato para consulta de clientes.
+     * @param exclusaoRepo contrato para exclusão de clientes.
      */
-    public ExcluirCliente(ClienteRepository clienteRepo){
+    public ExcluirCliente(
+            ClienteConsultaRepository clienteRepo,
+            ClienteExclusaoRepository exclusaoRepo) {
+
         this.clienteRepo = clienteRepo;
+        this.exclusaoRepo = exclusaoRepo;
     }
 
     /**
@@ -30,13 +38,15 @@ public class ExcluirCliente{
      * ou se o cliente não for encontrado.
      */
     public void executar(String cpf) {
+
         ValidadorCliente.validarCpf(cpf);
+
         Cliente cliente = clienteRepo.buscarPorCpf(cpf);
 
-        if (cliente == null){
+        if (cliente == null) {
             throw new IllegalArgumentException("Cliente não encontrado.");
         }
-        clienteRepo.excluir(cpf);
-    }
 
+        exclusaoRepo.excluir(cpf);
+    }
 }

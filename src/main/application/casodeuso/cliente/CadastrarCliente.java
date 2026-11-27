@@ -1,24 +1,31 @@
+
 package application.casodeuso.cliente;
 
 import application.validacao.ValidadorCliente;
+import application.repositories.ClienteConsultaRepository;
+import application.repositories.ClienteCadastroRepository;
 import domain.pessoas.Cliente;
-import application.repositories.ClienteRepository;
 
 /**
  * Caso de uso responsável pelo cadastro de clientes
  * no sistema bancário.
  */
-public class CadastrarCliente{
-    private final ClienteRepository clienteRepo;
+public class CadastrarCliente {
+
+    private final ClienteConsultaRepository clienteRepo;
+    private final ClienteCadastroRepository cadastroRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de clientes.
+     * Inicializa o caso de uso com os contratos de consulta e cadastro.
      *
-     * @param clienteRepo repositório responsável pelo acesso
-     * aos dados dos clientes.
+     * @param clienteRepo contrato para consulta de clientes.
+     * @param cadastroRepo contrato para salvar clientes.
      */
-    public CadastrarCliente(ClienteRepository clienteRepo) {
+    public CadastrarCliente(
+            ClienteConsultaRepository clienteRepo,
+            ClienteCadastroRepository cadastroRepo) {
         this.clienteRepo = clienteRepo;
+        this.cadastroRepo = cadastroRepo;
     }
 
     /**
@@ -27,16 +34,17 @@ public class CadastrarCliente{
      *
      * @param cliente cliente a ser cadastrado.
      * @param senha senha de acesso do cliente.
-     * @throws IllegalArgumentException se o cliente for nulo,
-     * o CPF ou a senha forem inválidos ou se o cliente
-     * já estiver cadastrado.
+     * @throws IllegalArgumentException se os dados forem inválidos
+     * ou se o cliente já estiver cadastrado.
      */
     public void executar(Cliente cliente, String senha) {
 
         if (cliente == null) {
             throw new IllegalArgumentException("Cliente não informado.");
         }
+
         String cpf = cliente.getCpf();
+
         ValidadorCliente.validarCpf(cpf);
         ValidadorCliente.validarSenha(senha);
 
@@ -45,7 +53,8 @@ public class CadastrarCliente{
         if (clienteExistente != null) {
             throw new IllegalArgumentException("Cliente já cadastrado!");
         }
+
         cliente.setSenha(senha);
-        clienteRepo.salvar(cliente);
+        cadastroRepo.salvar(cliente);
     }
 }

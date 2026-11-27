@@ -4,45 +4,22 @@ import domain.pessoas.Cliente;
 import java.util.List;
 
 /**
- * Interface que define o contrato para operações de persistência de clientes.
- * Permite que os casos de uso acessem dados de clientes sem depender da
- * implementação concreta do banco de dados (DIP e ISP).
+ * Reúne os contratos de persistência de clientes.
+ *
+ * Estende as interfaces específicas de consulta, cadastro,
+ * atualização e exclusão, permitindo que a implementação
+ * JDBC disponibilize todas essas operações.
  */
-public interface ClienteRepository {
+public interface ClienteRepository extends
+        ClienteConsultaRepository,
+        ClienteCadastroRepository,
+        ClienteAtualizacaoRepository,
+        ClienteExclusaoRepository {
 
     /**
-     * Salva um novo cliente no repositório.
+     * Retorna todos os clientes cadastrados.
      *
-     * @param cliente Objeto {@link Cliente} a ser persistido.
-     */
-    void salvar(Cliente cliente);
-
-    /**
-     * Busca um cliente cadastrado a partir do seu CPF.
-     *
-     * @param cpf CPF do cliente a ser consultado.
-     * @return O {@link Cliente} correspondente, ou {@code null} caso não seja encontrado.
-     */
-    Cliente buscarPorCpf(String cpf);
-
-    /**
-     * Retorna todos os clientes cadastrados no sistema.
-     *
-     * @return Lista contendo todos os objetos {@link Cliente}.
+     * @return lista de clientes.
      */
     List<Cliente> listarTodos();
-
-    /**
-     * Atualiza os dados de um cliente já existente.
-     *
-     * @param cliente Objeto {@link Cliente} com os dados atualizados.
-     */
-    void atualizar(Cliente cliente);
-
-    /**
-     * Remove um cliente do repositório com base no seu CPF.
-     *
-     * @param cpf CPF do cliente a ser excluído.
-     */
-    void excluir(String cpf);
 }

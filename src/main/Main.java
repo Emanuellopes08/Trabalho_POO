@@ -56,10 +56,10 @@ public class Main {
 
             // Criação e injeção dos casos de uso
             AplicacaoBanco aplicacao = new AplicacaoBanco(
-                    new CadastrarCliente(clientes),
+                    new CadastrarCliente(clientes, clientes),
                     new ConsultarCliente(clientes),
-                    new AlterarCliente(clientes),
-                    new ExcluirCliente(clientes),
+                    new AlterarCliente(clientes, clientes),
+                    new ExcluirCliente(clientes, clientes),
                     new CadastrarConta(contas),
                     new ConsultarContasCliente(clientes, contas),
                     new Depositar(contas),

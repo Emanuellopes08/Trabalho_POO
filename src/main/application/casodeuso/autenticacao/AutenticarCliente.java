@@ -1,6 +1,7 @@
+
 package application.casodeuso.autenticacao;
 
-import application.repositories.ClienteRepository;
+import application.repositories.ClienteConsultaRepository;
 import application.repositories.ContaRepository;
 import application.validacao.ValidadorCliente;
 import domain.pessoas.Cliente;
@@ -11,17 +12,20 @@ import domain.pessoas.Cliente;
  */
 public class AutenticarCliente {
 
-    private final ClienteRepository clienteRepo;
+    private final ClienteConsultaRepository clienteRepo;
     private final ContaRepository contaRepo;
 
     /**
-     * Inicializa o caso de uso com os repositórios
-     * de clientes e contas bancárias.
+     * Inicializa o caso de uso com os contratos
+     * de consulta de clientes e contas bancárias.
      *
-     * @param clienteRepo repositório de clientes.
-     * @param contaRepo repositório de contas bancárias.
+     * @param clienteRepo contrato de consulta de clientes.
+     * @param contaRepo contrato de consulta de contas bancárias.
      */
-    public AutenticarCliente(ClienteRepository clienteRepo, ContaRepository contaRepo) {
+    public AutenticarCliente(
+            ClienteConsultaRepository clienteRepo,
+            ContaRepository contaRepo) {
+
         this.clienteRepo = clienteRepo;
         this.contaRepo = contaRepo;
     }
@@ -37,6 +41,7 @@ public class AutenticarCliente {
      * inválidas ou se o cliente não possuir conta bancária.
      */
     public Cliente executar(String cpf, String senha) {
+
         ValidadorCliente.validarCpf(cpf);
 
         if (senha == null || senha.isBlank()) {
@@ -52,6 +57,7 @@ public class AutenticarCliente {
         if (contaRepo.buscarPorCpfCliente(cpf).isEmpty()) {
             throw new IllegalArgumentException("Nenhuma conta encontrada para este cliente.");
         }
+
         return cliente;
     }
 }

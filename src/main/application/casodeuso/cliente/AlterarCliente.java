@@ -1,41 +1,51 @@
+
 package application.casodeuso.cliente;
 
 import application.validacao.ValidadorCliente;
+import application.repositories.ClienteConsultaRepository;
+import application.repositories.ClienteAtualizacaoRepository;
 import domain.pessoas.Cliente;
-import application.repositories.ClienteRepository;
 
 /**
  * Caso de uso responsável pela alteração dos dados
  * de clientes cadastrados no sistema bancário.
  */
-public class AlterarCliente{
+public class AlterarCliente {
 
-    private final ClienteRepository clienteRepo;
+    private final ClienteConsultaRepository clienteRepo;
+    private final ClienteAtualizacaoRepository atualizacaoRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de clientes.
+     * Inicializa o caso de uso com os contratos de consulta
+     * e atualização de clientes.
      *
-     * @param clienteRepo repositório responsável pelo acesso
-     * aos dados dos clientes.
+     * @param clienteRepo contrato para consulta de clientes.
+     * @param atualizacaoRepo contrato para atualização de clientes.
      */
-    public AlterarCliente(ClienteRepository clienteRepo) {
+    public AlterarCliente(
+            ClienteConsultaRepository clienteRepo,
+            ClienteAtualizacaoRepository atualizacaoRepo) {
+
         this.clienteRepo = clienteRepo;
+        this.atualizacaoRepo = atualizacaoRepo;
     }
 
     /**
-     * Valida os dados do cliente, verifica sua existência
-     * no repositório e atualiza seus dados.
+     * Valida o cliente e seu CPF, verifica sua existência
+     * e solicita a atualização dos seus dados.
      *
      * @param cliente cliente com os dados atualizados.
      * @throws IllegalArgumentException se o cliente for nulo,
-     * o CPF ou a senha forem inválidos ou o cliente
-     * não for encontrado.
+     * o CPF não for informado ou o cliente não for encontrado.
      */
     public void executar(Cliente cliente) {
 
-        ValidadorCliente.validarCliente(cliente);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não informado.");
+        }
 
         String cpf = cliente.getCpf();
+        ValidadorCliente.validarCpf(cpf);
 
         Cliente clienteExistente = clienteRepo.buscarPorCpf(cpf);
 
@@ -43,6 +53,6 @@ public class AlterarCliente{
             throw new IllegalArgumentException("Cliente não encontrado.");
         }
 
-        clienteRepo.atualizar(cliente);
+        atualizacaoRepo.atualizar(cliente);
     }
 }

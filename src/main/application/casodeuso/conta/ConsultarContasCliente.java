@@ -1,6 +1,7 @@
+
 package application.casodeuso.conta;
 
-import application.repositories.ClienteRepository;
+import application.repositories.ClienteConsultaRepository;
 import application.repositories.ContaRepository;
 import application.validacao.ValidadorCliente;
 import domain.contas.Conta;
@@ -12,17 +13,21 @@ import java.util.List;
  * bancárias vinculadas a um cliente.
  */
 public class ConsultarContasCliente {
-    private final ClienteRepository clienteRepo;
+
+    private final ClienteConsultaRepository clienteRepo;
     private final ContaRepository contaRepo;
 
     /**
-     * Inicializa o caso de uso com os repositórios
-     * de clientes e contas bancárias.
+     * Inicializa o caso de uso com os contratos
+     * de consulta de clientes e contas bancárias.
      *
-     * @param clienteRepo repositório de clientes.
-     * @param contaRepo repositório de contas bancárias.
+     * @param clienteRepo contrato de consulta de clientes.
+     * @param contaRepo contrato de consulta de contas bancárias.
      */
-    public ConsultarContasCliente(ClienteRepository clienteRepo, ContaRepository contaRepo) {
+    public ConsultarContasCliente(
+            ClienteConsultaRepository clienteRepo,
+            ContaRepository contaRepo) {
+
         this.clienteRepo = clienteRepo;
         this.contaRepo = contaRepo;
     }
@@ -37,6 +42,7 @@ public class ConsultarContasCliente {
      * o cliente não for encontrado ou não possuir contas bancárias.
      */
     public List<Conta> executar(String cpf) {
+
         ValidadorCliente.validarCpf(cpf);
 
         if (clienteRepo.buscarPorCpf(cpf) == null) {
@@ -48,6 +54,7 @@ public class ConsultarContasCliente {
         if (contas.isEmpty()) {
             throw new IllegalArgumentException("Cliente não possui conta bancária.");
         }
+
         return contas;
     }
 }
