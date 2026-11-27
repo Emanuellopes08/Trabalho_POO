@@ -1,0 +1,11 @@
+unnamed package
+application.casodeuso.autenticacao
+application.casodeuso.cliente
+application.casodeuso.conta
+application.casodeuso.funcionario
+application.repositories
+application.validacao
+domain.contas
+domain.pessoas
+infrastructure.persistence
+presentation.swing
