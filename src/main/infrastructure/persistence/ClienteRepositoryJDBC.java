@@ -122,7 +122,6 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
                 + "email = ?, "
                 + "senha = ? "
                 + "WHERE cpf = ?";
-                
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -153,9 +152,13 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
 
     /**
      * Exclui um cliente pelo CPF.
-     * A exclusão respeita as chaves estrangeiras do banco de dados.
+     * A exclusão respeita as chaves estrangeiras do banco de dados,
+     * impedindo a remoção de clientes que possuem contas vinculadas.
      *
      * @param cpf CPF do cliente que será excluído.
+     * @throws IllegalArgumentException caso o cliente não seja encontrado.
+     * @throws RuntimeException caso ocorra erro na exclusão ou
+     *         exista uma conta vinculada ao cliente.
      */
     @Override
     public void excluir(String cpf) {
@@ -175,8 +178,21 @@ public class ClienteRepositoryJDBC implements ClienteRepository {
             }
 
         } catch (SQLException e) {
+
+            // Verifica se a exclusão foi impedida por uma chave estrangeira.
+            if (e.getErrorCode() == 19
+                    && e.getMessage() != null
+                    && e.getMessage().contains("FOREIGN KEY constraint failed")) {
+
+                throw new RuntimeException(
+                        "Não é possível excluir este cliente, "
+                        + "pois ele possui contas vinculadas.",
+                        e
+                );
+            }
+
             throw new RuntimeException(
-                    "Erro ao excluir cliente. Verifique se ele possui contas vinculadas.",
+                    "Erro inesperado ao excluir cliente.",
                     e
             );
         }

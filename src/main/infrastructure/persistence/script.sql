@@ -36,6 +36,13 @@ CREATE TABLE IF NOT EXISTS funcionarios (
 );
 
 -- =========================================
+-- GERENTE INICIAL
+-- =========================================
+
+INSERT OR IGNORE INTO funcionarios (codigo, usuario, senha, cargo)
+VALUES (1, 'gerente', 'MinhaSenha123', 'Gerente');
+
+-- =========================================
 -- TABELA: CONTAS
 -- =========================================
 

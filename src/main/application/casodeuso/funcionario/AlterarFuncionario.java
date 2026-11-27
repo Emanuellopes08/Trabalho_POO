@@ -1,6 +1,8 @@
+
 package application.casodeuso.funcionario;
 
-import application.repositories.FuncionarioRepository;
+import application.repositories.FuncionarioConsultaRepository;
+import application.repositories.FuncionarioAtualizacaoRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
@@ -9,16 +11,23 @@ import domain.pessoas.Funcionario;
  * dos funcionários cadastrados no sistema bancário.
  */
 public class AlterarFuncionario {
-    private final FuncionarioRepository funcionarioRepo;
+
+    private final FuncionarioConsultaRepository consultaRepo;
+    private final FuncionarioAtualizacaoRepository atualizacaoRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de funcionários.
+     * Inicializa o caso de uso com os contratos de consulta
+     * e atualização de funcionários.
      *
-     * @param funcionarioRepo repositório responsável pelo acesso
-     * aos dados dos funcionários.
+     * @param consultaRepo contrato responsável pela consulta.
+     * @param atualizacaoRepo contrato responsável pela atualização.
      */
-    public AlterarFuncionario(FuncionarioRepository funcionarioRepo) {
-        this.funcionarioRepo = funcionarioRepo;
+    public AlterarFuncionario(
+            FuncionarioConsultaRepository consultaRepo,
+            FuncionarioAtualizacaoRepository atualizacaoRepo) {
+
+        this.consultaRepo = consultaRepo;
+        this.atualizacaoRepo = atualizacaoRepo;
     }
 
     /**
@@ -30,13 +39,18 @@ public class AlterarFuncionario {
      * apresentar dados inválidos ou não estiver cadastrado.
      */
     public void executar(Funcionario funcionario) {
+
         ValidadorFuncionario.validarFuncionario(funcionario);
+
         int codigo = funcionario.getCodigo();
-        Funcionario funcionarioExistente = funcionarioRepo.buscarPorCodigo(codigo);
+
+        Funcionario funcionarioExistente =
+                consultaRepo.buscarPorCodigo(codigo);
 
         if (funcionarioExistente == null) {
             throw new IllegalArgumentException("Funcionário não encontrado.");
         }
-        funcionarioRepo.atualizar(funcionario);
+
+        atualizacaoRepo.atualizar(funcionario);
     }
 }

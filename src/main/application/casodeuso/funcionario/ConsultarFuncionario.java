@@ -1,6 +1,7 @@
+
 package application.casodeuso.funcionario;
 
-import application.repositories.FuncionarioRepository;
+import application.repositories.FuncionarioConsultaRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
@@ -9,15 +10,18 @@ import domain.pessoas.Funcionario;
  * por meio do código de identificação.
  */
 public class ConsultarFuncionario {
-    private final FuncionarioRepository funcionarioRepo;
+
+    private final FuncionarioConsultaRepository funcionarioRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de funcionários.
+     * Inicializa o caso de uso com o contrato de consulta
+     * de funcionários.
      *
-     * @param funcionarioRepo repositório responsável pelo acesso
-     * aos dados dos funcionários.
+     * @param funcionarioRepo contrato responsável pela consulta
+     * dos dados dos funcionários.
      */
-    public ConsultarFuncionario(FuncionarioRepository funcionarioRepo) {
+    public ConsultarFuncionario(
+            FuncionarioConsultaRepository funcionarioRepo) {
         this.funcionarioRepo = funcionarioRepo;
     }
 
@@ -31,12 +35,15 @@ public class ConsultarFuncionario {
      * ou se o funcionário não for encontrado.
      */
     public Funcionario executar(int codigo) {
+
         ValidadorFuncionario.validarCodigo(codigo);
+
         Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
 
         if (funcionario == null) {
             throw new IllegalArgumentException("Funcionário não encontrado.");
         }
+
         return funcionario;
     }
 }

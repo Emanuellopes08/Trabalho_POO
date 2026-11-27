@@ -1,6 +1,8 @@
+
 package application.casodeuso.funcionario;
 
-import application.repositories.FuncionarioRepository;
+import application.repositories.FuncionarioConsultaRepository;
+import application.repositories.FuncionarioExclusaoRepository;
 import application.validacao.ValidadorFuncionario;
 import domain.pessoas.Funcionario;
 
@@ -10,16 +12,22 @@ import domain.pessoas.Funcionario;
  */
 public class ExcluirFuncionario {
 
-    private final FuncionarioRepository funcionarioRepo;
+    private final FuncionarioConsultaRepository consultaRepo;
+    private final FuncionarioExclusaoRepository exclusaoRepo;
 
     /**
-     * Inicializa o caso de uso com o repositório de funcionários.
+     * Inicializa o caso de uso com os contratos de consulta
+     * e exclusão de funcionários.
      *
-     * @param funcionarioRepo repositório responsável pelo acesso
-     * aos dados dos funcionários.
+     * @param consultaRepo contrato responsável pela consulta.
+     * @param exclusaoRepo contrato responsável pela exclusão.
      */
-    public ExcluirFuncionario(FuncionarioRepository funcionarioRepo) {
-        this.funcionarioRepo = funcionarioRepo;
+    public ExcluirFuncionario(
+            FuncionarioConsultaRepository consultaRepo,
+            FuncionarioExclusaoRepository exclusaoRepo) {
+
+        this.consultaRepo = consultaRepo;
+        this.exclusaoRepo = exclusaoRepo;
     }
 
     /**
@@ -31,12 +39,15 @@ public class ExcluirFuncionario {
      * ou se o funcionário não for encontrado.
      */
     public void executar(int codigo) {
+
         ValidadorFuncionario.validarCodigo(codigo);
-        Funcionario funcionario = funcionarioRepo.buscarPorCodigo(codigo);
+
+        Funcionario funcionario = consultaRepo.buscarPorCodigo(codigo);
 
         if (funcionario == null) {
             throw new IllegalArgumentException("Funcionário não encontrado.");
         }
-        funcionarioRepo.excluir(codigo);
+
+        exclusaoRepo.excluir(codigo);
     }
 }

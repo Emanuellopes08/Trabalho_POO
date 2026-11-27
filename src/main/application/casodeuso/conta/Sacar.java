@@ -43,10 +43,6 @@ public class Sacar {
             throw new IllegalArgumentException("Conta não encontrada.");
         }
 
-        if (valor > conta.getSaldo()) {
-            throw new IllegalArgumentException("Saldo insuficiente.");
-        }
-
         conta.efetuarSaque(valor);
 
         contaRepo.atualizar(conta);
