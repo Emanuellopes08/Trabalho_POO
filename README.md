@@ -27,7 +27,7 @@ Trabalho_POO/
 ├── lib/
 │   └── sqlite-jdbc-3.54.1.0.jar
 ├── PrintTelas/
-├── docs/                          # [PREENCHER — Adryan: pasta do JavaDoc HTML gerado]
+├── docs/                          # Documentação técnica das classes e métodos públicos, gerada pelo JavaDoc em formato HTML
 └── src/
     ├── main/
     │   ├── Main.java              # Ponto de entrada e injeção de dependências
