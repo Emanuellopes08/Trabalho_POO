@@ -310,7 +310,7 @@ Essa separação reduz o acoplamento, facilita os testes e permite substituir de
   - Atributos imutáveis declarados como `final` (`cpf`, `dataNascimento`, `nomePai`, `nomeMae`, `codigo`, `tipoConta`, `titular`, `cotitular`, `cnpj`, `faturaEmpresa`).
   - Métodos auxiliares privados para evitar duplicação de validação (`exigirTexto`, `exigirRendaValida` em `Cliente`/`Funcionario`, e `validarValor` em `Conta`).
   - Tratamento de erros com mensagens claras e exceção específica de domínio (`SaldoInsuficienteException` e `IllegalArgumentException`).
-- **Demais camadas:** `[PREENCHER — Liane/Emanuel/Vinícius/Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
+- **Demais camadas:** `[PREENCHER — Adryan: citar melhorias de legibilidade, remoção de duplicações e tratamento de exceções nas suas camadas.]`
 
 - **Abstrações e Arquitetura (Emanuel):**
   - Criação de interfaces com nomes expressivos e responsabilidades específicas, como `ClienteConsultaRepository`, `ContaMovimentacaoRepository` e `FuncionarioCadastroRepository`.
