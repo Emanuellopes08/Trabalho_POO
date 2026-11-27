@@ -60,7 +60,7 @@ public class TelaPrincipal extends JFrame {
         marca.setBackground(AZUL_ESCURO);
 
         // O logotipo é carregado como recurso para funcionar também fora da IDE.
-        java.net.URL recursoLogo = getClass().getResource("/logo-banco-es.png");
+        java.net.URL recursoLogo = getClass().getResource("/LogoBancoES.png");
         if (recursoLogo != null) {
             JPanel molduraLogo = new JPanel(new BorderLayout()) {
                 @Override
