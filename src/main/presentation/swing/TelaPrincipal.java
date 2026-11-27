@@ -67,11 +67,11 @@ public class TelaPrincipal extends JFrame {
                 }
             };
             molduraLogo.setOpaque(false);
-            molduraLogo.setPreferredSize(new Dimension(112, 108));
+            molduraLogo.setPreferredSize(new Dimension(124, 116));
             molduraLogo.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 
             Image imagem = new ImageIcon(recursoLogo).getImage()
-                    .getScaledInstance(98, 84, Image.SCALE_SMOOTH);
+                    .getScaledInstance(110, 99, Image.SCALE_SMOOTH);
             JLabel logo = new JLabel(new ImageIcon(imagem));
             logo.setHorizontalAlignment(SwingConstants.CENTER);
             logo.setOpaque(false);

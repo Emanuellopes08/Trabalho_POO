@@ -479,7 +479,7 @@ public class TelaLoginGerente extends JFrame {
         String senha =
                 new String(
                         campoSenha.getPassword()
-                ).trim();
+                );
 
 
         String codigoTexto =
@@ -526,13 +526,6 @@ public class TelaLoginGerente extends JFrame {
 
             temErro = true;
 
-        } else if (senha.length() < 8) {
-
-            erroSenha.setText(
-                    "A senha deve ter no mínimo 8 caracteres."
-            );
-
-            temErro = true;
         }
 
 

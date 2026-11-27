@@ -190,7 +190,7 @@ Por fim, a interface foi organizada para melhorar a adaptação dos componentes 
 
 #### Capturas de Tela
 
-![Tela principal](PrintTelas/PrintTelas_refatoracao/TelaPrincipalRefat.png)
+![Tela principal](PrintTelas/PrintTelas_refatoracao/TelaPrincipalRefatLogo.png)
 ![Tela login do cliente](PrintTelas/PrintTelas_refatoracao/TelaLoginClienteRefat.png)
 ![Tela login do gerente](PrintTelas/PrintTelas_refatoracao/TelaLoginGerenteRefat.png)
 ![Tela login do funcionario](PrintTelas/PrintTelas_refatoracao/TelaLoginFuncionarioRefat.png)

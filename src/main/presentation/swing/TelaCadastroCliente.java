@@ -71,7 +71,7 @@ public class TelaCadastroCliente extends JFrame {
 
     private void configurarJanela() {
         setSize(800, 850);
-        setTitle("Banco ES - Cadastro de Pessoas.Cliente");
+        setTitle("Banco ES - Cadastro de Cliente");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -351,19 +351,10 @@ public class TelaCadastroCliente extends JFrame {
         btnVoltar.setBackground(VERMELHO);
         btnVoltar.setForeground(BRANCO);
 
-        JPanel painelBotoes = new JPanel();
-
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 18, 12));
         painelBotoes.setBackground(AZUL_ESCURO);
-
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnCadastrar);
-
-        gbc.gridx = 0;
-        gbc.gridy = 18;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(15, 10, 15, 10);
-
-        formulario.add(painelBotoes, gbc);
 
 /////////////////////////////////////////////////////////////////////
 // ALTERA OS CAMPOS DE ACORDO COM O TIPO DA CONTA
@@ -390,7 +381,16 @@ public class TelaCadastroCliente extends JFrame {
         adicionarEfeitoMouse(btnCadastrar, VERDE, VERDE_ESCURO);
         adicionarEfeitoMouse(btnVoltar, VERMELHO, VERMELHO_ESCURO);
 
-        add(formulario, BorderLayout.CENTER);
+        // O formulário pode ultrapassar a altura da janela; os botões ficam
+        // fixos na parte inferior para permanecerem sempre acessíveis.
+        JScrollPane rolagem = new JScrollPane(formulario);
+        rolagem.setBorder(BorderFactory.createEmptyBorder());
+        rolagem.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        rolagem.getVerticalScrollBar().setUnitIncrement(18);
+        rolagem.getViewport().setBackground(AZUL_ESCURO);
+
+        add(rolagem, BorderLayout.CENTER);
+        add(painelBotoes, BorderLayout.SOUTH);
 
 /////////////////////////////////////////////////////////////////////
 // DEFINE OS CAMPOS VISÍVEIS INICIAIS

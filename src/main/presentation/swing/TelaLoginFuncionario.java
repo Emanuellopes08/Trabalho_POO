@@ -229,7 +229,7 @@ public class TelaLoginFuncionario extends JFrame {
 
     private void tentarLogin() {
         String usuario = campoUsuario.getText().trim();
-        String senha = new String(campoSenha.getPassword()).trim();
+        String senha = new String(campoSenha.getPassword());
         String codigoTexto = campoCodigo.getText().trim();
 
         // Limpa os erros antigos
@@ -293,9 +293,6 @@ public class TelaLoginFuncionario extends JFrame {
         // PROCURA O FUNCIONÁRIO NO SISTEMA
         /////////////////////////////////////////////////////////////////////
 
-        System.out.println("Usuário digitado: " + usuario);
-        System.out.println("Senha digitada: " + senha);
-        System.out.println("Código digitado: " + codigo);
 
         try {
             aplicacao.autenticarFuncionario.executar(codigo, usuario, senha);

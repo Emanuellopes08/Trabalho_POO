@@ -334,18 +334,6 @@ public class TelaGerente extends JFrame {
         int codigo = Integer.parseInt(codigoTexto);
 
         // -----------------------------------------------------
-        // VERIFICA SE O CÓDIGO JÁ EXISTE
-        // -----------------------------------------------------
-
-        try {
-            aplicacao.consultarFuncionario.executar(codigo);
-            mostrarErro("Já existe um funcionário com esse código.");
-            return;
-        } catch (IllegalArgumentException ignorada) {
-            // Código ainda não cadastrado: pode prosseguir.
-        }
-
-        // -----------------------------------------------------
         // CADASTRO
         // -----------------------------------------------------
 

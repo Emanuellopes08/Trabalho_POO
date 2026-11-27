@@ -125,7 +125,7 @@ public class TelaExcluirCliente extends JFrame {
 // BOTÃO BUSCAR
 /////////////////////////////////////////////////////////////////////
 
-        BotaoArredondado btnBuscar = new BotaoArredondado("Buscar Pessoas.Cliente");
+        BotaoArredondado btnBuscar = new BotaoArredondado("Buscar Cliente");
 
         btnBuscar.setPreferredSize(new Dimension(180, 45));
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 15));
